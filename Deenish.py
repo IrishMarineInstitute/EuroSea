@@ -98,7 +98,11 @@ def xml_file_download(local, localpath, host, user, pswd):
         for file in sftp.listdir():
             if ( file not in local ) and file[-4:] == '.xml':
                 print(f'Download Deenish Island {file}'); 
-                sftp.get(file)
+                while True:
+                    try: 
+                        sftp.get(file)
+                        break
+                    except SSHException: continue
                 while True:
                     try: 
                         os.rename(file, localpath + '/' + file); break
