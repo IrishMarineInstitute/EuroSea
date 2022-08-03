@@ -14,3 +14,4 @@ xarray>=2022.6.0
 cmocean>=2.0
 geopy>=2.2.0
 Pydap>=3.2.2
+dask>=2022.7.1
