@@ -1,0 +1,16 @@
+# pip install -r requirements.txt
+
+DateTime>=4.5.0
+numpy>=1.23.1
+netCDF4>=1.6.0
+pysftp>=0.2.9
+paramiko>=2.11.0
+scipy>=1.9.0
+WebOb>=1.8.7
+motuclient>=3.0.0
+pandas>=1.4.3
+xarray>=2022.6.0
+#Cartopy>=0.20.3 # Install manually, sometimes raises an error
+cmocean>=2.0
+geopy>=2.2.0
+Pydap>=3.2.2
