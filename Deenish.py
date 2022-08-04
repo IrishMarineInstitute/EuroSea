@@ -1,5 +1,6 @@
 from datetime import datetime
 from dateutil.parser import parse
+from paramiko import SSHException
 import os
 import pysftp
 
@@ -100,8 +101,7 @@ def xml_file_download(local, localpath, host, user, pswd):
                 print(f'Download Deenish Island {file}'); 
                 while True:
                     try: 
-                        sftp.get(file)
-                        break
+                        sftp.get(file); break
                     except SSHException: continue
                 while True:
                     try: 
