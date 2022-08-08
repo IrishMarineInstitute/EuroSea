@@ -1,6 +1,8 @@
 from datetime import datetime
 from dateutil.parser import parse
 from paramiko import SSHException
+from netCDF4 import Dataset, num2date
+from numpy import squeeze
 import os
 import pysftp
 
@@ -36,6 +38,20 @@ def Deenish():
         read_xml_file(localpath + '/' + file, var)
         
     return var
+
+def SWAN():
+    
+    # SWAN Deenish Island file
+    f = r'\\MIFS01\nas_data\SWAN\OUTPUT\east_atlantic\NETCDF\WP_Kenmare_Outer_North.nc'
+    
+    with Dataset(f, 'r') as nc:
+        # Read time
+        time = num2date(nc.variables['time'][:], nc.variables['time'].units)
+        # Read significant wave height
+        hsig = squeeze(nc.variables['hsig'][:])
+        
+    return {'time': time, 'hsig': hsig}
+        
 
 def read_xml_file(file, var):
     ''' Read an *.xml file and updates the fields of interest '''

@@ -2,7 +2,7 @@ import Plot
 from SST import read_mur
 from NWSHELF import read_nws
 from Climatology import climatology
-from Deenish import Deenish
+from Deenish import Deenish, SWAN
 from Interpolate import nws2mur
 import mhw
 import warnings
@@ -19,7 +19,7 @@ class Deenish_Buoy_Observatory:
         # self.buoy es un diccionario con los datos descargados de la boya.
         # Se puede acceder a cada variable como self.buoy['time'], self.buoy[´temp´]
         # self.['time'], 'temp': [], 'salt': [], 'pH': [], 'chl':  [], 'DOX':  [] 
-        self.buoy = Deenish()
+        self.buoy, self.swan = Deenish(), SWAN()        
         
             
         ''' Remote-sensing SST '''
@@ -76,6 +76,7 @@ class Deenish_Buoy_Observatory:
         
         self.temp2d_interp = nws2mur(self)
         
+        
         ''' Compute Marine Heat events '''
         
         if not os.path.isdir('IMAGES'):
@@ -99,12 +100,15 @@ class Deenish_Buoy_Observatory:
         
         # Deenish Island double y-axis time series plots
         pairs = [(x, y) for idx, x in enumerate(params) 
-                 for y in params[idx + 1: ]]        
+                  for y in params[idx + 1: ]]        
         for i in pairs:
             Plot.Plot_Deenish_YY(self, i[0], i[1])
         
         if lon is not None and lat is not None:
             Plot.Plot_Selection(self, lon, lat)
+                           
+        # Deenish Island SWAN wave forecast
+        Plot.Plot_SWAN(self)
         
 def main(lon=None, lat=None):
     

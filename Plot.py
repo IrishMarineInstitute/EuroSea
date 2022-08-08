@@ -11,7 +11,6 @@ from geopy.distance import distance
 from PIL import Image
 from urllib.request import urlopen, Request
 import io
-import pytz
 
 font = {'size' : 18}; matplotlib.rc('font', **font)
 
@@ -21,6 +20,7 @@ names = {'temp': 'Temperature',
          'pH': 'pH',
          'chl': 'Reference Fluorescence Units',
          'DOX': 'Oxygen saturation'}
+
 
 def image_spoof(DBO, tile):
     ''' This function reformats web requests from OSM for cartopy
@@ -36,6 +36,7 @@ def image_spoof(DBO, tile):
     img = Image.open(im_data)                  # open image with PIL
     img = img.convert(DBO.desired_tile_form)  # set image format
     return img, DBO.tileextent(tile), 'lower' # reformat for cartopy  
+
 
 def osm_image(x, y, data=None, vmin=None, vmax=None, 
         cmap=None, units=None, title=None, style='satellite'):
@@ -99,6 +100,7 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
 
     return fig, ax
 
+
 def plot2d(filename, x, y, data, vmin, vmax, 
                   cmap, units='', title=''):
       
@@ -107,12 +109,14 @@ def plot2d(filename, x, y, data, vmin, vmax,
     plt.savefig('IMAGES/' + filename, dpi=150, bbox_inches='tight')
     plt.close(fig) 
     
+    
 def Plot_SST(DBO):
     title = 'MUR-SST ' + datetime(DBO.sst_time[-1].year, 
         DBO.sst_time[-1].month, DBO.sst_time[-1].day).strftime('%d-%b-%Y')   
     avg = DBO.sst[-1, :, :].mean(); v_min, v_max = round(avg - 2), round(avg + 2)    
     plot2d('SST.png', DBO.sst_x, DBO.sst_y, DBO.sst[-1, :, :], v_min, v_max, 
             thermal, units='ºC', title=title)
+    
     
 def Plot_anom(DBO):
     title = 'MUR-SST Anomaly ' + datetime(DBO.sst_time[-1].year, 
@@ -126,6 +130,7 @@ def Plot_anom(DBO):
     ANOM = SST - seas
     plot2d('ANOM.png', DBO.sst_x, DBO.sst_y, ANOM, -2, 2, 
             'bwr', units='ºC', title=title)
+    
     
 def Plot_Selection(DBO, lon, lat):
     fig, ax = plt.subplots(1)
@@ -169,7 +174,7 @@ def Plot_Selection(DBO, lon, lat):
     _ = plt.xticks(rotation=90) 
         
     # Save figure
-    plt.savefig('IMAGEs/SST-Selection.png', dpi=300, bbox_inches='tight')
+    plt.savefig('IMAGES/SST-Selection.png', dpi=300, bbox_inches='tight')
     # Close figure
     plt.close(fig)      
     
@@ -283,9 +288,10 @@ def Plot_Deenish(DBO, var):
     
         
     # Save figure
-    plt.savefig(f'IMAGEs/Deenish-{var}.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'IMAGES/Deenish-{var}.png', dpi=300, bbox_inches='tight')
     # Close figure
     plt.close(fig)      
+    
     
 def fill_mhw(ax, x1, y1, x2, y2):
     
@@ -349,6 +355,39 @@ def Plot_Deenish_YY(DBO, var1, var2):
     _ = plt.xticks(rotation=90)   
     
     # Save figure
-    plt.savefig(f'IMAGEs/Deenish-{var1}-{var2}.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'IMAGES/Deenish-{var1}-{var2}.png', dpi=300, bbox_inches='tight')
     # Close figure
     plt.close(fig)  
+
+
+def Plot_SWAN(DBO):
+    
+    cutoff = 3 # m
+    
+    # Get SWAN time and Hsig
+    time, hsig = DBO.swan['time'], DBO.swan['hsig']
+    # Open figure
+    fig, ax = plt.subplots(1)    
+    # Plot wave time series
+    ax.plot(time, hsig, linewidth=1)       
+    ax.plot([time[0], time[-1]], [cutoff, cutoff], color='r', linewidth=1)    
+    # Set title
+    plt.title('Significant Wave Height at Deenish Island', fontsize=12)    
+    # Set y-axis label (units)
+    plt.ylabel('m', fontsize=12)     
+    # Set x-axis limits
+    ax.set_xlim([min(time), max(time)])
+    # Show grid
+    plt.grid()    
+    # Set date ticks format
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%d-%b"))
+    ax.xaxis.set_minor_formatter(mdates.DateFormatter("%d-%b"))
+    
+    ax.tick_params(axis='both', labelsize=8)
+    # Rotate date ticks 
+    _ = plt.xticks(rotation=90)         
+    # Save figure
+    plt.savefig('IMAGES/Deenish-Hsig.png', dpi=300, bbox_inches='tight')
+    # Close figure
+    plt.close(fig)      
+    
