@@ -38,11 +38,11 @@ def image_spoof(DBO, tile):
     return img, DBO.tileextent(tile), 'lower' # reformat for cartopy  
 
 def osm_image(x, y, data=None, vmin=None, vmax=None, 
-        cmap=None, units=None, title=None, style='map'):
+        cmap=None, units=None, title=None, style='satellite'):
     '''This function makes OpenStreetMap satellite or map image with circle and random points.
     Change np.random.seed() number to produce different (reproducable) random patterns of points.
     Also review 'scale' variable'''
-  
+    
     if style=='map': # MAP STYLE
         cimgt.OSM.get_image = image_spoof # reformat web request for street map spoofing
         img = cimgt.OSM() # spoofed, downloaded street map
@@ -51,7 +51,7 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
         img = cimgt.QuadtreeTiles() # spoofed, downloaded street map
     else:
         print('no valid style')
-
+    
     x0, y0 = x.mean(), y.mean()
     cx = (x.min(), x.min(), x.max(), x.max())
     cy = (y.min(), y.max(), y.max(), y.min())
@@ -60,6 +60,7 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
     plt.close('all')
     fig = plt.figure(figsize=(10,10)) # open matplotlib figure
     ax = plt.axes(projection=img.crs, zorder=0) # project using coordinate reference system (CRS) of street map
+    
     data_crs = ccrs.PlateCarree()
     
    
@@ -73,6 +74,7 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
                         color='k', lw=0.5)
     
     if data is not None:
+        
         # data = np.ma.masked_where(data==0, data)
         ax.contourf(x, y, data, levels=20, vmin=vmin, vmax=vmax,
             cmap=cmap, transform=ccrs.PlateCarree(), zorder=1)        
@@ -81,10 +83,10 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
         m = plt.cm.ScalarMappable(cmap=cmap)
     
         m.set_clim(vmin, vmax)
-        P = ax.get_position(); P = [P.x1 + .02, P.y0,  .03, P.height] 
+        P = ax.get_position(); P = [0.8351797931520061, P.y0,  .03, P.height] 
+        #print(P)
         fig.colorbar(m, cax=fig.add_axes(P), label=units)
         
-        # fig.colorbar(m, ax=ax, label=units, fraction=0.046, pad=0.04)
         
     
     extent = [x.min(), x.max(), y.min(), y.max()]    
@@ -100,9 +102,9 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
 def plot2d(filename, x, y, data, vmin, vmax, 
                   cmap, units='', title=''):
       
-    fig, ax = osm_image(x, y, data=data, 
+    fig, ax = osm_image(x, y, data=data,
         vmin=vmin, vmax=vmax, cmap=cmap, units=units, title=title)
-    plt.savefig('IMAGES/' + filename, dpi=500, bbox_inches='tight')
+    plt.savefig('IMAGES/' + filename, dpi=150, bbox_inches='tight')
     plt.close(fig) 
     
 def Plot_SST(DBO):
