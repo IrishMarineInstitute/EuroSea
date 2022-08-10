@@ -5,14 +5,14 @@ import matplotlib.ticker as mticker
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
-from cmocean.cm import thermal
+from cmocean.cm import thermal, algae
 from datetime import datetime
 from geopy.distance import distance
 from PIL import Image
 from urllib.request import urlopen, Request
 import io
 
-font = {'size' : 18}; matplotlib.rc('font', **font)
+font = {'size' : 12}; matplotlib.rc('font', **font)
 
 units = {'temp': '$^\circ$C', 'salt': '', 'pH': '', 'chl': '', 'DOX': '%'}  
 names = {'temp': 'Temperature', 
@@ -39,7 +39,7 @@ def image_spoof(DBO, tile):
 
 
 def osm_image(x, y, data=None, vmin=None, vmax=None, 
-        cmap=None, units=None, title=None, style='satellite'):
+        cmap=None, cbar=True, units=None, title=None, style='satellite'):
     '''This function makes OpenStreetMap satellite or map image with circle and random points.
     Change np.random.seed() number to produce different (reproducable) random patterns of points.
     Also review 'scale' variable'''
@@ -53,6 +53,7 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
     else:
         print('no valid style')
     
+    # Get coordinates of centre
     x0, y0 = x.mean(), y.mean()
     cx = (x.min(), x.min(), x.max(), x.max())
     cy = (y.min(), y.max(), y.max(), y.min())
@@ -62,52 +63,81 @@ def osm_image(x, y, data=None, vmin=None, vmax=None,
     fig = plt.figure(figsize=(10,10)) # open matplotlib figure
     ax = plt.axes(projection=img.crs, zorder=0) # project using coordinate reference system (CRS) of street map
     
+    # Set projection
     data_crs = ccrs.PlateCarree()
     
-   
-    scale = int(120/np.log(radius))
-    scale = (scale<20) and scale or 19
+    # Set map scale
+    scale = int(120/np.log(radius)); scale = (scale<20) and scale or 19
 
+    # Add title
     ax.set_title(title)
-    ax.add_image(img, int(scale)) # add OSM with zoom specification
     
-    gl = ax.gridlines(draw_labels=True, crs=data_crs,
-                        color='k', lw=0.5)
+    # Add OSM with zoom specification
+    ax.add_image(img, int(scale)) 
+    
+    # Add gridlines
+    gl = ax.gridlines(draw_labels=True, crs=data_crs, color='k', lw=0.5)
     
     if data is not None:
         
-        # data = np.ma.masked_where(data==0, data)
+        # Show data as a filled contour plot
         ax.contourf(x, y, data, levels=20, vmin=vmin, vmax=vmax,
             cmap=cmap, transform=ccrs.PlateCarree(), zorder=1)        
+        
+        # Or show data as a pcolor plot
         #ax.pcolor(x, y, data, vmin=vmin, vmax=vmax,
-        #    cmap=cmap, transform=ccrs.PlateCarree(), zorder=1)        
-        m = plt.cm.ScalarMappable(cmap=cmap)
-    
-        m.set_clim(vmin, vmax)
-        P = ax.get_position(); P = [0.8351797931520061, P.y0,  .03, P.height] 
-        #print(P)
-        fig.colorbar(m, cax=fig.add_axes(P), label=units)
+        #    cmap=cmap, transform=ccrs.PlateCarree(), zorder=1)   
         
-        
-    
-    extent = [x.min(), x.max(), y.min(), y.max()]    
-    ax.set_extent(extent) # set extents
+        if cbar: # For wide-scale maps of SW Ireland, display colorbar
+            # Set colormap for colorbar
+            m = plt.cm.ScalarMappable(cmap=cmap)
+            # Set colorbar range (same as 2-D color plot)
+            m.set_clim(vmin, vmax)
+            # Set colorbar position (slightly to the right of main axes)
+            P = ax.get_position(); P = [P.x1 + .02, P.y0,  .03, P.height] 
+            # Add colorbar with given colormap, position and label
+            fig.colorbar(m, cax=fig.add_axes(P), label=units)
+                
+    # Set axes limits    
+    ax.set_extent(  [x.min(), x.max(), y.min(), y.max()]  ) 
    
-    gl.top_labels = False
-    gl.right_labels = False
-    gl.xlocator = mticker.FixedLocator([-11, -10, -9])
-    gl.ylocator = mticker.FixedLocator([50, 51, 52])
+    # Remove tick labels on top and right sides of the map
+    gl.top_labels, gl.right_labels = False, False    
+    
+    if cbar:
+        
+        # Wide-scale maps of SW Ireland. Enough to show ticks every degree
+        gl.xlocator = mticker.FixedLocator(np.arange(-12, -8, 1))
+        gl.ylocator = mticker.FixedLocator(np.arange( 50, 53, 1))
+        
+    else:
+        
+        # LPTM localized maps around Kenmare Bay. Display ticks every .2 degrees
+        gl.xlocator = mticker.FixedLocator(np.arange(-11.6, -8, .2))
+        gl.ylocator = mticker.FixedLocator(np.arange(50, 52.8, .2))
 
     return fig, ax
 
 
 def plot2d(filename, x, y, data, vmin, vmax, 
                   cmap, units='', title=''):
-      
-    fig, ax = osm_image(x, y, data=data,
-        vmin=vmin, vmax=vmax, cmap=cmap, units=units, title=title)
+    fig, ax = osm_image(x, y, data=data, vmin=vmin, vmax=vmax, 
+        cmap=cmap, units=units, title=title)
     plt.savefig('IMAGES/' + filename, dpi=150, bbox_inches='tight')
     plt.close(fig) 
+    
+    
+def Plot_chla(DBO):
+    title = 'Chlorophyll-a ' + datetime(DBO.time_chl.year, 
+        DBO.time_chl.month, DBO.time_chl.day).strftime('%d-%b-%Y')       
+    plot2d('CHLA.png', DBO.x_chl, DBO.y_chl, DBO.chl, 0, 5, 
+            algae, units=r'mg m$^{-3}$', title=title)    
+    
+def Plot_chla_anom(DBO):
+    title = 'Chlorophyll-a anomaly ' + datetime(DBO.time_chl.year, 
+        DBO.time_chl.month, DBO.time_chl.day).strftime('%d-%b-%Y')       
+    plot2d('CHLA-ANOM.png', DBO.x_chl, DBO.y_chl, DBO.chl, -2, 2, 
+            'bwr', units=r'mg m$^{-3}$', title=title)      
     
     
 def Plot_SST(DBO):

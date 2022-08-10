@@ -1,24 +1,58 @@
 import Plot
+from CA import CA
 from SST import read_mur
 from NWSHELF import read_nws
 from Climatology import climatology
 from Deenish import Deenish, SWAN
 from Interpolate import nws2mur
+from LPTM import LPTM
 import mhw
 import warnings
 import os
+import _thread
+import threading
 
 warnings.filterwarnings('ignore')
+
+def raw_input_with_timeout(prompt, timeout=10.0):
+      
+    timer = threading.Timer(timeout, _thread.interrupt_main)
+    astring = None
+    try:
+        timer.start()
+        astring = input(prompt)
+    except KeyboardInterrupt:
+        pass
+    timer.cancel()
+    return astring
 
 class Deenish_Buoy_Observatory:
     
     def __init__(self, lon, lat):
         
-        ''' Download from Deenish Island buoy '''
+        ''' Run particle-tracking model '''
+        while 1:
+            answer = raw_input_with_timeout('Run particle-tracking model? (Takes several minutes...) [y/n]')
+            if ( answer.lower() == 'y' ) or not answer:
+                LPTM(); break
+            elif answer.lower() == 'n':
+                break
+            else:
+                print("\nInvalid input. Please enter either 'y' or 'n'\n")
+            
+                
+        ''' Get chlorophyll anomaly '''
+        while 1:
+            OUT = CA()
+            if not OUT: 
+                continue 
+            else:
+                self.x_chl, self.y_chl, self.time_chl, self.chl, self.anom = OUT
+                break
+            
         
-        # self.buoy es un diccionario con los datos descargados de la boya.
-        # Se puede acceder a cada variable como self.buoy['time'], self.buoy[´temp´]
-        # self.['time'], 'temp': [], 'salt': [], 'pH': [], 'chl':  [], 'DOX':  [] 
+        ''' Download from Deenish Island buoy '''
+             
         self.buoy, self.swan = Deenish(), SWAN()        
         
             
@@ -28,29 +62,12 @@ class Deenish_Buoy_Observatory:
         
         url = 'https://thredds.jpl.nasa.gov/thredds/dodsC/OceanTemperature/MUR-JPL-L4-GLOB-v4.1.nc'
         
-        # longitude, latitud, tiempo y temperatura del satelite
-        # se pueden ver las dimensions con .shape
         self.sst_x, self.sst_y, self.sst_time, self.sst = read_mur(url)
             
                     
         ''' Download Northwest Shelf prediction for Deenish Island '''
         
-        # Temperature
-        
-        # para el modelo, se ha decargado: 
-        # 1. El tiempo para la boya. Como la boya tiene datos cada 10 minutos,
-        # en el modelo se ha descargado con la maxima resolucion temporal disponible: 1 hora
-        # el tiempo para la boya del modelo es self.time
-        
-        # 2. El tiempo del modelo, pero para comparar con el satelite. El satelite tiene
-        # medidas solo para las 9 de la mañana de cada dia, al menos para el MUR.
-         
-         # 3. self.temp es la temperature del modelo para la localizacion de la boya. Es una
-         # serie temporal, no un mapa
-         
-         # 4. self.temp2d es la temperatura del modelo para todo el mapa (SW Irlanda)
-         # Luego, para que tenga las mismas dimensiones que el satelite, y se puedan comparar,
-         # se interpola mas abajo a la malla del satelite. Asi que self.temp2d ya no hay que usarlo.
+        # Temperature       
         self.time, self.time2d, self.temp, self.temp2d = read_nws(self, 'T')
         
         # Salinity
@@ -58,11 +75,6 @@ class Deenish_Buoy_Observatory:
                     
         
         ''' Read SST climatology '''
-        
-        # Aqui se lee del NetCDF de la climatologia: la longitud, la latitud, el tiempo 
-        # (que son los dias del año del 1 al 365), el valor promedio (self.seas), y el percentil
-        # 90 (self.pc90)
-        
         
         self.clim_x, self.clim_y, self.clim_time, self.seas, self.pc90, \
         self.Deenish_time, self.Deenish_seas, self.Deenish_pc90 = climatology(self, 'Climatology/MUR-Climatology.nc', -10.2122, 51.7431)
@@ -89,8 +101,12 @@ class Deenish_Buoy_Observatory:
         
         # Latest MUR-SST map
         Plot.Plot_SST(self)
-        Plot.Plot_anom(self)
+        # Plot.Plot_anom(self)
                 
+        # Chlorophyll
+        Plot.Plot_chla(self)
+        Plot.Plot_chla_anom(self)
+        
         params = list(self.buoy); params.remove('time'); params.remove('temp')
         
         # Deenish Island single y-axis time series plots
@@ -119,7 +135,4 @@ if __name__ == '__main__':
     # Point selection for temperature series and MHW prediction
     lon, lat = -9, 51
     
-    dbo = main(lon, lat)
-    
-
-    
+    DBO = main(lon, lat)
