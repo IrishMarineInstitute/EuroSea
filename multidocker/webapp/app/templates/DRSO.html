@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Deenish Island Remote Sensing</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="../static/js/script.js"></script>
+	</head>
+
+	<body>
+	
+    	<div class="grid">
+    		<div class="col-1-1">
+    			<div class="content">
+        		    <img src="../static/logos.png" >			
+    			</div>
+    		</div>
+    	</div>
+	
+		<div class="grid">
+ 			<div class="col-10-12">
+ 				<div class="content">
+     				<p id="funding">
+           This project has received funding from the European Union's
+           Horizon 2020 research and innovation programme under grant
+           agreement No. 862626
+                     </p>
+ 				</div>
+ 			</div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right">HOME</a>
+ 				</div>
+ 			</div>
+          	</div>
+
+  		<script language="javascript" type="text/javascript">
+                    <!-- Contour maps layout -->
+                   let layout = {
+                       autosize: false,
+                       width: 500,
+                       height: 623, 
+                       showlegend: false,
+                       title: {
+                           text: '',
+                           font: {
+                               size: 18,
+                           },
+                       },
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [-11, -10, -9, -8],
+                           ticktext: ['11ºW', '10ºW', '09ºW', '08ºW'],
+                           automargin: true,
+                           range: [-11.6, -8],
+                       },
+                       yaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [50, 51, 52],
+                           ticktext: ['50ºN', '51ºN', '52ºN'],
+                           range: [50, 52.8],
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                   };
+
+                    <!-- LPTM maps layout -->
+                   let layout2 = {
+                       autosize: false,
+                       width: 500,
+                       height: 245, 
+                       margin: {l: 10, r: 10, b: 10, t: 30, pad: 0},
+                       showlegend: false,
+                       title: {
+                           text: '',
+                           font: {
+                               size: 18,
+                           },
+                       },
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [],
+                           automargin: true,
+                           range: [-10.8, -8.8],
+                       },
+                       yaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [],
+                           range: [51.2, 51.81],
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                   };
+                                            var coast = {
+                                               name: 'coast',
+                                               x: {{lon_coast}},
+                                               y: {{lat_coast}},
+                                               type: 'scatter',
+                                               hovermode: false,
+                                               hoverinfo: 'none',
+                                               line: {
+                                                   color: 'rgb(0, 0, 0)',
+                                                   width: 1,
+                                               },
+                                            };
+                                            var site = {
+                                               x: [{{lon}}],
+                                               y: [{{lat}}],
+                                               mode: 'markers',
+                                               hoverinfo: 'none',
+                                               marker: {
+                                                  size: 20,
+                                                  symbol: 'cross-thin',
+                                                  line: { 
+                                                      color: 'rgb(0, 0, 0)',
+                                                      width: 1,
+                                                  },
+                                               },
+                                            };
+                </script>
+
+         	<div class="grid">
+  		       <div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="SST"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             name: 'SST',
+                                                             z: {{SST}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Sea Surface Temperature on {{time_sst}}'
+                                            TESTER = document.getElementById('SST');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="ANOM"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{ANOM}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: -3,
+                                                                 end: 3,
+                                                                 size: 0.5,
+                                                             },
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Sea Surface Temperature Anomaly on {{time_sst}}'
+                                            TESTER = document.getElementById('ANOM');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  		</div>
+    		
+         	<div class="grid">
+                       <div class="col-1-4 mobile-col-1-4"></div>
+  		       <div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="MHW"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{MHW}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 3,
+                                                             hoverinfo: 'z',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Marine Heat Wave Intensity on {{time_sst}}'
+                                            TESTER = document.getElementById('MHW');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+                       <div class="col-1-4 mobile-col-1-4"></div>
+  		</div>
+    		
+         	<div class="grid">
+  		       <div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="CHL"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{CHL}},
+                                                             x: {{lon_o}},
+                                                             y: {{lat_o}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: 0,
+                                                                 end: 10,
+                                                                 size: 1,
+                                                             },
+                                                             colorscale: 'Greens',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'mg m-3',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Chlorophyll Concentration on {{time_o}}'
+                                            TESTER = document.getElementById('CHL');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+                                        </script>
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="CHL_ANOM"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{CHL_ANOM}},
+                                                             x: {{lon_o}},
+                                                             y: {{lat_o}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: -2,
+                                                                 end: 2,
+                                                                 size: 0.5,
+                                                             },
+                                                             colorbar: {
+                                                                 title: 'mg m-3',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Chlorophyll Concentration Anomaly on {{time_o}}'
+                                            TESTER = document.getElementById('CHL_ANOM');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+                                        </script>
+  				</div>
+  			</div>
+  		</div>
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p align="justify"> 
+           <b>PARTICLE-TRACKING.</b> The six figures below show the advection of coastal waters around the   
+           southwest coast of Ireland. These figures are updated daily. Every day, virtual drifters are 
+           released along the four transects in red below and tracked for 72 hours, providing an overview
+           of the surface circulation around the coast.   
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+    	<div class="grid">
+    		<div class="col-1-4">
+    			<div class="content"></div>
+	        </div>  
+	        <div class="col-1-2">
+    			<div class="content">
+        		        <img src="../static/TRANSECTS.png">			
+    			</div>
+    		</div>
+    		<div class="col-1-4">
+    			<div class="content"></div>
+	        </div>  
+    	</div>
+	
+    	<div class="grid">
+    		<div class="col-1-2">
+    			<div class="content">
+          		            <div id="LPTM12"></div>
+                                        <script language="javascript" type="text/javascript">
+
+                                                 var data = {
+                                                             z: {{DENSITY_12}},
+                                                             x: {{longitude}},
+                                                             y: {{latitude}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 0.001,
+                                                             hoverinfo: 'none',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             showscale: false,
+                                                };
+                                            layout2.title.text = "POSITION AFTER 12 HOURS: {{TIME_12}}"
+                                            TESTER = document.getElementById('LPTM12');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout2 )
+ 
+                                        </script>
+    			</div>
+    		</div>
+    		<div class="col-1-2">
+    			<div class="content">
+          		            <div id="LPTM48"></div>
+                                        <script language="javascript" type="text/javascript">
+
+                                                 var data = {
+                                                             z: {{DENSITY_48}},
+                                                             x: {{longitude}},
+                                                             y: {{latitude}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 0.001,
+                                                             hoverinfo: 'none',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             showscale: false,
+                                                };
+
+                                            layout2.title.text = "POSITION AFTER 48 HOURS: {{TIME_48}}"
+                                            TESTER = document.getElementById('LPTM48');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout2 )
+ 
+                                        </script>
+    			</div>
+    		</div>
+    	</div>
+
+    	<div class="grid">
+    		<div class="col-1-2">
+    			<div class="content">
+          		            <div id="LPTM24"></div>
+                                        <script language="javascript" type="text/javascript">
+
+                                                 var data = {
+                                                             z: {{DENSITY_24}},
+                                                             x: {{longitude}},
+                                                             y: {{latitude}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 0.001,
+                                                             hoverinfo: 'none',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             showscale: false,
+                                                };
+
+                                            layout2.title.text = "POSITION AFTER 24 HOURS: {{TIME_24}}"
+                                            TESTER = document.getElementById('LPTM24');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout2 )
+ 
+                                        </script>
+    			</div>
+    		</div>
+    		<div class="col-1-2">
+    			<div class="content">
+          		            <div id="LPTM60"></div>
+                                        <script language="javascript" type="text/javascript">
+
+                                                 var data = {
+                                                             z: {{DENSITY_60}},
+                                                             x: {{longitude}},
+                                                             y: {{latitude}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 0.001,
+                                                             hoverinfo: 'none',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             showscale: false,
+                                                };
+
+                                            layout2.title.text = "POSITION AFTER 60 HOURS: {{TIME_60}}"
+                                            TESTER = document.getElementById('LPTM60');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout2 )
+ 
+                                        </script>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="grid">
+    		<div class="col-1-2">
+    			<div class="content">
+          		            <div id="LPTM36"></div>
+                                        <script language="javascript" type="text/javascript">
+
+                                                 var data = {
+                                                             z: {{DENSITY_36}},
+                                                             x: {{longitude}},
+                                                             y: {{latitude}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 0.001,
+                                                             hoverinfo: 'none',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             showscale: false,
+                                                };
+
+                                            layout2.title.text = "POSITION AFTER 36 HOURS: {{TIME_36}}"
+                                            TESTER = document.getElementById('LPTM36');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout2 )
+ 
+                                        </script>
+    			</div>
+    		</div>
+    		<div class="col-1-2">
+    			<div class="content">
+          		            <div id="LPTM72"></div>
+                                        <script language="javascript" type="text/javascript">
+
+                                                 var data = {
+                                                             z: {{DENSITY_72}},
+                                                             x: {{longitude}},
+                                                             y: {{latitude}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 0.001,
+                                                             hoverinfo: 'none',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             showscale: false,
+                                                };
+
+                                            layout2.title.text = "POSITION AFTER 72 HOURS: {{TIME_72}}"
+                                            TESTER = document.getElementById('LPTM72');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout2 )
+ 
+                                        </script>
+    			</div>
+    		</div>
+    	</div>
+
+    </body>
+
+</html>

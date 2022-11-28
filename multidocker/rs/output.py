@@ -1,0 +1,62 @@
+from pickle import dump
+from datetime import datetime
+from json import dumps
+from log import set_logger, now
+
+logger = set_logger()
+
+def jsonize(data):
+    logger.info(f'{now()} OUTPUT: Starting JSONization of data dict')
+    for k, v in data.items():
+        logger.info(f'   {now()} JSON {k}')
+        if isinstance(v, str): continue
+        try:
+            data[k] = dumps(v) 
+        except TypeError as ERR:
+            if str(ERR) == 'Object of type datetime is not JSON serializable':
+                value = [i.strftime('%Y-%m-%d %H:%M') for i in v]
+                data[k] = dumps(value)   
+            elif str(ERR) == 'Object of type ndarray is not JSON serializable':
+                data[k] = dumps(v.tolist())
+            elif str(ERR) == 'Object of type MaskedArray is not JSON serializable':
+                data[k] = dumps(v.tolist())
+            else:
+                logger.info(f'   {now()} WARNING: Could not jsonize {k} due to {str(ERR)}')
+    return data
+
+def send_output(lon, lat, SST, colour, coast):
+    ''' Produce output PICKLE file to be sent to web app '''
+
+    # Get SST
+    lon_sst, lat_sst, time_sst, SST, ANOM, MHW = SST
+
+    # Get oceancolour
+    lon_o, lat_o, time_o, CHL, CHL_ANOM = colour
+
+    RS = {
+        # Buoy coordinates
+        'lon': lon, 'lat': lat,
+
+        # Coastline
+        'lon_coast': coast['lon_coast'],
+        'lat_coast': coast['lat_coast'],
+
+        # SST
+        'lon_sst': lon_sst,
+        'lat_sst': lat_sst,
+        'time_sst': time_sst.strftime('%d-%b-%Y'),
+        'SST': SST,
+        'ANOM': ANOM,
+        'MHW': MHW,
+
+        # CHL
+        'lon_o': lon_o,
+        'lat_o': lat_o,
+        'time_o': time_o.strftime('%d-%b-%Y'),
+        'CHL': CHL,
+        'CHL_ANOM': CHL_ANOM,
+        }
+
+    outfile = '/data/pkl/RS.pkl'
+    with open(outfile, 'wb') as f:
+        dump(jsonize(RS), f)

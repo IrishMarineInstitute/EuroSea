@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Deenish Island In-situ Historical Data Portal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	</head>
+
+	<body>
+	
+    	<div class="grid">
+    		<div class="col-1-1">
+    			<div class="content">
+        		    <img src="../static/logos.png" >			
+    			</div>
+    		</div>
+    	</div>
+	
+		<div class="grid">
+ 			<div class="col-10-12">
+ 				<div class="content">
+     				<p id="funding">
+           This project has received funding from the European Union's
+           Horizon 2020 research and innovation programme under grant
+           agreement No. 862626
+                                </p>
+ 				</div>
+ 			</div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right">HOME</a>
+ 				</div>
+ 			</div>
+    	        </div>
+    		
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p align="justify"> 
+          This portal provides information on past oceanographic conditions in the Southwest 
+          of Ireland waters. The data provided here has been derived from remote-sensing. 
+          <b>INSTRUCTIONS:</b> Enter the desired date and click "Submit".
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                    <form method="POST" action="/Deenish-rs-historical">
+                    <label for="start">Date:</label>
+                    <input type="date" id="start" name="start-date"
+                           value={{date}}
+                           min={{timelist | first}}
+                           max={{timelist | last}}>
+                    <input type="submit" value="Submit" name="submit" style="margin-left: 25px" />
+                    </form>
+    	        </div>
+    	     </div>
+    	 </div>
+                          
+{% if csv == 'true' %}
+    		
+  		<script language="javascript" type="text/javascript">
+                    <!-- Contour maps layout -->
+                   let layout = {
+                       autosize: false,
+                       width: 500,
+                       height: 623, 
+                       showlegend: false,
+                       title: {
+                           text: '',
+                           font: {
+                               size: 18,
+                           },
+                       },
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [-11, -10, -9, -8],
+                           ticktext: ['11ºW', '10ºW', '09ºW', '08ºW'],
+                           automargin: true,
+                           range: [-11.6, -8],
+                       },
+                       yaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [50, 51, 52],
+                           ticktext: ['50ºN', '51ºN', '52ºN'],
+                           range: [50, 52.8],
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                   };
+                                            var coast = {
+                                               name: 'coast',
+                                               x: {{lon_coast}},
+                                               y: {{lat_coast}},
+                                               type: 'scatter',
+                                               hovermode: false,
+                                               hoverinfo: 'none',
+                                               line: {
+                                                   color: 'rgb(0, 0, 0)',
+                                                   width: 1,
+                                               },
+                                            };
+                                            var site = {
+                                               x: [{{lon}}],
+                                               y: [{{lat}}],
+                                               mode: 'markers',
+                                               hoverinfo: 'none',
+                                               marker: {
+                                                  size: 20,
+                                                  symbol: 'cross-thin',
+                                                  line: { 
+                                                      color: 'rgb(0, 0, 0)',
+                                                      width: 1,
+                                                  },
+                                               },
+                                            };
+                </script>
+
+         	<div class="grid">
+  		       <div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="SST"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             name: 'SST',
+                                                             z: {{SST}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Sea Surface Temperature on {{time_sst}}'
+                                            TESTER = document.getElementById('SST');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="ANOM"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{ANOM}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: -3,
+                                                                 end: 3,
+                                                                 size: 0.5,
+                                                             },
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Sea Surface Temperature Anomaly on {{time_sst}}'
+                                            TESTER = document.getElementById('ANOM');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  		</div>
+    		
+         	<div class="grid">
+                       <div class="col-1-4 mobile-col-1-4"></div>
+  		       <div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+          		            <div id="MHW"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{MHW}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 3,
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: 0,
+                                                                 end: 2,
+                                                                 size: 0.5,
+                                                             },
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Marine Heat Wave Intensity on {{time_sst}}'
+                                            TESTER = document.getElementById('MHW');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+                       <div class="col-1-4 mobile-col-1-4"></div>
+  		</div>
+{% endif %}
+
+    </body>
+
+</html>

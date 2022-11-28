@@ -1,1 +1,2 @@
-# euroseas_august_2022
+# eurosea_historical_data_web
+Relating to work on the EuroSea Project.

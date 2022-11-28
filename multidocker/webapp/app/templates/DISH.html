@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Deenish Island In-situ Historical Data Portal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	</head>
+
+	<body>
+	
+    	<div class="grid">
+    		<div class="col-1-1">
+    			<div class="content">
+        		    <img src="../static/logos.png" >			
+    			</div>
+    		</div>
+    	</div>
+	
+		<div class="grid">
+ 			<div class="col-10-12">
+ 				<div class="content">
+     				<p id="funding">
+           This project has received funding from the European Union's
+           Horizon 2020 research and innovation programme under grant
+           agreement No. 862626
+                                </p>
+ 				</div>
+ 			</div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right">HOME</a>
+ 				</div>
+ 			</div>
+    	        </div>
+    		
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p align="justify"> 
+          This portal provides information on past oceanographic conditions at Deenish
+          Island. The data provided here has been recorded by the monitoring station at
+          the farm, except for the temperature profile, which is derived from a hydrodynamic
+          model.
+          <b>INSTRUCTIONS:</b> Enter the desired time range by selecting a start date and an end
+          date. This time range will apply to everything except for the oceanic currents
+          data. For oceanic currents, only one day can be displayed each time. 
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                    <form method="POST" action="/Deenish-in-situ-historical">
+                    <label for="start">Start date:</label>
+                    <input type="date" id="start" name="start-date"
+                           value={{date1}}
+                           min={{timelist | first}}
+                           max={{timelist | last}}>
+                    <label for="start" style="margin-left:25px;">End date:</label>
+                    <input type="date" id="end" name="end-date"
+                           value={{date2}}
+                           min={{timelist | first}}
+                           max={{timelist | last}}>
+                    <label for="start" style="margin-left:25px;">Select date for currents:</label>
+                    <input type="date" id="date-uv" name="uv-date"
+                           value={{date3}}
+                           min={{timelist | first}}
+                           max={{timelist | last}}>
+                    <input type="submit" value="Submit" name="submit" style="margin-left: 25px" />
+    	        </div>
+    	     </div>
+    	 </div>
+                          
+{% if csv == 'true' %}
+    		
+  		<script language="javascript" type="text/javascript">
+                    <!-- Time series layout -->
+                    var layout1 = {
+                       texttemplate: '%{value:.1f}',
+                       title: '',
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           automargin: true,
+                       },
+                       yaxis: {
+                           title: '',
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickformat: '.1f',
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                       };
+                    
+                                     var displText = {
+                                         x: [2, -2, -25, 25, 4.5, 8.5, 12, 15.5],  
+                                         y: [22.5, -23.5, 2.5, -2.5, 4.5, 8.5, 12, 15.5],
+                                         text: ['N', 'S', 'W', 'E', '5', '10', '15', '20'],
+                                         mode: 'text',
+                                         textfont: {
+                                             size: 14,
+                                             color: '#000000',
+                                         },
+                                         hoverinfo: 'none',
+                                     }; 
+                                     var scatterText= {
+                                         x: [3, -3, -55, 55, 10, 17, 24, 31, 38],  
+                                         y: [52.5, -53.5, 2.5, -3.5, 10, 17, 24, 31, 38],
+                                         text: ['N', 'S', 'W', 'E', '10', '20', '30', '40', '50'],
+                                         mode: 'text',
+                                         textfont: {
+                                             size: 14,
+                                             color: '#000000',
+                                         },
+                                         hoverinfo: 'none',
+                                     }; 
+                   let layout3 = {
+                       texttemplate: '%{value:.1f}',
+                       showlegend: false,
+                       title: {
+                           font: { 
+                               size: 2, 
+                           }
+                       },
+                       xaxis: {
+                           showgrid: false,
+                           showticklabels: false,
+                           range: [-55, 55],
+                           automargin: true,
+                       },
+                       yaxis: {
+                           scaleanchor: 'x',
+                           showgrid: false,
+                           showticklabels: false,
+                           range: [-55, 55],
+                           automargin: true,
+                       },
+                       shapes: [
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -10, y0: -10,
+                               x1:  10, y1:  10,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -20, y0: -20,
+                               x1:  20, y1:  20,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -30, y0: -30,
+                               x1:  30, y1:  30,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -40, y0: -40,
+                               x1:  40, y1:  40,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -50, y0: -50,
+                               x1:  50, y1:  50,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                       ],
+                       };
+                    
+                   let layout4 = {
+                       texttemplate: '%{value:.1f}',
+                       showlegend: false,
+                       title: {
+                           font: { 
+                               size: 2, 
+                           }
+                       },
+                       xaxis: {
+                           showgrid: false,
+                           showticklabels: false,
+                           range: [-25, 25],
+                       },
+                       yaxis: {
+                           scaleanchor: 'x',
+                           showgrid: false,
+                           showticklabels: false,
+                           range: [-25, 25],
+                       },
+                       shapes: [
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -5, y0: -5,
+                               x1:  5, y1:  5,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -10, y0: -10,
+                               x1:  10, y1:  10,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -15, y0: -15,
+                               x1:  15, y1:  15,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                           {
+                               type: 'circle',
+                               xref: 'x', yref: 'y',
+                               x0: -20, y0: -20,
+                               x1:  20, y1:  20,
+                               line: {
+                                   color: 'rgba(0, 0, 0, 1)'
+                               },
+                           },
+                       ],
+                       };
+                    
+                </script>
+                </script>
+  		
+  		<div class="grid">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="temp"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time|safe }},
+                                        y: {{ temp|safe }},
+                                        name: 'observed',
+                                        mode: 'lines',
+                                        hoverinfo: 'y',
+                                    }
+                                    var trace3 = {
+                                        x: {{ time_c|safe }},
+                                        y: {{ seas|safe }},
+                                        name: 'climatology',
+                                        mode: 'lines',
+                                        line: {
+                                            width: .5,
+                                        },
+                                        hoverinfo: 'none',
+                                    };
+                                    var trace4 = {
+                                        x: {{ time_c|safe }},
+                                        y: {{ pc90|safe }},
+                                        name: '90th pct.',
+                                        mode: 'lines',
+                                        line: {
+                                            width: .5,
+                                        },
+                                        hoverinfo: 'none',
+                                    };
+                                    layout1['title'] = 'Seawater temperature at Deenish Island'
+                                    layout1.xaxis['autorange'] = false
+                                    layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                    layout1.yaxis['title'] = 'ºC'
+                                    layout1.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('temp');
+                                    Plotly.newPlot( TESTER, [trace1, trace3, trace4], layout1 );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="temp" />
+ 				</div>
+ 			</div>
+    	        </div>
+
+{% if profile == 'true' %}
+
+      	        <div class="grid">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="temp3d"></div>
+                                 <script language="javascript" type="text/javascript">
+                                    var l1 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_0|safe }},
+                                        name: 'surface',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l2 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_1|safe }},
+                                        name: '3 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l3 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_2|safe }},
+                                        name: '5 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l4 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_3|safe }},
+                                        name: '10 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l5 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_4|safe }},
+                                        name: '15 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l6 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_5|safe }},
+                                        name: '20 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l7 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_6|safe }},
+                                        name: '25 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var l8 = {
+                                        x: {{ fc_temp3d_time|safe }},
+                                        y: {{ fc_temp3d_7|safe }},
+                                        name: '30 m',
+                                        hoverinfo: 'x+y',
+                                    }
+                                     layout1['title'] = 'Modelled seawater temperature profile at Deenish Island'
+                                     layout1.xaxis['autorange'] = false
+                                     layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                     layout1.yaxis['title'] = 'ºC'
+                                     layout1.yaxis.tickformat = '.1f'
+                                     TESTER = document.getElementById('temp3d');
+                                     profile = [l1, l5, l8];
+                                     Plotly.newPlot( TESTER, profile, layout1 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+
+    		
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="profile" />
+ 				</div>
+ 			</div>
+    	        </div>
+{% endif %}
+
+      	        <div class="grid">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="salt"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout1['title'] = 'Seawater salinity at Deenish Island'
+                                     layout1.xaxis['autorange'] = false
+                                     layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                     layout1.yaxis['title'] = ''
+                                     layout1.yaxis.tickformat = '.1f'
+                                     TESTER = document.getElementById('salt');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ salt|safe }} }], 
+                                     layout1 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="salt" />
+ 				</div>
+ 			</div>
+    	        </div>
+    		
+      	        <div class="grid">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="pH"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout1['title'] = 'Seawater pH at Deenish Island'
+                                     layout1.xaxis['autorange'] = true
+                                     layout1.yaxis['title'] = ''
+                                     layout1.yaxis.tickformat = '.2f'
+                                     TESTER = document.getElementById('pH');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ pH|safe }} }], 
+                                     layout1 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="pH" />
+ 				</div>
+ 			</div>
+    	        </div>
+    		
+      	        <div class="grid">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="O2"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout1['title'] = 'Dissolved Oxygen Saturation at Deenish Island'
+                                     layout1.yaxis['title'] = '%'
+                                     layout1.yaxis.tickformat = '.1f'
+                                     TESTER = document.getElementById('O2');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ O2|safe }} }], 
+                                     layout1 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="O2" />
+ 				</div>
+ 			</div>
+    	        </div>
+    		
+      	        <div class="grid">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="RFU"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout1['title'] = 'Raw Fluorescence Units at Deenish Island'
+                                     layout1.yaxis['title'] = ''
+                                     layout1.yaxis.tickformat = '.2f'
+                                     layout1.yaxis['autorange'] = false
+                                     layout1.yaxis['range'] = [0, {{maxRFU}}]
+                                     TESTER = document.getElementById('RFU');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ RFU|safe }} }], 
+                                     layout1 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="RFU" />
+ 				</div>
+ 			</div>
+    	        </div>
+
+{% if vectores == 'true' %}
+    		
+                <div class="grid">
+                    <div class="col-1-2">
+                        <div class="content">
+          		     <div class="Series" id="surface-currents-scatter"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     var vectors = {
+                                         x: {{ u0|safe}},
+                                         y: {{ v0|safe}},
+                                         mode: 'markers',
+                                         marker: {
+                                             size: 5,
+                                             color: {{ timestamps|safe }},
+                                                             colorscale: 'YlOrRd',
+                                                             colorbar: {
+                                                                 ticks: 'outside',
+                                                                 thickness: 10,
+                                                                 tickmode: 'array',
+                                                                 tickvals: {{timestampsub|safe}},
+                                                                 ticktext: {{timetext|safe}},
+                                                                 tickfont: {
+                                                                     size: 14,
+                                                                 },
+                                                             },
+                                         },
+                                         hoverinfo: "none",
+                                     };
+                                     layout3['title'] = 'Surface current velocities (cm/s) for the last 24 hours'
+                                     layout3.yaxis['title'] = ''
+                                     TESTER = document.getElementById('surface-currents-scatter');
+                                     Plotly.newPlot( TESTER, [vectors, scatterText], layout3 );
+                                 </script>
+      			 </div>
+      		     </div>
+                    <div class="col-1-2">
+                        <div class="content">
+          		     <div class="Series" id="surface-currents-progressive"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout4['title'] = 'Surface water displacement (km) for the last 24 hours'
+                                     layout4.yaxis['title'] = ''
+                                     TESTER = document.getElementById('surface-currents-progressive');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ Dx0|safe }},
+                                     y: {{ Dy0|safe }}, hoverinfo: 'none' }, displText], 
+                                     layout4 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="uv-surf" />
+ 				</div>
+ 			</div>
+    	        </div>
+
+                <div class="grid">
+                    <div class="col-1-2">
+                        <div class="content">
+          		     <div class="Series" id="mid-currents-scatter"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     var vectors = {
+                                         x: {{ umid|safe}},
+                                         y: {{ vmid|safe}},
+                                         mode: 'markers',
+                                         marker: {
+                                             size: 5,
+                                             color: {{ timestamps|safe }},
+                                                             colorscale: 'YlOrRd',
+                                                             colorbar: {
+                                                                 ticks: 'outside',
+                                                                 thickness: 10,
+                                                                 tickmode: 'array',
+                                                                 tickvals: {{timestampsub|safe}},
+                                                                 ticktext: {{timetext|safe}},
+                                                                 tickfont: {
+                                                                     size: 14,
+                                                                 },
+                                                             },
+                                         },
+                                         hoverinfo: "none",
+                                     };
+                                     layout3['title'] = 'Mid-water current velocities (cm/s) for the last 24 hours'
+                                     layout3.yaxis['title'] = ''
+                                     TESTER = document.getElementById('mid-currents-scatter');
+                                     Plotly.newPlot( TESTER, [vectors, scatterText], layout3 );
+                                 </script>
+      			 </div>
+      		     </div>
+                    <div class="col-1-2">
+                        <div class="content">
+          		     <div class="Series" id="mid-currents-progressive"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout4['title'] = 'Mid-water water displacement (km) for the last 24 hours'
+                                     layout4.yaxis['title'] = ''
+                                     TESTER = document.getElementById('mid-currents-progressive');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ Dxmid|safe }},
+                                     y: {{ Dymid|safe }}, hoverinfo: 'none' }, displText], 
+                                     layout4 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="uv-mid" />
+ 				</div>
+ 			</div>
+    	        </div>
+
+                <div class="grid">
+                    <div class="col-1-2">
+                        <div class="content">
+          		     <div class="Series" id="seabed-currents-scatter"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     var vectors = {
+                                         x: {{ ubot|safe}},
+                                         y: {{ vbot|safe}},
+                                         mode: 'markers',
+                                         marker: {
+                                             size: 5,
+                                             color: {{ timestamps|safe }},
+                                                             colorscale: 'YlOrRd',
+                                                             colorbar: {
+                                                                 ticks: 'outside',
+                                                                 thickness: 10,
+                                                                 tickmode: 'array',
+                                                                 tickvals: {{timestampsub|safe}},
+                                                                 ticktext: {{timetext|safe}},
+                                                                 tickfont: {
+                                                                     size: 14,
+                                                                 },
+                                                             },
+                                         },
+                                         hoverinfo: "none",
+                                     };
+                                     layout3['title'] = 'Seabed current velocities (cm/s) for the last 24 hours'
+                                     layout3.yaxis['title'] = ''
+                                     TESTER = document.getElementById('seabed-currents-scatter');
+                                     Plotly.newPlot( TESTER, [vectors, scatterText], layout3 );
+                                 </script>
+      			 </div>
+      		     </div>
+                    <div class="col-1-2">
+                        <div class="content">
+          		     <div class="Series" id="seabed-currents-progressive"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layout4['title'] = 'Seabed water displacement (km) for the last 24 hours'
+                                     layout4.yaxis['title'] = ''
+                                     TESTER = document.getElementById('seabed-currents-progressive');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ Dxbot|safe }},
+                                     y: {{ Dybot|safe }}, hoverinfo: 'none' }, displText], 
+                                     layout4 );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+		<div class="grid">
+                        <div class="col-10-12">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+            <input type="submit" value="Download data as CSV" name="uv-seab" />
+ 				</div>
+ 			</div>
+    	        </div>
+{% endif %}
+{% endif %}
+
+                    </form>
+    </body>
+
+</html>

@@ -1,0 +1,176 @@
+from flask import render_template, request, url_for, redirect, send_file
+from datetime import datetime
+from pickle import load
+from glob import glob
+from app import app
+import to_csv_func
+import os
+import rs
+import util
+
+def dataload(pkl, dic):
+    ''' Load data from container. Update dictionary '''
+    try:
+        with open(pkl, 'rb') as f:
+            var = load(f)
+    except FileNotFoundError:
+        var = {}
+    return {**dic, **var}
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        if 'Deenish ISO' in request.form:
+            return redirect(url_for('DISO'))
+        elif 'Deenish RSO' in request.form:
+            return redirect(url_for('DRSO'))
+        elif 'Deenish ISH' in request.form:
+            return redirect(url_for('DISH'))
+        elif 'Deenish RSH' in request.form:
+            return redirect(url_for('DRSH'))
+        else:
+            return render_template('notexist.html')
+    else:
+        return render_template('home.html')
+
+@app.route('/Deenish-in-situ', methods=['GET', 'POST'])
+def DISO():
+
+    # Load observations
+    data = dataload('/data/pkl/BUOY.pkl', {})
+    # Load forecasts
+    data = dataload('/data/pkl/MODEL.pkl', data)
+
+    if request.method == 'POST':
+        lista = glob('/data/*.csv')
+        for file in lista:
+            os.remove(file)
+        if 'temp' in request.form:
+            f = to_csv_func.to_csv(data, 'temp')
+        elif 'profile' in request.form:
+            f = to_csv_func.to_csv_profile(data) 
+        elif 'salt' in request.form:
+            f = to_csv_func.to_csv(data, 'salt')
+        elif 'pH' in request.form:
+            f = to_csv_func.to_csv(data, 'pH')
+        elif 'O2' in request.form:
+            f = to_csv_func.to_csv(data, 'O2')
+        elif 'RFU' in request.form:
+            f = to_csv_func.to_csv(data, 'RFU')
+        elif 'uv-surf' in request.form or 'uv-mid' in request.form or 'uv-seab' in request.form:
+            f = to_csv_func.to_csv_uv(data, request.form)
+        return send_file(f, as_attachment=True)
+
+    else:
+        return render_template('DISO.html', **data) 
+
+@app.route('/Deenish-rs')
+def DRSO():
+    # Load remote sensing
+    data = dataload('/data/pkl/RS.pkl', {})
+    # Load LPTM
+    data = dataload('/data/pkl/LPTM.pkl', data)
+
+    return render_template('DRSO.html', **data) 
+    
+@app.route('/Deenish-rs-historical', methods=['GET', 'POST'])
+def DRSH():
+    # Load historical data
+    with open('/data/buoy.pkl', 'rb') as f: 
+        data = load(f); timelist = data['time'][:-144]
+    if request.method == 'POST':
+        start = request.form.get('start-date')
+        maps = rs.address_request(start)
+        return render_template('DRSH.html', **maps,
+            timelist=timelist, date=start, csv='true')
+    else:
+        last = timelist[-1].strftime('%Y-%m-%d')
+        return render_template('DRSH.html', timelist=timelist, 
+            date=last, csv='false')
+
+@app.route('/Deenish-in-situ-historical', methods=['GET', 'POST'])
+def DISH():
+
+    # Load historical data
+    with open('/data/buoy.pkl', 'rb') as f: 
+        data = load(f); timelist = data['time']
+
+    if request.method == 'POST':
+
+        # Clean data directory if needed to prevent accumulation of too many .csv files
+        lista = glob('/data/*.csv')
+        if len(lista) > 100: # Too many .csv files. Clean directory. 
+            for file in lista:
+                os.remove(file)
+
+        # Get dates selected in calendar widgets
+        start, end, uv = get_dates(request.form)
+
+        ini, fin = start.replace('-', ''), end.replace('-', '')
+    
+        if 'submit' in request.form:
+
+            # Address in-situ historical request
+            data = new_request(request.form)
+
+            # Add whole time list for calendars
+            data['timelist'] = timelist
+
+            # Return template
+            return render_template('DISH.html', **data, 
+                date1=start, date2=end, date3=uv, csv='true')
+
+        elif 'temp' in request.form:
+            f = f'/data/csv-temp-{ini}-{fin}.csv'
+
+        elif 'profile' in request.form:
+            f = f'/data/csv-profile-{ini}-{fin}.csv'
+
+        elif 'salt' in request.form:
+            f = f'/data/csv-salt-{ini}-{fin}.csv'
+
+        elif 'pH' in request.form:
+            f = f'/data/csv-pH-{ini}-{fin}.csv'
+
+        elif 'O2' in request.form:
+            f = f'/data/csv-O2-{ini}-{fin}.csv'
+
+        elif 'RFU' in request.form:
+            f = f'/data/csv-RFU-{ini}-{fin}.csv'
+
+        elif 'uv-surf' in request.form:
+            f = f'/data/csv-uv-surf-{ini}-{fin}.csv'
+
+        elif 'uv-mid' in request.form:
+            f = f'/data/csv-uv-mid-{ini}-{fin}.csv'
+
+        elif 'uv-seab' in request.form:
+            f = f'/data/csv-uv-seab-{ini}-{fin}.csv'
+
+        return send_file(f, as_attachment=True)
+
+    else:
+
+        first, last = timelist[0].strftime('%Y-%m-%d'), timelist[-1].strftime('%Y-%m-%d')
+
+        return render_template('DISH.html', timelist=timelist, 
+            date1=first, date2=last, date3=last, csv='false')
+
+def new_request(form):
+    ''' This function addresses the in-situ historical requests '''
+
+    start, end, uv = get_dates(form)
+
+    return util.address_request(start, end, uv)
+
+def get_dates(form):
+    ''' This function returns the dates selected in the calendar widgets '''
+
+    start, end, uv = form.get('start-date'), form.get('end-date'), form.get('uv-date')
+
+    t0, t1 = datetime.strptime(start, '%Y-%m-%d'), datetime.strptime(end, '%Y-%m-%d')
+    if t0 > t1: 
+        start, end = end, start
+
+    return start, end, uv
+
