@@ -20,8 +20,8 @@ north 52.8
 clim MUR-Climatology.nc
 !
 ! CMEMS username and password
-USERNAME dpereiro1                      
-PASSWORD Marciano7!                     
+USERNAME ******                   
+PASSWORD ******                 
 !
 ! Oceancolour product and service
 OCEANCOLOUR_MY_PRODUCT OCEANCOLOUR_ATL_BGC_L4_MY_009_118-TDS
