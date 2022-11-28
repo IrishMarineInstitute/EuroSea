@@ -5,7 +5,7 @@
  Copyright notice
    --------------------------------------------------------------------
    Copyright (C) 2022 Marine Institute
-       Diego Pereiro Rodriguez
+       Diego Pereiro Rodriguez, Oleg Belyaev Korolev
 
        diego.pereiro@marine.ie
 
