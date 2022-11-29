@@ -97,7 +97,7 @@ def MODEL(date=datetime.now()):
         t1 = timezone('UTC').localize(date)
         NDAYS = int(config['ndays'])
         t0 = t1 - timedelta(days=NDAYS)
-        tf = t1 + timedelta(hours=132) # 5-day forecast
+        tf = t1 + timedelta(days=5) # 5-day forecast
 
         logger.info(f'{now()} Getting CMEMS credentials from config...')
         USER, PSWD = config['USERNAME'], config['PASSWORD']
