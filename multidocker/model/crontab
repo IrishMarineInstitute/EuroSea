@@ -1,1 +1,1 @@
-0 8 * * * /usr/local/bin/python /root/model.py 
+0 15 * * * /usr/local/bin/python /root/model.py 
