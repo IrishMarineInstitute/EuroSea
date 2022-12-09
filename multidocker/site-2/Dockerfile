@@ -21,33 +21,42 @@
 #   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #   --------------------------------------------------------------------
 
-FROM tiangolo/uwsgi-nginx-flask:python3.8
+FROM python:3.8
 
 MAINTAINER Diego Pereiro Rodriguez <Diego.Pereiro@Marine.ie>
 
-ENV STATIC_URL /static
-ENV STATIC_PATH /app/app/static
+RUN apt-get update && apt-get -y install cron vim
 
-RUN apt-get update && \
-    apt-get -y install gcc mono-mcs && \
-    rm -rf /var/lib/apt/lists/*
-
+# Directory to store logging files
 RUN mkdir /log
+
+# Build data directory tree
 RUN mkdir /data
 RUN mkdir /data/pkl
-RUN mkdir /netcdf
+RUN mkdir /xml-2
 
-# Create directory to keep the app code
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+# Copy buoy .xml files to xml folder
+COPY [ "xml.tar" , "/xml-2/" ]
+WORKDIR /xml-2
+RUN tar -xf /xml-2/xml.tar
+
+WORKDIR /root
 
 # Install required packages
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# Set cron
+COPY crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+RUN /usr/bin/crontab /etc/cron.d/crontab
+
 # Copy required files 
+COPY [ "*.py" , "/root/" ]
+COPY [ "*.pkl" , "/root/" ]
+COPY known_hosts .
 COPY config .
-COPY config-2 .
-COPY [ "*.pkl" , "/usr/src/app/" ]
-COPY [ "*.nc" , "/usr/src/app/" ]
-COPY [ "*.py" , "/usr/src/app/" ]
+
+RUN echo $PYTHONPATH
+
+CMD ["cron", "-f"]

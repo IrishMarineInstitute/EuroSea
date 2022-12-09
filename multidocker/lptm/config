@@ -1,0 +1,14 @@
+! Map boundaries
+west -11.6
+east -8
+south 50
+north 52.8  
+!
+! Transects (no spaces, just commas between numbers!)
+x0 -10.3553,-10.5336,-10.1730,-9.2351
+x1 -10.1593,-10.1846,-9.8228,-8.9330
+y0 51.7183,51.3576,51.2372,51.4847
+y1 51.6027,51.5862,51.4671,51.3055
+!
+! Number of particles per transect per minute
+N 10

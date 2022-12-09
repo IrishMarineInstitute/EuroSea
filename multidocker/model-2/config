@@ -8,24 +8,24 @@
 ndays 14                               
 !
 ! Buoy coordinates (longitude and latitude)
-lon -10.2122                            
-lat 51.7431   
+lon -0.2917                            
+lat 38.4375   
 !
 ! CMEMS username and password
-USERNAME ********                     
+USERNAME ********                    
 PASSWORD ********                     
 !
 ! Copernicus PHYSICS service
-phy NORTHWESTSHELF_ANALYSIS_FORECAST_PHY_004_013-TDS
+phy MEDSEA_ANALYSISFORECAST_PHY_006_013-TDS
 !
 ! SST product
-sst MetO-NWS-PHY-hi-SST
+sst cmems_mod_med_phy-tem_anfc_4.2km_PT1H-m
 !
 ! Temperature (3D) product
-temp3d MetO-NWS-PHY-hi-TEM
+temp3d cmems_mod_med_phy-tem_anfc_4.2km_PT1H-m
 !
 ! Date to start download of temperature profiles
-datestart 2022-06-16
+datestart 2022-11-03
 !
 ! SSS product
-sss MetO-NWS-PHY-hi-SSS
+sss cmems_mod_med_phy-sal_anfc_4.2km_PT1H-m

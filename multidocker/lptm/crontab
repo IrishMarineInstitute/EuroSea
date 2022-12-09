@@ -1,0 +1,1 @@
+25 16 * * * /opt/conda/bin/python /root/lptm.py 

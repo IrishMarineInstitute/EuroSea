@@ -67,16 +67,14 @@ def send_output(sub, var, D, clim, timev, time3d, temp):
         'salt': sub['Salinity'],
         'pH': sub['pH'],
         'O2': sub['Oxygen Saturation'],
-        'RFU': sub['RFU'],
 
-        'maxRFU': nanmax(array(sub['RFU'])) + 0.1,
+        'maxTUR': nanmax(array(sub['pH'])) + 1,
 
         # Latest observations 
         'latest_temperature': round(sub['Temperature'][-1], 2),
         'latest_oxygen': round(sub['Oxygen Saturation'][-1], 2),
         'latest_salinity': round(sub['Salinity'][-1], 2),
         'latest_pH': round(sub['pH'][-1], 2),
-        'latest_RFU': round(sub['RFU'][-1], 2),
 
         'SubO2': suboxic(round(sub['Oxygen Saturation'][-1], 2)),
 

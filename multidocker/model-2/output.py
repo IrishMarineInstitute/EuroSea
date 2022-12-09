@@ -24,47 +24,28 @@ def jsonize(data):
                 logger.info(f'   {now()} WARNING: Could not jsonize {k} due to {str(ERR)}')
     return data
 
-def send_output(lon, lat, SST, colour, coast):
+def send_output(FC):
     ''' Produce output PICKLE file to be sent to web app '''
 
-    # Get SST
-    lon_sst, lat_sst, time_sst, SST, ANOM, MHW = SST
+    # Get temperature profile
+    temp = FC['temp3d'][1]; T, N = temp.shape
 
-    # Get SST color range
-    average = SST.mean()
-    sst_colorange_min, sst_colorange_max = average - 2, average + 2
-
-    # Get oceancolour
-    lon_o, lat_o, time_o, CHL, CHL_ANOM = colour
-
-    RS = {
-        # Buoy coordinates
-        'lon': lon, 'lat': lat,
-
-        # Coastline
-        'lon_coast': coast['lon_coast'],
-        'lat_coast': coast['lat_coast'],
+    MODEL = {
+        'fc_sst_time': FC['sst'][0],
+        'fc_sst': FC['sst'][1],
  
-        # SST colorbar range
-        'sst_colorange_min': sst_colorange_min,
-        'sst_colorange_max': sst_colorange_max,
+        'fc_sss_time': FC['sss'][0],
+        'fc_sss': FC['sss'][1],
+ 
+        'tf': FC['sst'][0][-1].strftime('%Y-%m-%d %H:%M'),
 
-        # SST
-        'lon_sst': lon_sst,
-        'lat_sst': lat_sst,
-        'time_sst': time_sst.strftime('%d-%b-%Y'),
-        'SST': SST,
-        'ANOM': ANOM,
-        'MHW': MHW,
+        'fc_temp3d_time': FC['temp3d'][0],
 
-        # CHL
-        'lon_o': lon_o,
-        'lat_o': lat_o,
-        'time_o': time_o.strftime('%d-%b-%Y'),
-        'CHL': CHL,
-        'CHL_ANOM': CHL_ANOM,
+        'forecast_temperature': round(max(FC['sst'][1]), 2),
         }
 
-    outfile = '/data/pkl/RS.pkl'
+    for k in range(N):
+        MODEL[f'fc_temp3d_{k}'] = temp[:, k]
+    outfile = '/data/pkl/MODEL-2.pkl'
     with open(outfile, 'wb') as f:
-        dump(jsonize(RS), f)
+        dump(jsonize(MODEL), f)

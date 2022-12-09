@@ -97,7 +97,7 @@ def MODEL(date=datetime.now()):
         t1 = timezone('UTC').localize(date)
         NDAYS = int(config['ndays'])
         t0 = t1 - timedelta(days=NDAYS)
-        tf = t1 + timedelta(days=5) # 5-day forecast
+        tf = t1 + timedelta(days=3) # 3-day forecast
 
         logger.info(f'{now()} Getting CMEMS credentials from config...')
         USER, PSWD = config['USERNAME'], config['PASSWORD']
@@ -123,9 +123,9 @@ def MODEL(date=datetime.now()):
         for i in range(5):
             logger.info(f'{now()} Trial {i} to download local temperature forecast')
             f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, 'SST-forecast.nc', 
-                 lon - 1e-6, lon + 1e-6, 
-                 lat - 1e-6, lat + 1e-6, 
-                 t1, tf, 'thetao', 'nrt')
+                 lon - 1e-4, lon + 1e-4, 
+                 lat - 1e-4, lat + 1e-4, 
+                 t1, tf, 'thetao', 'nrt', zmin=1, zmax=2)
             if os.path.isfile(f): 
                 logger.info(f'{now()}   Successfully downloaded file {f}'); break
             else:
@@ -145,9 +145,9 @@ def MODEL(date=datetime.now()):
         for i in range(5):
             logger.info(f'{now()} Trial {i} to download local salinity forecast')
             f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, 'SSS-forecast.nc', 
-                 lon - 1e-6, lon + 1e-6, 
-                 lat - 1e-6, lat + 1e-6, 
-                 t1, tf, 'so', 'nrt')
+                 lon - 1e-4, lon + 1e-4, 
+                 lat - 1e-4, lat + 1e-4, 
+                 t1, tf, 'so', 'nrt', zmin=1, zmax=2)
             if os.path.isfile(f): 
                 logger.info(f'{now()}   Successfully downloaded file {f}'); break
             else:
@@ -167,9 +167,9 @@ def MODEL(date=datetime.now()):
         for i in range(5):
             logger.info(f'{now()} Trial {i} to download temperature profile')
             f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, 'TEMP3D-profile.nc',
-                 lon - 1e-6, lon + 1e-6,
-                 lat - 1e-6, lat + 1e-6,
-                 t0, tf, 'thetao', 'nrt', zmin=0, zmax=30) 
+                 lon - 1e-4, lon + 1e-4,
+                 lat - 1e-4, lat + 1e-4,
+                 t0, tf, 'thetao', 'nrt', zmin=0, zmax=47) 
             if os.path.isfile(f): 
                 logger.info(f'{now()}   Successfully downloaded file {f}'); break
             else:
@@ -191,20 +191,20 @@ def MODEL(date=datetime.now()):
         datestart = config['datestart']
         time = datetime.strptime(datestart, '%Y-%m-%d')
         # Get list of currently available TEMP3d files
-        lista = glob('/data/pkl/TEMP3D-*.nc')
+        lista = glob('/data/pkl/TEMP3D-SITE2-*.nc')
        
         while time <= date: 
-            filename = f'/data/pkl/TEMP3D-{time.strftime("%Y%m%d")}.nc'
+            filename = f'/data/pkl/TEMP3D-SITE2-{time.strftime("%Y%m%d")}.nc'
             if not os.path.isfile(filename):
                 logger.info(f'{now()} Downloading profile for {time.strftime("%Y%m%d")}')
                 # Download NetCDF
                 for i in range(5):
                     logger.info(f'{now()} Trial {i} to download temperature profile')
                     f = motu(USER, PSWD, PRODUCT, SERVICE, '/data/pkl/', 
-                        f'TEMP3D-{time.strftime("%Y%m%d")}.nc',
-                        lon - 1e-6, lon + 1e-6,
-                        lat - 1e-6, lat + 1e-6,
-                        time, time+timedelta(hours=23), 'thetao', 'nrt', zmin=0, zmax=30) 
+                        f'TEMP3D-SITE2-{time.strftime("%Y%m%d")}.nc',
+                        lon - 1e-4, lon + 1e-4,
+                        lat - 1e-4, lat + 1e-4,
+                        time, time+timedelta(hours=24), 'thetao', 'nrt', zmin=0, zmax=47) 
                     if os.path.isfile(f): 
                         logger.info(f'{now()}   Successfully downloaded file {f}'); break
                     else:

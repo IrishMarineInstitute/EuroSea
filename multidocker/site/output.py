@@ -1,5 +1,4 @@
 from pickle import dump
-from datetime import datetime
 from json import dumps
 from log import set_logger, now
 

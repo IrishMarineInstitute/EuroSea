@@ -125,7 +125,7 @@
   			</div>
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
-                                    <p style="font-size:12px">
+                                    <p style="font-size:16px">
                                         Highest expected temperature in a 5-day forecast.
                                     </p>
   				</div>
@@ -140,7 +140,7 @@
   			</div>
   			<div class="col-1-12">
   				<div class="content">
-  					<input class="value-box-2" value="{{latest_salinity}}" />
+  					<input class="value-box-2" value="{{latest_salinity}}" style="width:50px" />
   				</div>
                         </div>    
                         <div class="col-1-12">
@@ -150,7 +150,7 @@
   			</div>
   			<div class="col-1-12">
   				<div class="content">
-  					<input class="value-box-2" value="{{latest_pH}}" />
+  					<input class="value-box-2" value="{{latest_pH}}" style="width:50px"/>
   				</div>
                         </div>    	
                         <div class="col-1-12">
@@ -160,7 +160,7 @@
   			</div>
   			<div class="col-1-12">
   				<div class="content">
-  					<input class="value-box-2" value="{{latest_RFU}}" />
+  					<input class="value-box-2" value="{{latest_RFU}}" style="width:50px" />
   				</div>
                         </div>    				
           	</div>
@@ -188,10 +188,39 @@
                            tick0: "{{tick0}}",
                            dtick: 86400000,  
                            tickformat: '%d %b %y',     
+                           tickangle: 90,
                            automargin: true,
                        },
                        yaxis: {
                            title: '',
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickformat: '.1f',
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                       };
+                    
+                    var profileLayout = {
+                       texttemplate: '%{value:.1f}',
+                       title: 'Modelled seawater temperature profile at Deenish Island',
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tick0: "{{tick0}}",
+                           dtick: 86400000,  
+                           tickformat: '%d %b %y',     
+                           tickangle: 90,
+                           automargin: true,
+                           autorange: false,
+                           range: ["{{t0}}", "{{tf}}"]
+                       },
+                       yaxis: {
+                           title: 'ºC',
                            mirror: true,
                            showline: true,
                            ticks: 'outside',
@@ -428,65 +457,129 @@
                                         y: {{ fc_temp3d_0|safe }},
                                         name: 'surface',
                                         hoverinfo: 'x+y',
+                                        line: {
+                                            width: 1.5, 
+                                        }
                                     }
                                     var l2 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_1|safe }},
                                         name: '3 m',
-                                        hoverinfo: 'x+y',
+                                        hoverinfo: 'x',
+                                        line: {
+                                            width: 0, 
+                                        }
                                     }
                                     var l3 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_2|safe }},
                                         name: '5 m',
-                                        hoverinfo: 'x+y',
+                                        hoverinfo: 'x',
+                                        line: {
+                                            width: 0, 
+                                        }
                                     }
                                     var l4 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_3|safe }},
                                         name: '10 m',
-                                        hoverinfo: 'x+y',
+                                        hoverinfo: 'x',
+                                        line: {
+                                            width: 0, 
+                                        }
                                     }
                                     var l5 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_4|safe }},
                                         name: '15 m',
                                         hoverinfo: 'x+y',
+                                        line: {
+                                            width: 1.5, 
+                                        }
                                     }
                                     var l6 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_5|safe }},
                                         name: '20 m',
-                                        hoverinfo: 'x+y',
+                                        hoverinfo: 'x',
+                                        line: {
+                                            width: 0, 
+                                        }
                                     }
                                     var l7 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_6|safe }},
                                         name: '25 m',
-                                        hoverinfo: 'x+y',
+                                        hoverinfo: 'x',
+                                        line: {
+                                            width: 0, 
+                                        }
                                     }
                                     var l8 = {
                                         x: {{ fc_temp3d_time|safe }},
                                         y: {{ fc_temp3d_7|safe }},
                                         name: '30 m',
                                         hoverinfo: 'x+y',
+                                        line: {
+                                            width: 1.5, 
+                                        }
                                     }
-                                     layout1['title'] = 'Modelled seawater temperature profile at Deenish Island'
-                                     layout1.xaxis['autorange'] = false
-                                     layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
-                                     layout1.yaxis['title'] = 'ºC'
-                                     layout1.yaxis.tickformat = '.1f'
                                      TESTER = document.getElementById('temp3d');
-                                     profile = [l1, l5, l8];
-                                     Plotly.newPlot( TESTER, profile, layout1 );
+                                     profile = [l1, l2, l3, l4, l5, l6, l7, l8];
+                                     Plotly.newPlot( TESTER, profile, profileLayout );
                                  </script>
       			 </div>
       		     </div>
       	         </div>
     		
+                                 <script language="javascript" type="text/javascript">
+                                     function drawLayers(id) {
+                                         let divID = document.getElementById('temp3d');
+                                         let checkBox = document.getElementById(id);
+
+                                         if ( id == '00m' ) { l = l1 }
+                                         else if ( id == '03m' ) { l = l2 }
+                                         else if ( id == '05m' ) { l = l3 }
+                                         else if ( id == '10m' ) { l = l4 }
+                                         else if ( id == '15m' ) { l = l5 }
+                                         else if ( id == '20m' ) { l = l6 }
+                                         else if ( id == '25m' ) { l = l7 }
+                                         else if ( id == '30m' ) { l = l8 }
+
+                                         if ( checkBox.checked == false ) {
+                                             l.hoverinfo = 'x';
+                                             l.line.width = 0; 
+                                         } else {
+                                             l.hoverinfo = 'x+y';
+                                             l.line.width = 1.5;
+                                         }
+                                         data_update = [l1, l2, l3, l4, l5, l6, l7, l8];
+                                         Plotly.react( divID, data_update, profileLayout)
+                                     }
+
+
+                                 </script>
+
 		<div class="grid">
                         <div class="col-10-12">
-                            <div class="content"></div>
+                            <div class="content">
+  <label><input type="checkbox" id="00m" name="00m" value="00m" onclick="drawLayers('00m')"
+    style="margin-left: 100px" checked> surface</label>
+  <label><input type="checkbox" id="03m" name="03m" value="03m" onclick="drawLayers('03m')"
+    style="margin-left: 20px"> 3 m</label>
+  <label><input type="checkbox" id="05m" name="05m" value="05m" onclick="drawLayers('05m')"
+    style="margin-left: 20px"> 5 m</label>
+  <label><input type="checkbox" id="10m" name="10m" value="10m" onclick="drawLayers('10m')"
+    style="margin-left: 20px"> 10 m</label>
+  <label><input type="checkbox" id="15m" name="15m" value="15m" onclick="drawLayers('15m')"
+    style="margin-left: 20px" checked> 15 m</label>
+  <label><input type="checkbox" id="20m" name="20m" value="20m" onclick="drawLayers('20m')"
+    style="margin-left: 20px"> 20 m</label>
+  <label><input type="checkbox" id="25m" name="25m" value="25m" onclick="drawLayers('25m')"
+    style="margin-left: 20px"> 25 m</label>
+  <label><input type="checkbox" id="30m" name="30m" value="30m" onclick="drawLayers('30m')"
+    style="margin-left: 20px" checked> 30 m</label>
+                            </div>
                         </div>
  			<div class="col-2-12">
  				<div class="content">

@@ -5,12 +5,14 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! Number of days to show in the webapp                        
-ndays 14                               
+ndays 14     
 !
+! Surface Doppler Current Profiler Sensor cell index                          
+SUR 0
 ! Mid-water Doppler Current Profiler Sensor cell index
-MID 10                                
+MID 9                                
 ! Bottom Doppler Current Profiler Sensor cell index
-BOT 20  
+BOT 19  
 !
 ! These are the SFTP credentials to download the .xml files delivered 
 ! by the Xylem-Aanderaa system
@@ -18,8 +20,8 @@ BOT 20
 host enoc.puertos.es                    ! INS-TAC host
 user marine_instac                      ! INS-TAC user
 pswd ********                       ! INS-TAC password
-folder /CMS-INSTAC/DeenishIslandBuoy    ! INS-TAC folder
+folder /CMS-INSTAC/ElCampelloBuoy       ! INS-TAC folder
 !
 ! Local climatology file
 !
-clim_site Deenish_Climatology.pkl
+clim_site Campello_Climatology.pkl

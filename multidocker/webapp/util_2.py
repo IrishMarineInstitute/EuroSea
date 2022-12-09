@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 from netCDF4 import MFDataset, num2date
-from output import send_output
+from output_2 import send_output
 from pickle import load
 from pytz import timezone
 from mhwfill import fill_mhw
 from math import isnan
 from glob import glob
-import to_csv_func
+import to_csv_func_2
 import numpy as np
 import vectors
 
@@ -16,7 +16,7 @@ def address_request(start, end, uv):
     config = configuration()
 
     # Load historical buoy data
-    f = '/data/buoy.pkl'
+    f = '/data/buoy-2.pkl'
     with open(f, 'rb') as f:
         var = load(f)
 
@@ -59,17 +59,17 @@ def address_request(start, end, uv):
         var.update(D)
 
         # Generate CSV
-        to_csv_func.to_csv_uv_from_request(var, t, vector[i], start, end)
+        to_csv_func_2.to_csv_uv_from_request(var, t, vector[i], start, end)
         
 
     ''' Temperature profiles '''
     try:
         # Get list of already downloaded TEMP3D NetCDF files
-        files = sorted(glob('/data/pkl/TEMP3D-*.nc'))    
+        files = sorted(glob('/data/pkl/TEMP3D-SITE2-*.nc'))    
         # Get file name of file matching requested start date
-        file_start = '/data/pkl/TEMP3D-' + start.replace('-', '') + '.nc'
+        file_start = '/data/pkl/TEMP3D-SITE2-' + start.replace('-', '') + '.nc'
         # Get file name of file matching requested end date
-        file_end   = '/data/pkl/TEMP3D-' + end.replace('-', '')   + '.nc'
+        file_end   = '/data/pkl/TEMP3D-SITE2-' + end.replace('-', '')   + '.nc'
         # Find indexes of required files
         index_start = files.index(file_start)
         index_end   = files.index(file_end) + 1
@@ -85,7 +85,7 @@ def address_request(start, end, uv):
         time = [datetime(i.year, i.month, i.day, i.hour) for i in time]
 
         # Generate CSV
-        to_csv_func.to_csv_profile_from_request(time, temp, start, end)
+        to_csv_func_2.to_csv_profile_from_request(time, temp, start, end)
 
         profile = 'true'
 
@@ -103,15 +103,15 @@ def address_request(start, end, uv):
     data['vectores'] = vectores
 
     ''' Generate CSV files '''
-    for i in ('temp', 'salt', 'pH', 'O2', 'RFU'):
-        to_csv_func.to_csv_from_request(sub, i, start, end)
+    for i in ('temp', 'salt', 'tur', 'O2'):
+        to_csv_func_2.to_csv_from_request(sub, i, start, end)
 
     return data, MHW_times, MHW_temps
 
 def configuration():
     ''' Read secrets (configuration) file '''
     config = {}
-    with open('config', 'r') as f:
+    with open('config-2', 'r') as f:
         for line in f:
             if line[0] == '!': continue
             key, val = line.split()[0:2]

@@ -1,1 +1,1 @@
-0 9 * * * /usr/local/bin/python /root/rs.py 
+38 10 * * * /usr/local/bin/python /root/rs.py 

@@ -23,6 +23,10 @@ def send_output(lon, lat, SST, coast):
     # Get SST
     lon_sst, lat_sst, time_sst, SST, ANOM, MHW = SST
 
+    # Get SST color range
+    average = SST.mean()
+    sst_colorange_min, sst_colorange_max = average - 2, average + 2
+
     # Get oceancolour
     #lon_o, lat_o, time_o, CHL, CHL_ANOM = colour
 
@@ -33,6 +37,10 @@ def send_output(lon, lat, SST, coast):
         # Coastline
         'lon_coast': coast['lon_coast'],
         'lat_coast': coast['lat_coast'],
+ 
+        # SST colorbar range
+        'sst_colorange_min': sst_colorange_min,
+        'sst_colorange_max': sst_colorange_max,
 
         # SST
         'lon_sst': lon_sst,

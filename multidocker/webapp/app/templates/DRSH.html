@@ -144,6 +144,11 @@
                                                              y: {{lat_sst}},
                                                              type: 'contour',
                                                              hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: {{sst_colorange_min}},
+                                                                 end: {{sst_colorange_max}},
+                                                                 size: 0.5,
+                                                             },
                                                              colorscale: 'YlOrRd',
                                                              reversescale: true,
                                                              colorbar: {

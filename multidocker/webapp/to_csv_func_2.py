@@ -23,7 +23,7 @@ def to_csv_uv(data, form):
     x = [float(i) for i in x] ; y = [float(i) for i in y ];
 
     with open(f, 'w') as csvfile:
-        csvfile.write('Date\tSpeed (cm/s)\tDirection (N90E)\tDistance (km)\tDirection (N90E)\n')
+        csvfile.write('Fecha\tVelocidad (cm/s)\tDirección (N90E)\tDistancia (km)\tDirección (N90E)\n')
         for t, uu, vv, xx, yy in zip(time, u, v, x, y):
             speed = ( uu**2 + vv**2 ) ** .5
 
@@ -65,14 +65,23 @@ def to_csv_profile(sub):
     var6  = sub['fc_temp3d_5'][1:-1].split(', ')
     var7  = sub['fc_temp3d_6'][1:-1].split(', ')
     var8  = sub['fc_temp3d_7'][1:-1].split(', ')
+    var9  = sub['fc_temp3d_8'][1:-1].split(', ')
+    var10  = sub['fc_temp3d_9'][1:-1].split(', ')
+    var11  = sub['fc_temp3d_10'][1:-1].split(', ')
+    var12  = sub['fc_temp3d_11'][1:-1].split(', ')
+    var13  = sub['fc_temp3d_12'][1:-1].split(', ')
+    var14  = sub['fc_temp3d_13'][1:-1].split(', ')
+    var15  = sub['fc_temp3d_14'][1:-1].split(', ')
 
     with open(f, 'w') as csvfile:
-        csvfile.write('Date\tsurface\t3 m\t5 m\t10 m\t15 m\t20 m\t25 m\t30 m\n')
-        for t, v1, v2, v3, v4, v5, v6, v7, v8 in zip(time, var1, var2, var3, var4, var5, var6, var7, var8):
+        csvfile.write('Fecha\t1 m\t3 m\t5 m\t8 m\t11 m\t13 m\t16 m\t19 m\t23 m\t26 m\t30 m\t34 m\t38 m\t42 m\t47 m\n')
+        for t, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15 in zip(time, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, var13, var14, var15):
             t = t[1:-1]
-            v1, v2, v3, v4 = '%.2f' % float(v1), '%.2f' % float(v2), '%.2f' % float(v3), '%.2f' % float(v4)
-            v5, v6, v7, v8 = '%.2f' % float(v5), '%.2f' % float(v6), '%.2f' % float(v7), '%.2f' % float(v8)
-            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\t' + v5 + '\t' + v6 + '\t' + v7 + '\t' + v8 + '\n')
+            v1, v2, v3, v4, v5      = '%.2f' % float(v1), '%.2f' % float(v2), '%.2f' % float(v3), '%.2f' % float(v4), '%.2f' % float(v5)
+            v6, v7, v8, v9, v10     = '%.2f' % float(v6), '%.2f' % float(v7), '%.2f' % float(v8), '%.2f' % float(v9), '%.2f' % float(v10)
+            v11, v12, v13, v14, v15 = '%.2f' % float(v11), '%.2f' % float(v12), '%.2f' % float(v13), '%.2f' % float(v14), '%.2f' % float(v15)
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\t' + v5 + '\t' + v6 + '\t' + v7 + '\t' + v8 + \
+                              '\t' + v9 + '\t' + v10 + '\t' + v11 + '\t' + v12 + '\t' + v13 + '\t' + v14 + '\t' + v15 + '\n')
         
     return f
 
@@ -84,26 +93,22 @@ def to_csv(sub, variable):
     
     with open(f, 'w') as csvfile:    
     
-        csvfile.write('*** Measurements ***\n\n')
+        csvfile.write('*** Mediciones ***\n\n')
         if variable == 'temp':
-            header = 'Date\tSeawater temperature (ºC)\n'
+            header = 'Fecha\tTemperatura del mar (ºC)\n'
             time1, varname1 = 'time', 'temp'
             time2, varname2 = 'fc_sst_time', 'fc_sst'
         elif variable == 'salt':
-            header = 'Date\tSeawater salinity\n'
+            header = 'Fecha\tSalinidad\n'
             time1, varname1 = 'time', 'salt'
-            time2, varname2 = 'fc_sss_time', 'fc_sss'
-        elif variable == 'pH':
-            header = 'Date\tSeawater pH\n'
+            time2, varname2 = '', ''
+        elif variable == 'tur':
+            header = 'Fecha\tTurbidez (FNU)\n'
             time1, varname1 = 'time', 'pH'
             time2, varname2 = '', ''
         elif variable == 'O2':
-            header = 'Date\tDissolved Oxygen Saturation (%)\n'
+            header = 'Fecha\tSaturación de Oxígeno en Disolución (%)\n'
             time1, varname1 = 'time', 'O2'
-            time2, varname2 = '', ''
-        elif variable == 'RFU':
-            header = 'Date\tRaw Fluorescence Units\n'
-            time1, varname1 = 'time', 'RFU'
             time2, varname2 = '', ''
 
         # Get variables
@@ -120,7 +125,7 @@ def to_csv(sub, variable):
         
         if varname2: # Forecast available    
             csvfile.write('\n\n')        
-            csvfile.write('*** Forecast ***\n\n')
+            csvfile.write('*** Predicción ***\n\n')
             csvfile.write(header)             
             for t, value in zip(time2, var2):
                 t, value = t[1:-1], '%.2f' % float(value)
@@ -141,19 +146,16 @@ def to_csv_from_request(sub, variable, start, end):
     with open(f, 'w') as csvfile:    
     
         if variable == 'temp':
-            header, varname = 'Date\tSeawater temperature (ºC)\n', 'Temperature'
+            header, varname = 'Fecha\tTemperatura del mar (ºC)\n', 'Temperature'
 
         elif variable == 'salt':
-            header, varname = 'Date\tSeawater salinity\n', 'Salinity'
+            header, varname = 'Fecha\tSalinidad\n', 'Salinity'
 
-        elif variable == 'pH':
-            header, varname = 'Date\tSeawater pH\n', 'pH'
+        elif variable == 'tur':
+            header, varname = 'Fecha\tTurbidez (FNU)\n', 'pH'
 
         elif variable == 'O2':
-            header, varname = 'Date\tDissolved Oxygen Saturation (%)\n', 'Oxygen Saturation'
-
-        elif variable == 'RFU':
-            header, varname = 'Date\tRaw Fluorescence Units\n', 'RFU'
+            header, varname = 'Fecha\tSaturación de Oxígeno en Disolución (%)\n', 'Oxygen Saturation'
 
         var  = sub[varname]
 
@@ -178,7 +180,7 @@ def to_csv_uv_from_request(sub, time, variable, start, end):
         u, v, x, y = sub['ubot'], sub['vbot'], sub['seab-x'], sub['seab-y']
 
     with open(f, 'w') as csvfile:
-        csvfile.write('Date\tSpeed (cm/s)\tDirection (N90E)\tDistance (km)\tDirection (N90E)\n')
+        csvfile.write('Fecha\tVelocidad (cm/s)\tDirección (N90E)\tDistancia (km)\tDirección (N90E)\n')
         for t, uu, vv, xx, yy in zip(time, u, v, x, y):
             speed = ( uu**2 + vv**2 ) ** .5
 
@@ -210,12 +212,17 @@ def to_csv_profile_from_request(time, temp, start, end):
     # Set ouptut file name
     f = f'/data/csv-profile-{ini}-{end}.csv'
     
-    var1, var2, var3, var4, var5, var6, var7, var8 = temp[:,0], temp[:,1], temp[:,2], temp[:,3], temp[:,4], temp[:,5], temp[:,6], temp[:,7]
+    var1, var2, var3, var4, var5 = temp[:,0], temp[:,1], temp[:,2], temp[:,3], temp[:,4]
+    var6, var7, var8, var9, var10 = temp[:,5], temp[:,6], temp[:,7], temp[:,8], temp[:,9]
+    var11, var12, var13, var14, var15 = temp[:,10], temp[:,11], temp[:,12], temp[:,13], temp[:,14]
     
     with open(f, 'w') as csvfile:
-        csvfile.write('Date\tsurface\t3 m\t5 m\t10 m\t15 m\t20 m\t25 m\t30 m\n')
-        for t, v1, v2, v3, v4, v5, v6, v7, v8 in zip(time, var1, var2, var3, var4, var5, var6, var7, var8):
+        csvfile.write('Fecha\t1 m\t3 m\t5 m\t8 m\t11 m\t13 m\t16 m\t19 m\t23 m\t26 m\t30 m\t34 m\t38 m\t42 m\t47 m\n')
+        for t, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15 in zip(time, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, var13, var14, var15):
             t = t.strftime('%Y-%m-%d %H:%M')
-            v1, v2, v3, v4 = '%.2f' % float(v1), '%.2f' % float(v2), '%.2f' % float(v3), '%.2f' % float(v4)
-            v5, v6, v7, v8 = '%.2f' % float(v5), '%.2f' % float(v6), '%.2f' % float(v7), '%.2f' % float(v8)
-            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\t' + v5 + '\t' + v6 + '\t' + v7 + '\t' + v8 + '\n')
+            v1, v2, v3, v4, v5      = '%.2f' % float(v1), '%.2f' % float(v2), '%.2f' % float(v3), '%.2f' % float(v4), '%.2f' % float(v5)
+            v6, v7, v8, v9, v10     = '%.2f' % float(v6), '%.2f' % float(v7), '%.2f' % float(v8), '%.2f' % float(v9), '%.2f' % float(v10)
+            v11, v12, v13, v14, v15 = '%.2f' % float(v11), '%.2f' % float(v12), '%.2f' % float(v13), '%.2f' % float(v14), '%.2f' % float(v15)
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\t' + v5 + '\t' + v6 + '\t' + v7 + '\t' + v8 + \
+                              '\t' + v9 + '\t' + v10 + '\t' + v11 + '\t' + v12 + '\t' + v13 + '\t' + v14 + '\t' + v15 + '\n')
+        

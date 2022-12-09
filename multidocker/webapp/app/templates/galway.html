@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Killeenaran and Galway Bay Warnings & Forecasts</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="../static/js/script.js"></script>
+		
+	</head>
+
+	<body>
+	
+    		
+  		<div class="grid">
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input value="Killeenaran on {{ahora}}" type=text id="time" size='70' />
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input type=text id="time" size='70'
+  				value="Killeenaran 3-day Forecast" />
+  				</div>
+  			</div>
+  		</div>
+    		
+		<div class="grid">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/thermometer.png" class="icon">
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input id="latest-temperature" 
+					       class="value-box-1"
+					       value="Surface" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{latest_temperature_surface}} ºC" />
+				</div>
+			</div>
+			
+			<div class="col-2-12">
+				<div class="content">
+					 <img src="../static/thermometer-max.png" class="icon">
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{minimum_temperature_forecast_surface}} ºC" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{maximum_temperature_forecast_surface}} ºC" />
+				</div>
+			</div>
+		</div>
+
+
+		<div class="grid">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/thermometer.png" class="icon">
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input id="latest-temperature" 
+					       class="value-box-1"
+					       value="Seabed" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{latest_temperature_seabed}} ºC" />
+				</div>
+			</div>
+			
+			<div class="col-2-12">
+				<div class="content">
+					 <img src="../static/thermometer-max.png" class="icon">
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{minimum_temperature_forecast_seabed}} ºC" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{maximum_temperature_forecast_seabed}} ºC" />
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="grid">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/salt.png" class="icon">
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input id="latest-salinity" 
+					       class="value-box-1"
+					       value="Surface" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{latest_salinity_surface}}" />
+				</div>
+			</div>
+			
+			<div class="col-2-12">
+				<div class="content">
+					 <img src="../static/salt.png" class="icon">
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{minimum_salinity_forecast_surface}}" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{maximum_salinity_forecast_surface}}" />
+				</div>
+			</div>
+		</div>
+
+
+		<div class="grid">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/salt.png" class="icon">
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input id="latest-salinity" 
+					       class="value-box-1"
+					       value="Seabed" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{latest_salinity_seabed}}" />
+				</div>
+			</div>
+			
+			<div class="col-2-12">
+				<div class="content">
+					 <img src="../static/salt.png" class="icon">
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{minimum_salinity_forecast_seabed}}" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					 <input id="Marine-Heat-Wave-1" 
+					        class="value-box-1"
+					        value="{{maximum_salinity_forecast_seabed}}" />
+				</div>
+			</div>
+		</div>
+
+		    		
+  			
+  		<script language="javascript" type="text/javascript">
+                    <!-- Time series layout -->
+                    var layout = {
+                       texttemplate: '%{value:.1f}',
+                       title: '',
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickangle: 90,
+                           automargin: true,
+                       },
+                       yaxis: {
+                           title: '',
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickformat: '.1f',
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                       };
+                    
+                </script>
+  		
+  		<div class="grid">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="temp"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sstK|safe }},
+                                        name: 'surface',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var trace2 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sbtK|safe }},
+                                        name: 'seabed',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    var trace3 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sstK_FC|safe }},
+                                        name: 'surface forecast',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var trace4 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sbtK_FC|safe }},
+                                        name: 'seabed forecast',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    layout['title'] = 'Seawater temperature at Killenaran'
+                                    layout.yaxis['title'] = 'ºC'
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('temp');
+                                    Plotly.newPlot( TESTER, [trace1, trace2, trace3, trace4], layout );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+
+
+  		
+  		<div class="grid">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="salt"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sssK|safe }},
+                                        name: 'surface',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var trace2 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sbsK|safe }},
+                                        name: 'seabed',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    var trace3 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sssK_FC|safe }},
+                                        name: 'surface forecast',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var trace4 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sbsK_FC|safe }},
+                                        name: 'seabed forecast',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    layout['title'] = 'Seawater salinity at Killenaran'
+                                    layout.yaxis['title'] = ''
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('salt');
+                                    Plotly.newPlot( TESTER, [trace1, trace2, trace3, trace4], layout );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+
+    	<div class="grid">
+    		<div class="col-1-1">
+    			<div class="content">
+          		    <div id="animation"></div>
+
+                                        <script language="javascript" type="text/javascript">
+     var trace_00 =  {z: {{sss_00}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z', 
+         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
+     var trace_01 =  {z: {{sss_01}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z', 
+         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
+     var trace_02 =  {z: {{sss_02}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z', 
+         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
+     var trace_03 =  {z: {{sss_03}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z', 
+         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
+     var trace_04 =  {z: {{sss_04}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z', 
+         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
+     var trace_05 =  {z: {{sss_05}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z', 
+         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
+
+                                            var site = {
+                                               name: 'buoy',
+                                               x: [-8.9422777777777],
+                                               y: [53.1978333333],
+                                               mode: 'markers',
+                                               hoverinfo: 'none',
+                                               marker: {
+                                                  size: 20,
+                                                  symbol: 'cross-thin',
+                                                  line: { 
+                                                      color: 'rgb(0, 0, 0)',
+                                                      width: 1,
+                                                  },
+                                               },
+                                            };
+
+                                    var titles = [
+   "{{time_00}}", "{{time_01}}", "{{time_02}}", "{{time_03}}", "{{time_04}}", "{{time_05}}"];
+
+
+                                    var layout2 = {
+                                        autosize: false,
+                                        width: 500,
+                                        height: 490, 
+                                        margin: {l: 10, r: 10, b: 10, t: 30, pad: 0},
+                                        showlegend: false,
+                                        title: {
+                                            text: '',
+                                            font: {
+                                                size: 18,
+                                            },
+                                        },
+                                        xaxis: {
+                                            mirror: true,
+                                            showline: true,
+                                            ticks: 'outside',
+                                            tickvals: [],
+                                            automargin: true,
+                                            range: [-9.09, -8.88],
+                                        },
+                                        yaxis: {
+                                            mirror: true,
+                                            showline: true,
+                                            ticks: 'outside',
+                                            tickvals: [],
+                                            range: [53.12, 53.23],
+                                        },
+                                        font: {
+                                            family: 'Sans-Serif',
+                                            size: 18,            
+                                        },
+                                    };
+
+                                    var frameIndex = 0;
+
+
+                                    var data12 = [trace_00, site];
+                                    var data24 = [trace_01, site];
+                                    var data36 = [trace_02, site];
+                                    var data48 = [trace_03, site];
+                                    var data60 = [trace_04, site];
+                                    var data72 = [trace_05, site];
+
+
+
+                                    var frames = [data12, data24, data36, data48, data60, data72];
+
+                                    layout2.title.text = "Surface salinity on ".concat(titles[frameIndex]);
+                                    TESTER = document.getElementById('animation');
+                                    Plotly.newPlot( TESTER, frames[frameIndex], layout2);
+
+                                    function moveBackward() {
+                                            frameIndex -= 1
+                                            frameIndex = Math.max(frameIndex, 0);
+                                            layout2.title.text = "Surface salinity on ".concat(titles[frameIndex]);
+                                            var data_update = frames[frameIndex];
+
+                                            TESTER = document.getElementById('animation');
+                                            Plotly.react( TESTER, data_update, layout2)
+                                    }
+
+                                    function moveForward() {
+                                            frameIndex += 1
+                                            frameIndex = Math.min(frameIndex, frames.length - 1);
+                                            layout2.title.text = "Surface salinity on ".concat(titles[frameIndex]);
+                                            var data_update = frames[frameIndex];
+
+                                            TESTER = document.getElementById('animation');
+                                            Plotly.react( TESTER, data_update, layout2)
+
+                                    }
+                            </script>
+                            <button class="buttonLeft" onclick="javascript:moveBackward();"></button>
+                            <button class="buttonRight" onclick="javascript:moveForward();"></button>
+                        </div>
+	        </div>  
+    	</div>
+
+
+
+
+                                         </script>
+
+    </body>
+
+</html>
