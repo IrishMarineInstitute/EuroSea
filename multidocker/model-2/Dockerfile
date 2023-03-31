@@ -33,7 +33,6 @@ RUN mkdir /log
 # Build data directory tree
 RUN mkdir /data
 RUN mkdir /data/pkl
-RUN mkdir /netcdf
 
 WORKDIR /root
 

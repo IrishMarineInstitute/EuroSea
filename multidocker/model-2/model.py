@@ -52,10 +52,10 @@
 from datetime import datetime, timedelta
 from pytz import timezone
 from output import send_output
+from wind_rose import wind_rose
 import numpy as np
 from netCDF4 import Dataset, num2date
 from motu import motu
-from glob import glob
 from log import set_logger, now
 import os
 
@@ -81,6 +81,54 @@ def read_cmems(f, variable):
     time = [datetime(i.year, i.month, i.day, i.hour) for i in time]
     return time, fc
 
+def prepare_wind_rose(r, D):
+    
+    r, D = np.array(r), np.array(D)
+
+    return np.vstack((r, D)).T
+
+def Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE, 
+    localpath, filename, lon, lat, idate, edate, var, mode,
+    zmin=None, zmax=None):
+    
+    '''
+            This function downloads, as a NetCDF file, the variable from the
+            specified product and service. It uses motu-client
+    '''
+
+    logger.info(f'{now()} Download from {PRODUCT} {SERVICE}')
+    
+    if not os.path.exists(localpath):
+        os.makedirs(localpath)
+
+    for i in range(5): # Try up to 5 times to download from Copernicus Marine Service
+        # Sometime the service is not available. Trying several times increases
+        # the chances that the NetCDF file is downloaded successfully.
+    
+        logger.info(f'{now()} Trial {i} to download local wave forecast')
+        
+        # Submit request to the motu client
+        f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, filename, 
+             lon - 1e-4, lon + 1e-4, lat - 1e-4, lat + 1e-4, idate, edate, var, mode, zmin=zmin, zmax=zmax)
+        
+        if os.path.isfile(f): # File downloaded successfully. Leave loop...
+            logger.info(f'{now()}   Successfully downloaded file {f}'); break
+        else: # Download failed. Retry...
+            logger.info(f'{now()}   Download failed!'); continue
+        
+    if os.path.isfile(f):
+        
+        logger.info(f'{now()} Reading local NetCDF file...') 
+        
+        return read_cmems(f, var)
+                 
+    else: # If, after trying 5 times, file is still unavailable, return NaN
+        
+        logger.info(f'{now()} Unable to download Copernicus Marine Service file!')
+        # Flag with missing values (NaN)
+        return np.nan, np.nan
+
+
 def MODEL(date=datetime.now()):
     
     root = os.path.abspath('.')
@@ -95,10 +143,7 @@ def MODEL(date=datetime.now()):
 
         # Subset for the latest NDAYS as per config file 
         t1 = timezone('UTC').localize(date)
-        NDAYS = int(config['ndays'])
-        t0 = t1 - timedelta(days=NDAYS)
-        tf = t1 + timedelta(days=3) # 3-day forecast
-
+      
         logger.info(f'{now()} Getting CMEMS credentials from config...')
         USER, PSWD = config['USERNAME'], config['PASSWORD']
         logger.info(f'{now()} Username is {USER}, password is {PSWD}')
@@ -110,112 +155,105 @@ def MODEL(date=datetime.now()):
         
         # Dictionary to save forecasts
         FC = {}
-        
-        # CMEMS PHYSICS PRODUCT
-        PRODUCT = config['phy']; logger.info(f'{now()} CMEMS PHYSICS from {PRODUCT}')
-        # Download path
-        localpath = '/netcdf'    
-        
-        ''' Download seawater temperature forecast '''      
-        # CMEMS SERVICE
-        SERVICE = config['sst']
-        # Download NetCDF
-        for i in range(5):
-            logger.info(f'{now()} Trial {i} to download local temperature forecast')
-            f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, 'SST-forecast.nc', 
-                 lon - 1e-4, lon + 1e-4, 
-                 lat - 1e-4, lat + 1e-4, 
-                 t1, tf, 'thetao', 'nrt', zmin=1, zmax=2)
-            if os.path.isfile(f): 
-                logger.info(f'{now()}   Successfully downloaded file {f}'); break
-            else:
-                logger.info(f'{now()}   Download failed!'); continue
-        if os.path.isfile(f):
-            logger.info(f'{now()} Reading local temperature forecast...') 
-            # Read NetCDF and save to forecast dictionary
-            time, fc = read_cmems(f, 'thetao'); FC['sst'] = (time, fc)    
-        else:
-            logger.info(f'{now()} Unable to download temperature forecast!')
-            FC['sst'] = (np.nan, np.nan)
-        
-        ''' Download seawater salinity forecast '''
-        # CMEMS SERVICE
-        SERVICE = config['sss']
-        # Download NetCDF
-        for i in range(5):
-            logger.info(f'{now()} Trial {i} to download local salinity forecast')
-            f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, 'SSS-forecast.nc', 
-                 lon - 1e-4, lon + 1e-4, 
-                 lat - 1e-4, lat + 1e-4, 
-                 t1, tf, 'so', 'nrt', zmin=1, zmax=2)
-            if os.path.isfile(f): 
-                logger.info(f'{now()}   Successfully downloaded file {f}'); break
-            else:
-                logger.info(f'{now()}   Download failed!'); continue
-        if os.path.isfile(f):
-            logger.info(f'{now()} Reading local salinity forecast...') 
-            # Read NetCDF and save to forecast dictionary
-            time, fc = read_cmems(f, 'so'); FC['sss'] = (time, fc)  
-        else:
-            logger.info(f'{now()} Unable to download salinity forecast!')
-            FC['sss'] = (np.nan, np.nan)
+                
+        ''' Download Significant Wave Height forecast '''
+        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
+        PRODUCT, SERVICE = config['wav'], config['waves']
+        # Set local path and file name within container
+        localpath, filename = '/netcdf/waves/Significant-Wave-Height', 'Significant-Wave-Height.nc'
+        # Set variable to download and mode to Near-Real-Time
+        var, mode = 'VHM0', 'nrt'
+        # Download
+        FC['Hs_fc'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
+                localpath, filename, lon, lat, t1, t1 + timedelta(days=5), var, mode)
 
-        ''' Download temperature profile (operational) '''
-        # CMEMS SERVICE
-        SERVICE = config['temp3d']
-        # Download NetCDF
-        for i in range(5):
-            logger.info(f'{now()} Trial {i} to download temperature profile')
-            f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, 'TEMP3D-profile.nc',
-                 lon - 1e-4, lon + 1e-4,
-                 lat - 1e-4, lat + 1e-4,
-                 t0, tf, 'thetao', 'nrt', zmin=0, zmax=47) 
-            if os.path.isfile(f): 
-                logger.info(f'{now()}   Successfully downloaded file {f}'); break
-            else:
-                logger.info(f'{now()}   Download failed!'); continue
-        if os.path.isfile(f):
-            logger.info(f'{now()} Reading temperature profile...') 
-            # Read NetCDF and save to forecast dictionary
-            time, fc = read_cmems(f, 'thetao'); FC['temp3d'] = (time, fc)  
-        else:
-            logger.info(f'{now()} Unable to download temperature profile!')
-            FC['temp3d'] = (np.nan, np.nan)
+        ''' Download Secondary Swell Significant Wave Height forecast '''
+        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
+        PRODUCT, SERVICE = config['wav'], config['waves']
+        # Set local path and file name within container
+        localpath, filename = '/netcdf/waves/Secondary-Swell-Significant-Wave-Height', 'Secondary-Swell-Significant-Wave-Height.nc'
+        # Set variable to download and mode to Near-Real-Time
+        var, mode = 'VHM0_SW2', 'nrt'
+        # Download
+        FC['Hs_sw2_fc'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
+                localpath, filename, lon, lat, t1, t1 + timedelta(days=5), var, mode)
+        
+        ''' Download Wave Direction at Variance Spectral Density Maximum forecast '''
+        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
+        PRODUCT, SERVICE = config['wav'], config['waves']
+        # Set local path and file name within container
+        localpath, filename = '/netcdf/waves/Direction-at-Variance-Spectral-Density-Maximum', 'Direction-at-Variance-Spectral-Density-Maximum.nc'
+        # Set variable to download and mode to Near-Real-Time
+        var, mode = 'VPED', 'nrt'
+        # Download
+        FC['VPED'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
+                localpath, filename, lon, lat, t1, t1 + timedelta(days=1), var, mode)
+        
+        ''' Download Wave Period at Variance Spectral Density Maximum forecast '''
+        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
+        PRODUCT, SERVICE = config['wav'], config['waves']
+        # Set local path and file name within container
+        localpath, filename = '/netcdf/waves/Period-at-Variance-Spectral-Density-Maximum', 'Period-at-Variance-Spectral-Density-Maximum.nc'
+        # Set variable to download and mode to Near-Real-Time
+        var, mode = 'VTPK', 'nrt'
+        # Download
+        FC['VTPK'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
+                localpath, filename, lon, lat, t1, t1 + timedelta(days=1), var, mode)
 
-        send_output(FC)        
+        # Get wind rose for next 24 hours forecasted wave peak period and direction
+        idate, edate, wind_rose_fig = wind_rose(FC['VTPK'][0], prepare_wind_rose(FC['VTPK'][1], FC['VPED'][1]), 'wave')
+        # Fix legend title
+        wind_rose_fig = wind_rose_fig.replace("strength", "period")
+        # Wrap into a dictionary
+        wave_rose_figure = {'idate': idate, 'edate': edate, 'fig': wind_rose_fig}
+        # Wrap direction/period time series into a dictionary (used for CSV export)
+        wave_rose_series = {'time': FC['VTPK'][0],
+                            'period':    FC['VTPK'][1],
+                            'direction': FC['VPED'][1],
+                           }
+      
 
-        ''' Download temperature profile (history) '''
-        # CMEMS SERVICE
-        SERVICE = config['temp3d']
-        # Start date to download temperature profiles
-        datestart = config['datestart']
-        time = datetime.strptime(datestart, '%Y-%m-%d')
-        # Get list of currently available TEMP3d files
-        lista = glob('/data/pkl/TEMP3D-SITE2-*.nc')
-       
-        while time <= date: 
-            filename = f'/data/pkl/TEMP3D-SITE2-{time.strftime("%Y%m%d")}.nc'
-            if not os.path.isfile(filename):
-                logger.info(f'{now()} Downloading profile for {time.strftime("%Y%m%d")}')
-                # Download NetCDF
-                for i in range(5):
-                    logger.info(f'{now()} Trial {i} to download temperature profile')
-                    f = motu(USER, PSWD, PRODUCT, SERVICE, '/data/pkl/', 
-                        f'TEMP3D-SITE2-{time.strftime("%Y%m%d")}.nc',
-                        lon - 1e-4, lon + 1e-4,
-                        lat - 1e-4, lat + 1e-4,
-                        time, time+timedelta(hours=24), 'thetao', 'nrt', zmin=0, zmax=47) 
-                    if os.path.isfile(f): 
-                        logger.info(f'{now()}   Successfully downloaded file {f}'); break
-                    else:
-                        logger.info(f'{now()}   Download failed!'); continue
-            time += timedelta(days=1)
-            
+        # Find shortest wave period and associated direction
+        shortest_period, associated_direction = find_shortest_wave_period_in_forecast(FC['VTPK'][1], FC['VPED'][1])
+        # Add to forecast dictionary
+        FC['shortest_period'] = shortest_period
+        FC['associated_direction'] = associated_direction
+      
+
+        ''' Download Seawater Temperature forecast '''
+        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
+        PRODUCT, SERVICE = config['phy'], config['sst']
+        # Set local path and file name within container
+        localpath, filename = '/netcdf/water-quality/seawater-temperature', 'seawater-temperature.nc'
+        # Set variable to download and mode to Near-Real-Time
+        var, mode = 'thetao', 'nrt'
+        # Download
+        FC['sst'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
+                localpath, filename, lon, lat, t1, t1 + timedelta(days=3), var, mode,
+                zmin=1, zmax=2)
+     
+        send_output(FC, wave_rose_figure, wave_rose_series)        
+
+                  
         return 0, ''
        
     except Exception as err:
         
         return -1, str(err)
+
+def find_shortest_wave_period_in_forecast(period, direction):
+    ''' 
+        This function identifies the shortest wave period
+        and its associated direction, to be displayed in the portal
+    '''
+
+    shortest_period = np.min(period)
+
+    index_of_shortest_period = np.argmin(period)
+
+    associated_direction = direction[index_of_shortest_period]
+
+    return shortest_period, associated_direction
 
 if __name__ == '__main__':
 

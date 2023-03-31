@@ -5,6 +5,8 @@ from glob import glob
 from app import app
 import to_csv_func
 import to_csv_func_2
+import smtplib
+from email.message import EmailMessage
 import os
 import rs
 import util
@@ -23,6 +25,7 @@ def dataload(pkl, dic):
 def galway():
 
     data = dataload('/data/pkl/GALWAY.pkl', {})
+    data = dataload('galway-coastline.pkl', data)
 
     if request.method == 'POST':
 
@@ -52,16 +55,65 @@ def home():
             return redirect(url_for('CISO'))
         elif 'Deenish RSO' in request.form:
             return redirect(url_for('DRSO'))
+        elif 'Campello RSO' in request.form:
+            return redirect(url_for('CRSO'))
         elif 'Deenish ISH' in request.form:
             return redirect(url_for('DISH'))
         elif 'Campello ISH' in request.form:
             return redirect(url_for('CISH'))
         elif 'Deenish RSH' in request.form:
             return redirect(url_for('DRSH'))
+        elif 'HELPDESK' in request.form:
+            return redirect(url_for('helpdesk'))
         else:
             return render_template('notexist.html')
     else:
         return render_template('home.html')
+
+@app.route('/helpdesk', methods=['GET', 'POST'])
+def helpdesk():
+    if request.method == 'POST':
+
+       if 'submit' in request.form:
+
+           # Get sender's email and message
+           email, message = request.form['email'], request.form['query']
+
+           # Send email to service desk
+           send_email_gmail(email, message, ['eurosea.helpdesk@gmail.com'] )
+
+           return render_template('helpdesk.html', sent='true') 
+
+    else:
+        return render_template('helpdesk.html', sent='false') 
+
+@app.route('/Deenish', methods=['GET', 'POST'])
+def Deenish():
+    if request.method == 'POST':
+        if 'Deenish ISO' in request.form:
+            return redirect(url_for('DISO'))
+        elif 'Deenish RSO' in request.form:
+            return redirect(url_for('DRSO'))
+        elif 'Deenish ISH' in request.form:
+            return redirect(url_for('DISH'))
+        elif 'Deenish RSH' in request.form:
+            return redirect(url_for('DRSH'))
+        else:
+            return render_template('notexist.html')
+    else:
+        return render_template('Deenish.html')
+        
+@app.route('/Campello', methods=['GET', 'POST'])
+def Campello():
+    if request.method == 'POST':
+        if 'Campello ISO' in request.form:
+            return redirect(url_for('CISO'))
+        elif 'Campello ISH' in request.form:
+            return redirect(url_for('CISH'))
+        else:
+            return render_template('notexist.html')
+    else:
+        return render_template('Campello.html')
 
 @app.route('/Deenish-in-situ', methods=['GET', 'POST'])
 def DISO():
@@ -120,19 +172,22 @@ def CISO():
             os.remove(file)
         if 'temp' in request.form:
             f = to_csv_func_2.to_csv(data, 'temp')
-        elif 'profile' in request.form:
-            f = to_csv_func_2.to_csv_profile(data) 
-        elif 'salt' in request.form:
-            f = to_csv_func_2.to_csv(data, 'salt')
         elif 'tur' in request.form:
             f = to_csv_func_2.to_csv(data, 'tur')
         elif 'O2' in request.form:
             f = to_csv_func_2.to_csv(data, 'O2')
-        elif 'uv-surf' in request.form or 'uv-mid' in request.form or 'uv-seab' in request.form:
-            f = to_csv_func_2.to_csv_uv(data, request.form)
+        elif 'SWH' in request.form:
+            f = to_csv_func_2.to_csv_swh(data, 'en')
+        elif 'wave-period-direction-series' in request.form:
+            f = to_csv_func_2.to_csv_wave_rose(data, 'en')
+        elif 'current-speed-direction-series' in request.form:
+            f = to_csv_func_2.to_csv_currents_rose(data, 'en')
+        elif 'current-profile' in request.form:
+            f = to_csv_func_2.to_csv_current_profile(data, 'en')
         return send_file(f, as_attachment=True)
 
     else:
+        #return render_template('CISO.html', **data, waves=zip(safe0, safe1)) 
         return render_template('CISO.html', **data) 
 
 @app.route('/Deenish-rs')
@@ -143,6 +198,14 @@ def DRSO():
     data = dataload('/data/pkl/LPTM.pkl', data)
 
     return render_template('DRSO.html', **data) 
+
+@app.route('/Campello-rs')
+def CRSO():
+    # Load remote sensing
+    data = dataload('/data/pkl/RS-2.pkl', {})
+
+    return render_template('CRSO.html', **data)
+    
     
 @app.route('/Deenish-rs-historical', methods=['GET', 'POST'])
 def DRSH():
@@ -321,3 +384,25 @@ def get_dates(form):
 
     return start, end, uv
 
+def send_email_gmail(subject, message, destination):
+    ''' This function sends an email to the HelpDesk Service. '''
+       
+
+    server = smtplib.SMTP('smtp.gmail.com', 587); server.starttls()
+
+    server.login('eurosea.helpdesk@gmail.com', 'vsyjmeqsxkcxzhxe')
+
+    msg = EmailMessage()
+
+    message = f'{message}\n'
+    msg.set_content(message)
+    msg['Subject'] = subject
+    msg['From'] = 'eurosea.helpdesk@gmail.com'
+    msg['To'] = destination
+    server.send_message(msg)
+
+def submit_query_to_helpdesk(form):
+    ''' Collect feedback from users '''
+
+
+    return

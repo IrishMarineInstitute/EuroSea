@@ -2,8 +2,8 @@
 
 # Copyright notice
 #   --------------------------------------------------------------------
-#   Copyright (C) 2022 Marine Institute
-#       Diego Pereiro Rodriguez
+#   Copyright (C) 2022 Marine Institute, ICMAN-CSIC
+#       Diego Pereiro Rodriguez, Oleg Belyaev Korolev
 #
 #       diego.pereiro@marine.ie
 #
@@ -33,12 +33,12 @@ RUN mkdir /log
 # Build data directory tree
 RUN mkdir /data
 RUN mkdir /data/pkl
-RUN mkdir /xml
+RUN mkdir -p /netcdf/waves/HISTORY
 
-# Copy buoy .xml files to xml folder
-COPY [ "xml.tar" , "/xml/" ]
-WORKDIR /xml
-RUN tar -xf /xml/xml.tar
+# Copy waves .nc files to HISTORY folder
+COPY [ "waves.tar" , "/netcdf/waves/HISTORY/" ]
+WORKDIR /netcdf/waves/HISTORY
+RUN tar -xf /netcdf/waves/HISTORY/waves.tar
 
 WORKDIR /root
 
@@ -46,16 +46,16 @@ WORKDIR /root
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# Copy required files 
+COPY [ "*.nc" , "/root/" ]
+COPY [ "*.pkl" , "/root/" ]
+COPY [ "*.py" , "/root/" ]
+COPY config .
+
 # Set cron
 COPY crontab /etc/cron.d/crontab
 RUN chmod 0644 /etc/cron.d/crontab
 RUN /usr/bin/crontab /etc/cron.d/crontab
-
-# Copy required files 
-COPY [ "*.py" , "/root/" ]
-COPY [ "*.pkl" , "/root/" ]
-COPY known_hosts .
-COPY config .
 
 RUN echo $PYTHONPATH
 

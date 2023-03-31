@@ -12,8 +12,8 @@ lon -10.2122
 lat 51.7431   
 !
 ! CMEMS username and password
-USERNAME ********                     
-PASSWORD ********                     
+USERNAME ********                   
+PASSWORD ********                   
 !
 ! Copernicus PHYSICS service
 phy NORTHWESTSHELF_ANALYSIS_FORECAST_PHY_004_013-TDS

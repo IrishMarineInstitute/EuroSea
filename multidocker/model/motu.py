@@ -83,7 +83,7 @@ def motu(USER, PSWD , SERVICE, PRODUCT, OUTPUT_DIRECTORY, OUTPUT_FILENAME,
    
     data_request = motu_option_parser(script_template, 
         USER, PSWD, OUTPUT_DIRECTORY, OUTPUT_FILENAME)  
-    logger.info('f{now()} Loading motuclient request {data_request}')
+    logger.info(f'{now()} Loading motuclient request {data_request}')
     motuclient.motu_api.execute_request(MotuOptions(data_request))    
     
     return OUTPUT_DIRECTORY + '/' + OUTPUT_FILENAME

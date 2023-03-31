@@ -1,1 +1,2 @@
-20 16 * * * /usr/local/bin/python /root/model.py 
+37 * * * * /usr/local/bin/python /root/model.py 
+

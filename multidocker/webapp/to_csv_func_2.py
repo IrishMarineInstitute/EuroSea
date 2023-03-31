@@ -1,5 +1,176 @@
 from datetime import datetime
+import numpy as np
 from math import atan2, pi
+from json import loads
+
+def to_csv_current_profile(data, language):
+    ''' Write current profile to CSV file '''
+
+    f = '/data/csv-profile-' + datetime.now().strftime('%Y%m%d%H%M%S') + '.csv'
+
+    # Get DCPS depths [m]
+    z = loads(data['DCPS'])
+
+    # Set header
+    if language == 'en':
+        header = 'Date\t'
+    elif language == 'es':
+        header = 'Fecha\t'
+
+    for i in z:
+        header += f'{i} m\t'
+
+    header += '(cm/s)\n'
+
+    time, V = loads(data['DCP_time']), np.array(loads(data['DCP_speed'])).T
+
+    with open(f, 'w') as csvfile:
+
+        csvfile.write(header)
+
+        for t, v in zip(time, V):
+
+            line = t + '\t'
+
+            for k in v:
+
+                line += '%.1f' %  float(k) + '\t'
+
+
+            line += '\n'
+
+            csvfile.write(line)
+
+    return f  
+
+
+def to_csv_currents_rose(data, language):
+    ''' Write Current Speed and Direction series to CSV file '''
+
+    f = '/data/csv-currents-rose-' + datetime.now().strftime('%Y%m%d%H%M%S') + '.csv'
+ 
+    # Set header
+    if language == 'en':
+        header = 'Date\tSurface Speed (cm/s)\tSurface Direction (º)\tSeabed Speed (cm/s)\tSeabed Direction (º)\n'
+    elif language == 'es':
+        header = 'Fecha\tVelocidad superficie (cm/s)\Dirección superficie (º)\tVelocidad fondo (cm/s)\tDirección fondo (º)\n'
+
+    time = loads(data['DCP_rose_time_surface'])
+
+    surface_speed, surface_direction = loads(data['DCP_rose_speed_surface']), loads(data['DCP_rose_direction_surface'])
+
+    seabed_speed,  seabed_direction =  loads(data['DCP_rose_speed_seabed']),  loads(data['DCP_rose_direction_seabed'])
+
+
+    with open(f, 'w') as csvfile:
+
+        csvfile.write(header)
+
+        for t, a, b, c, d in zip(time, surface_speed, surface_direction, seabed_speed, seabed_direction):
+
+            t, v1, v2, v3, v4     =  t, '%.1f' % float(a), '%.1f' % float(b), '%.1f' % float(c), '%.1f' % float(d)
+
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\n')
+
+    return f  
+
+
+def to_csv_wave_rose(data, language):
+    ''' Write Wave Period and Direction series to CSV file '''
+
+    f = '/data/csv-wave-rose-' + datetime.now().strftime('%Y%m%d%H%M%S') + '.csv'
+ 
+    # Set header
+    if language == 'en':
+        observations = '*** Observed ***\n\n'
+        forecast = '\n*** Forecast ***\n\n'
+        header = 'Date\tWave Peak Direction (º)\tWave Peak Period (s)\n'
+    elif language == 'es':
+        observations = '*** Mediciones ***\n\n'
+        forecast = '\n*** Predicción ***\n\n'
+        header = 'Fecha\tDirección Pico del Oleaje (º)\tPeriodo Pico del Oleaje (s)\n' 
+
+    time, direction, period = data['wave_rose_time'], data['wave_rose_direction'], data['wave_rose_period']
+
+    fc_time, fc_direction, fc_period = data['fc_wave_rose_time'], data['fc_wave_rose_direction'], data['fc_wave_rose_period']
+
+    # Recover actual (numerical) data from jsonized string objects.
+    time, direction, period = loads(time), loads(direction), loads(period)
+
+    fc_time, fc_direction, fc_period = loads(fc_time), loads(fc_direction), loads(fc_period)
+
+    with open(f, 'w') as csvfile:
+
+        csvfile.write(observations)
+
+        csvfile.write(header)
+
+        for t, D, T in zip(time, direction, period):
+
+            t, v1, v2     =  t, '%.1f' % float(D), '%.1f' % float(T)
+
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+
+        csvfile.write(forecast)
+
+        csvfile.write(header)
+
+        for t, D, T in zip(fc_time, fc_direction, fc_period):
+
+            t, v1, v2     =  t, '%.1f' % float(D), '%.1f' % float(T)
+
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+
+    return f
+
+
+def to_csv_swh(data, language):
+    ''' Write Significant Wave Height series to CSV file '''
+
+    f = '/data/csv-swh-' + datetime.now().strftime('%Y%m%d%H%M%S') + '.csv'
+ 
+    # Set header
+    if language == 'en':
+        observations = '*** Observed ***\n\n'
+        forecast = '\n*** Forecast ***\n\n'
+        header = 'Date\tSignificant Wave Height (m)\tWave Height Swell (m)\n'
+    elif language == 'es':
+        observations = '*** Mediciones ***\n\n'
+        forecast = '\n*** Predicción ***\n\n'
+        header = 'Fecha\tAltura de Ola Significante (m)\tAltura de Mar de Fondo (m)\n' 
+
+    time, SWH, SW = data['time'], data['Significant_Wave_Height_Hm0'], data['Wave_Height_Swell_Hm0']
+
+    fc_time, fc_SWH, fc_SW = data['fc_wav_time'], data['fc_wav'], data['fc_wav_sw2']
+
+    # Recover actual (numerical) data from jsonized string objects.
+    time, SWH, SW = loads(time), loads(SWH), loads(SW)
+
+    fc_time, fc_SWH, fc_SW = loads(fc_time), loads(fc_SWH), loads(fc_SW)
+
+    with open(f, 'w') as csvfile:
+
+        csvfile.write(observations)
+
+        csvfile.write(header)
+
+        for t, swh, sw in zip(time, SWH, SW):
+
+            t, v1, v2     =  t, '%.1f' % float(swh), '%.1f' % float(sw)
+
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+
+        csvfile.write(forecast)
+
+        csvfile.write(header)
+
+        for t, swh, sw in zip(fc_time, fc_SWH, fc_SW):
+
+            t, v1, v2     =  t, '%.1f' % float(swh), '%.1f' % float(sw)
+
+            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+
+    return f
 
 def to_csv_uv(data, form):
     ''' Write vectorial data into CSV file for download '''

@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Western Mediterranean</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="../static/js/script.js"></script>
+
+    <style type="text/css">
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .landscape {
+            height: 75px;
+            width: 200px;
+        }
+
+           h2 {
+               display: flex;
+               width: 100%;
+               justify-content: center;
+               align-items: center;
+               text-align: center;
+           }
+
+           h2:before,
+           h2:after {
+               content: '';
+               border-top: 2px solid;
+               margin: 0 20px 0 0;
+               flex: 1 0 20px;
+           }
+
+           h2:after {
+               margin: 0 0 0 20px;
+           }
+
+           h2 {
+               margin: 30px 0;
+               font: 700 2em/1.4 'Avenir', sans-serif;
+           }
+
+    </style>
+
+	</head>
+
+	<body>
+	
+    	<div class="grid">
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" > </a> </p> </div> </div> </div>			
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.jpg" > </a> </p> </div> </div> </div>			
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" > </a> </p> </div> </div> </div>		
+    		<div class="col-1-8">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://www.xylem.com"> <img src="../static/xylem-logo.png" > </a> </p> </div> </div> </div>		
+    		<div class="col-1-9">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://avramar.eu"> <img src="../static/AVRAMAR-logo.png" > </a> </p> </div> </div> </div>			
+    	</div>
+	
+		<div class="grid">
+ 			<div class="col-10-12">
+ 				<div class="content">
+     				<p id="funding">
+           This project has received funding from the European Union's
+           Horizon 2020 research and innovation programme under grant
+           agreement No. 862626
+                     </p>
+ 				</div>
+ 			</div>
+ 			<div class="col-2-12">
+ 				<div class="content">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right">HOME</a>
+ 				</div>
+ 			</div>
+          	</div>
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p align="justify"> 
+           The + cross in the maps below indicates the location of the El Campello farm.
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+
+        <script language="javascript" type="text/javascript">
+
+     var trace_000 =  {z: {{wave_000}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_001 =  {z: {{wave_001}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_002 =  {z: {{wave_002}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_003 =  {z: {{wave_003}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_004 =  {z: {{wave_004}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_005 =  {z: {{wave_005}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_006 =  {z: {{wave_006}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_007 =  {z: {{wave_007}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_008 =  {z: {{wave_008}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_009 =  {z: {{wave_009}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_010 =  {z: {{wave_010}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_011 =  {z: {{wave_011}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_012 =  {z: {{wave_012}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_013 =  {z: {{wave_013}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_014 =  {z: {{wave_014}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_015 =  {z: {{wave_015}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_016 =  {z: {{wave_016}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_017 =  {z: {{wave_017}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_018 =  {z: {{wave_018}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_019 =  {z: {{wave_019}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_020 =  {z: {{wave_020}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_021 =  {z: {{wave_021}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_022 =  {z: {{wave_022}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_023 =  {z: {{wave_023}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_024 =  {z: {{wave_024}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_025 =  {z: {{wave_025}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_026 =  {z: {{wave_026}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_027 =  {z: {{wave_027}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_028 =  {z: {{wave_028}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_029 =  {z: {{wave_029}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_030 =  {z: {{wave_030}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_031 =  {z: {{wave_031}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_032 =  {z: {{wave_032}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_033 =  {z: {{wave_033}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_034 =  {z: {{wave_034}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_035 =  {z: {{wave_035}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_036 =  {z: {{wave_036}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_037 =  {z: {{wave_037}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_038 =  {z: {{wave_038}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_039 =  {z: {{wave_039}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_040 =  {z: {{wave_040}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_041 =  {z: {{wave_041}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_042 =  {z: {{wave_042}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_043 =  {z: {{wave_043}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_044 =  {z: {{wave_044}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_045 =  {z: {{wave_045}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_046 =  {z: {{wave_046}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_047 =  {z: {{wave_047}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_048 =  {z: {{wave_048}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_049 =  {z: {{wave_049}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_050 =  {z: {{wave_050}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_051 =  {z: {{wave_051}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_052 =  {z: {{wave_052}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_053 =  {z: {{wave_053}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_054 =  {z: {{wave_054}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_055 =  {z: {{wave_055}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_056 =  {z: {{wave_056}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_057 =  {z: {{wave_057}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_058 =  {z: {{wave_058}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_059 =  {z: {{wave_059}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_060 =  {z: {{wave_060}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_061 =  {z: {{wave_061}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_062 =  {z: {{wave_062}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_063 =  {z: {{wave_063}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_064 =  {z: {{wave_064}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_065 =  {z: {{wave_065}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_066 =  {z: {{wave_066}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_067 =  {z: {{wave_067}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_068 =  {z: {{wave_068}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_069 =  {z: {{wave_069}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_070 =  {z: {{wave_070}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_071 =  {z: {{wave_071}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_072 =  {z: {{wave_072}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_073 =  {z: {{wave_073}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_074 =  {z: {{wave_074}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_075 =  {z: {{wave_075}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_076 =  {z: {{wave_076}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_077 =  {z: {{wave_077}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_078 =  {z: {{wave_078}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_079 =  {z: {{wave_079}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_080 =  {z: {{wave_080}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_081 =  {z: {{wave_081}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_082 =  {z: {{wave_082}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_083 =  {z: {{wave_083}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_084 =  {z: {{wave_084}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_085 =  {z: {{wave_085}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_086 =  {z: {{wave_086}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_087 =  {z: {{wave_087}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_088 =  {z: {{wave_088}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_089 =  {z: {{wave_089}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_090 =  {z: {{wave_090}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_091 =  {z: {{wave_091}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_092 =  {z: {{wave_092}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_093 =  {z: {{wave_093}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_094 =  {z: {{wave_094}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_095 =  {z: {{wave_095}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_096 =  {z: {{wave_096}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_097 =  {z: {{wave_097}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_098 =  {z: {{wave_098}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_099 =  {z: {{wave_099}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_100 =  {z: {{wave_100}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_101 =  {z: {{wave_101}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_102 =  {z: {{wave_102}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_103 =  {z: {{wave_103}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_104 =  {z: {{wave_104}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_105 =  {z: {{wave_105}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_106 =  {z: {{wave_106}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_107 =  {z: {{wave_107}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_108 =  {z: {{wave_108}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_109 =  {z: {{wave_109}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_110 =  {z: {{wave_110}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_111 =  {z: {{wave_111}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_112 =  {z: {{wave_112}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_113 =  {z: {{wave_113}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_114 =  {z: {{wave_114}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_115 =  {z: {{wave_115}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_116 =  {z: {{wave_116}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_117 =  {z: {{wave_117}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_118 =  {z: {{wave_118}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_119 =  {z: {{wave_119}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+     var trace_120 =  {z: {{wave_120}}, x: {{longitude}}, y: {{latitude}}, type: 'contour', hoverinfo: 'z',
+         colorscale: 'Portland', colorbar: {title: 'm'}, contours: {start: 0, end: 2, size: 0.05}};
+
+                                            var coast = {
+                                               name: 'coast',
+                                               x: {{lon_coast}},
+                                               y: {{lat_coast}},
+                                               type: 'scatter',
+                                               hovermode: false,
+                                               hoverinfo: 'none',
+                                               line: {
+                                                   color: 'rgb(0, 0, 0)',
+                                                   width: 4,
+                                               },
+                                            };
+                                            
+                                            var site = {
+                                               name: 'buoy',
+                                               x: [{{lon}}],
+                                               y: [{{lat}}],
+                                               mode: 'markers',
+                                               hoverinfo: 'none',
+                                               marker: {
+                                                  size: 20,
+                                                  symbol: 'cross-thin',
+                                                  line: { 
+                                                      color: 'rgb(0, 0, 0)',
+                                                      width: 1,
+                                                  },
+                                               },
+                                            };
+
+
+                    <!-- Contour maps layout -->
+                   let layout = {
+                       autosize: false,
+                       width: 381,
+                       height: 561, 
+                       showlegend: false,
+                       title: {
+                           text: '',
+                           font: {
+                               size: 16,
+                           },
+                       },
+                       xaxis: {
+                           zeroline: false,
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [0, 1],
+                           ticktext: ['0º', '1ºE'],
+                           automargin: true,
+                           range: [-0.91, 1.41],
+                       },
+                       yaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [38, 39, 40, 41],
+                           ticktext: ['38ºN', '39ºN', '40ºN', '41ºN'],
+                           range: [37.59, 41.01],
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 16,            
+                       },
+                   };
+
+
+                                    var titles = [
+"{{time_000}}","{{time_001}}","{{time_002}}","{{time_003}}","{{time_004}}","{{time_005}}",
+"{{time_006}}","{{time_007}}","{{time_008}}","{{time_009}}","{{time_010}}","{{time_011}}",
+"{{time_012}}","{{time_013}}","{{time_014}}","{{time_015}}","{{time_016}}","{{time_017}}",
+"{{time_018}}","{{time_019}}","{{time_020}}","{{time_021}}","{{time_022}}","{{time_023}}",
+"{{time_024}}","{{time_025}}","{{time_026}}","{{time_027}}","{{time_028}}","{{time_029}}",
+"{{time_030}}","{{time_031}}","{{time_032}}","{{time_033}}","{{time_034}}","{{time_035}}",
+"{{time_036}}","{{time_037}}","{{time_038}}","{{time_039}}","{{time_040}}","{{time_041}}",
+"{{time_042}}","{{time_043}}","{{time_044}}","{{time_045}}","{{time_046}}","{{time_047}}",
+"{{time_048}}","{{time_049}}","{{time_050}}","{{time_051}}","{{time_052}}","{{time_053}}",
+"{{time_054}}","{{time_055}}","{{time_056}}","{{time_057}}","{{time_058}}","{{time_059}}",
+"{{time_060}}","{{time_061}}","{{time_062}}","{{time_063}}","{{time_064}}","{{time_065}}",
+"{{time_066}}","{{time_067}}","{{time_068}}","{{time_069}}","{{time_070}}","{{time_071}}",
+"{{time_072}}","{{time_073}}","{{time_074}}","{{time_075}}","{{time_076}}","{{time_077}}",
+"{{time_078}}","{{time_079}}","{{time_080}}","{{time_081}}","{{time_082}}","{{time_083}}",
+"{{time_084}}","{{time_085}}","{{time_086}}","{{time_087}}","{{time_088}}","{{time_089}}",
+"{{time_090}}","{{time_091}}","{{time_092}}","{{time_093}}","{{time_094}}","{{time_095}}",
+"{{time_096}}","{{time_097}}","{{time_098}}","{{time_099}}","{{time_100}}","{{time_101}}",
+"{{time_102}}","{{time_103}}","{{time_104}}","{{time_105}}","{{time_106}}","{{time_107}}",
+"{{time_108}}","{{time_109}}","{{time_110}}","{{time_111}}","{{time_112}}","{{time_113}}",
+"{{time_114}}","{{time_115}}","{{time_116}}","{{time_117}}","{{time_118}}","{{time_119}}", "{{time_120}}"];
+
+
+                                    var frameIndex = 0;
+
+var data000 = [trace_000, coast, site];
+var data001 = [trace_001, coast, site];
+var data002 = [trace_002, coast, site];
+var data003 = [trace_003, coast, site];
+var data004 = [trace_004, coast, site];
+var data005 = [trace_005, coast, site];
+var data006 = [trace_006, coast, site];
+var data007 = [trace_007, coast, site];
+var data008 = [trace_008, coast, site];
+var data009 = [trace_009, coast, site];
+var data010 = [trace_010, coast, site];
+var data011 = [trace_011, coast, site];
+var data012 = [trace_012, coast, site];
+var data013 = [trace_013, coast, site];
+var data014 = [trace_014, coast, site];
+var data015 = [trace_015, coast, site];
+var data016 = [trace_016, coast, site];
+var data017 = [trace_017, coast, site];
+var data018 = [trace_018, coast, site];
+var data019 = [trace_019, coast, site];
+var data020 = [trace_020, coast, site];
+var data021 = [trace_021, coast, site];
+var data022 = [trace_022, coast, site];
+var data023 = [trace_023, coast, site];
+var data024 = [trace_024, coast, site];
+var data025 = [trace_025, coast, site];
+var data026 = [trace_026, coast, site];
+var data027 = [trace_027, coast, site];
+var data028 = [trace_028, coast, site];
+var data029 = [trace_029, coast, site];
+var data030 = [trace_030, coast, site];
+var data031 = [trace_031, coast, site];
+var data032 = [trace_032, coast, site];
+var data033 = [trace_033, coast, site];
+var data034 = [trace_034, coast, site];
+var data035 = [trace_035, coast, site];
+var data036 = [trace_036, coast, site];
+var data037 = [trace_037, coast, site];
+var data038 = [trace_038, coast, site];
+var data039 = [trace_039, coast, site];
+var data040 = [trace_040, coast, site];
+var data041 = [trace_041, coast, site];
+var data042 = [trace_042, coast, site];
+var data043 = [trace_043, coast, site];
+var data044 = [trace_044, coast, site];
+var data045 = [trace_045, coast, site];
+var data046 = [trace_046, coast, site];
+var data047 = [trace_047, coast, site];
+var data048 = [trace_048, coast, site];
+var data049 = [trace_049, coast, site];
+var data050 = [trace_050, coast, site];
+var data051 = [trace_051, coast, site];
+var data052 = [trace_052, coast, site];
+var data053 = [trace_053, coast, site];
+var data054 = [trace_054, coast, site];
+var data055 = [trace_055, coast, site];
+var data056 = [trace_056, coast, site];
+var data057 = [trace_057, coast, site];
+var data058 = [trace_058, coast, site];
+var data059 = [trace_059, coast, site];
+var data060 = [trace_060, coast, site];
+var data061 = [trace_061, coast, site];
+var data062 = [trace_062, coast, site];
+var data063 = [trace_063, coast, site];
+var data064 = [trace_064, coast, site];
+var data065 = [trace_065, coast, site];
+var data066 = [trace_066, coast, site];
+var data067 = [trace_067, coast, site];
+var data068 = [trace_068, coast, site];
+var data069 = [trace_069, coast, site];
+var data070 = [trace_070, coast, site];
+var data071 = [trace_071, coast, site];
+var data072 = [trace_072, coast, site];
+var data073 = [trace_073, coast, site];
+var data074 = [trace_074, coast, site];
+var data075 = [trace_075, coast, site];
+var data076 = [trace_076, coast, site];
+var data077 = [trace_077, coast, site];
+var data078 = [trace_078, coast, site];
+var data079 = [trace_079, coast, site];
+var data080 = [trace_080, coast, site];
+var data081 = [trace_081, coast, site];
+var data082 = [trace_082, coast, site];
+var data083 = [trace_083, coast, site];
+var data084 = [trace_084, coast, site];
+var data085 = [trace_085, coast, site];
+var data086 = [trace_086, coast, site];
+var data087 = [trace_087, coast, site];
+var data088 = [trace_088, coast, site];
+var data089 = [trace_089, coast, site];
+var data090 = [trace_090, coast, site];
+var data091 = [trace_091, coast, site];
+var data092 = [trace_092, coast, site];
+var data093 = [trace_093, coast, site];
+var data094 = [trace_094, coast, site];
+var data095 = [trace_095, coast, site];
+var data096 = [trace_096, coast, site];
+var data097 = [trace_097, coast, site];
+var data098 = [trace_098, coast, site];
+var data099 = [trace_099, coast, site];
+var data100 = [trace_100, coast, site];
+var data101 = [trace_101, coast, site];
+var data102 = [trace_102, coast, site];
+var data103 = [trace_103, coast, site];
+var data104 = [trace_104, coast, site];
+var data105 = [trace_105, coast, site];
+var data106 = [trace_106, coast, site];
+var data107 = [trace_107, coast, site];
+var data108 = [trace_108, coast, site];
+var data109 = [trace_109, coast, site];
+var data110 = [trace_110, coast, site];
+var data111 = [trace_111, coast, site];
+var data112 = [trace_112, coast, site];
+var data113 = [trace_113, coast, site];
+var data114 = [trace_114, coast, site];
+var data115 = [trace_115, coast, site];
+var data116 = [trace_116, coast, site];
+var data117 = [trace_117, coast, site];
+var data118 = [trace_118, coast, site];
+var data119 = [trace_119, coast, site];
+var data120 = [trace_120, coast, site];
+
+
+var frames = [data000,data001,data002,data003,data004,data005,
+data006,data007,data008,data009,data010,data011,
+data012,data013,data014,data015,data016,data017,
+data018,data019,data020,data021,data022,data023,
+data024,data025,data026,data027,data028,data029,
+data030,data031,data032,data033,data034,data035,
+data036,data037,data038,data039,data040,data041,
+data042,data043,data044,data045,data046,data047,
+data048,data049,data050,data051,data052,data053,
+data054,data055,data056,data057,data058,data059,
+data060,data061,data062,data063,data064,data065,
+data066,data067,data068,data069,data070,data071,
+data072,data073,data074,data075,data076,data077,
+data078,data079,data080,data081,data082,data083,
+data084,data085,data086,data087,data088,data089,
+data090,data091,data092,data093,data094,data095,
+data096,data097,data098,data099,data100,data101,
+data102,data103,data104,data105,data106,data107,
+data108,data109,data110,data111,data112,data113,
+data114,data115,data116,data117,data118,data119, data120];
+</script>
+
+                <div class="grid"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Waves Header"> Waves </h2>
+                        </div>
+                    </div>
+                </div>
+
+    	<div class="grid">
+                
+    		<div class="col-1-4">
+                <div class="content"> </div> </div>
+
+    		<div class="col-1-2">
+    			<div class="content">
+          		    <div id="animation"></div>
+
+                               <script language="javascript" type="text/javascript">
+    		
+                                    layout.title.text = "Significant Wave Height (m) on ".concat(titles[frameIndex]);
+                                    TESTER = document.getElementById('animation');
+                                    Plotly.newPlot( TESTER, [trace_000, coast, site], layout);
+
+                               </script>
+                        </div>
+                </div>
+
+
+    		<div class="col-1-4">
+                <div class="content">
+
+
+                 </div> </div>
+
+        </div>
+
+
+
+                               <script language="javascript" type="text/javascript">
+
+                                    function moveBackward() {
+                                            frameIndex -= 1
+                                            frameIndex = Math.max(frameIndex, 0);
+                                            layout.title.text = "Significant Wave Height (m) on ".concat(titles[frameIndex]);
+                                            var data_update = frames[frameIndex];
+
+                                            TESTER = document.getElementById('animation');
+                                            Plotly.react( TESTER, data_update, layout)
+                                    }
+
+                                    function moveForward() {
+                                            frameIndex += 1
+                                            frameIndex = Math.min(frameIndex, frames.length - 1);
+                                            layout.title.text = "Significant Wave Height (m) on ".concat(titles[frameIndex]);
+                                            var data_update = frames[frameIndex];
+
+                                            TESTER = document.getElementById('animation');
+                                            Plotly.react( TESTER, data_update, layout)
+
+                                    }
+                              </script>
+
+    	<div class="grid">
+    		<div class="col-1-5">
+                <div class="content"> </div> </div>
+    		<div class="col-1-6">
+    			<div class="content">
+                            <button class="buttonLeft" onclick="javascript:moveBackward();"></button>                       
+                        </div>
+                </div>
+
+    		<div class="col-1-6">
+    			<div class="content">
+                            <button class="buttonRight" onclick="javascript:moveForward();"></button> 
+                        </div>
+                </div>
+    		<div class="col-1-4">
+                <div class="content"> </div> </div>
+        </div>
+
+                <div class="grid"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Sea Surface Temperature"> Sea Surface Temperature </h2>
+                        </div>
+                    </div>
+                </div>
+
+         	<div class="grid">
+  		       <div class="col-1-3 mobile-col-1-3">
+  				<div class="content">
+          		            <div id="SST"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             name: 'SST',
+                                                             z: {{SST}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: {{sst_colorange_min}},
+                                                                 end: {{sst_colorange_max}},
+                                                                 size: 0.5,
+                                                             },
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Sea Surface Temperature on {{time_sst}}'
+                                            TESTER = document.getElementById('SST');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  			<div class="col-1-3 mobile-col-1-3">
+  				<div class="content">
+          		            <div id="ANOM"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{ANOM}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'contour',
+                                                             hoverinfo: 'z',
+                                                             contours: {
+                                                                 start: -3,
+                                                                 end: 3,
+                                                                 size: 0.5,
+                                                             },
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Sea Surface Temperature Anomaly on {{time_sst}}'
+                                            TESTER = document.getElementById('ANOM');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  			<div class="col-1-3 mobile-col-1-3">
+  				<div class="content">
+          		            <div id="MHW"></div>
+                                        <script language="javascript" type="text/javascript">
+                                            var data =  {
+                                                             z: {{MHW}},
+                                                             x: {{lon_sst}},
+                                                             y: {{lat_sst}},
+                                                             type: 'heatmap',
+                                                             zauto: false,
+                                                             zmin: 0,
+                                                             zmax: 3,
+                                                             hoverinfo: 'z',
+                                                             colorscale: 'YlOrRd',
+                                                             reversescale: true,
+                                                             colorbar: {
+                                                                 title: 'ºC',
+                                                                 tickformat: '.1f',
+                                                             },
+                                            };  
+                                            layout.title.text = 'Marine Heat Wave Intensity on {{time_sst}}'
+                                            TESTER = document.getElementById('MHW');
+                                            Plotly.newPlot( TESTER, [data, coast, site], layout );
+
+                                        </script>
+  				</div>
+  			</div>
+  		</div>
+    		
+    </body>
+
+</html>

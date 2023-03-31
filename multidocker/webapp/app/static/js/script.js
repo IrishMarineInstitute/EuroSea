@@ -28,6 +28,22 @@ function temperature_strcolor(string, ID) {
         }
      }
      
+// Function to set wave height color warnings
+function wh_strcolor(string, ID) {
+        const input = document.getElementById(ID);
+        var wh = parseFloat(string).toFixed(2)
+        if ( isNaN(wh) ) {
+            input.style.backgroundColor = "#9E9E9E"
+            input.value = "N/D"
+        } else if ( wh >= 3 ) {
+            input.style.backgroundColor = "#FF0000"
+        } else if ( wh >= 2 ) {
+            input.style.backgroundColor = "#FC6A03"
+        } else {
+            input.style.backgroundColor = "#39E75F"
+        }
+     }
+     
 // Function to set color warnings depending on oxygen
 function oxygen_strcolor(string, ID) {
         const input = document.getElementById(ID);
@@ -54,23 +70,26 @@ function marine_warning(string, ID) {
 
 // Run everything
 function init() {
-   // display_ct()
-   // Forecast temperature warning
-   var str = document.getElementById("forecast-temperature-value").content
-   temperature_strcolor(str, "forecast-temperature")
-   // Latest temperature warning
+
    var str = document.getElementById("latest-temperature-value").content
    temperature_strcolor(str, "latest-temperature")
-   // Latest oxygen warning
+
    var str = document.getElementById("latest-oxygen-value").content
    oxygen_strcolor(str, "latest-oxygen")
-   // MHW Warning (present)
-   var str = document.getElementById("MHW-status").content
-   marine_warning(str, "Marine-Heat-Wave-1")
-   // Suboxic Warning (present)
-   var str = document.getElementById("SubO2-status").content
-   marine_warning(str, "Suboxic-1")
-   // MHW Warning (forecast)
-   var str = document.getElementById("MHW-FC-status").content
-   marine_warning(str, "Marine-Heat-Wave-2")
+
+   var str = document.getElementById("forecast-temperature-value").content
+   temperature_strcolor(str, "forecast-temperature")
+
+   var str = document.getElementById("significant-wave-height-value").content
+   wh_strcolor(str, "latest-swh")
+
+   var str = document.getElementById("forecast-max-swh-value").content
+   wh_strcolor(str, "max-swh-fc")
+
+   var str = document.getElementById("swell-value").content
+   wh_strcolor(str, "latest-swell")
+
+   var str = document.getElementById("forecast-max-swell-value").content
+   wh_strcolor(str, "max-swell-fc")
+
 }

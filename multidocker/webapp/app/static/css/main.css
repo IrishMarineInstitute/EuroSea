@@ -41,6 +41,16 @@
     font-size: 20px;
     color: #FFFFFF
 }
+#time-small {
+    background-color: #123944;
+    width: 530px;
+    border-radius: 5px;
+    line-height: 60px;
+    border: none;
+    text-align: center;     
+    font-size: 16px;
+    color: #FFFFFF
+}
 
 .value-box-1 {       
     font-size: 28px;
@@ -82,7 +92,7 @@
     font-weight: bold;
     text-align: center;
     float: right;
-    width: 240px;
+    width: 220px;
     margin-top: 15px;
     border: none;
     border-radius: 5px;

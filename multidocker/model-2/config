@@ -4,16 +4,13 @@
 !                                                                     !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
-! Number of days to show in the webapp                        
-ndays 14                               
-!
 ! Buoy coordinates (longitude and latitude)
 lon -0.2917                            
 lat 38.4375   
 !
 ! CMEMS username and password
 USERNAME ********                    
-PASSWORD ********                     
+PASSWORD ********                   
 !
 ! Copernicus PHYSICS service
 phy MEDSEA_ANALYSISFORECAST_PHY_006_013-TDS
@@ -21,11 +18,8 @@ phy MEDSEA_ANALYSISFORECAST_PHY_006_013-TDS
 ! SST product
 sst cmems_mod_med_phy-tem_anfc_4.2km_PT1H-m
 !
-! Temperature (3D) product
-temp3d cmems_mod_med_phy-tem_anfc_4.2km_PT1H-m
+! Copernicus WAVES service
+wav MEDSEA_ANALYSISFORECAST_WAV_006_017-TDS
 !
-! Date to start download of temperature profiles
-datestart 2022-11-03
-!
-! SSS product
-sss cmems_mod_med_phy-sal_anfc_4.2km_PT1H-m
+! Wave product
+waves med-hcmr-wav-an-fc-h

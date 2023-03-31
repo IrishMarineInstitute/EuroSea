@@ -5,23 +5,23 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! Coastline
-coastfile coastline-1.pkl
+coastfile coastline-2.pkl
 !
 ! Buoy coordinates (longitude and latitude)
-lon -10.2122                            
-lat 51.7431   
+lon -0.3031                            
+lat 38.4314   
 !
 ! Map boundaries
-west -11.6
-east -8
-south 50
-north 52.8  
+west -0.91
+east 1.41
+south 37.59
+north 41.01  
 !
-clim MUR-Climatology.nc
+clim MUR-Campello.nc
 !
 ! CMEMS username and password
 USERNAME ********                    
-PASSWORD ********                   
+PASSWORD ********                    
 !
 ! Oceancolour product and service
 OCEANCOLOUR_MY_PRODUCT OCEANCOLOUR_ATL_BGC_L4_MY_009_118-TDS
@@ -29,3 +29,9 @@ OCEANCOLOUR_MY_SERVICE cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D
 !
 OCEANCOLOUR_NRT_PRODUCT OCEANCOLOUR_ATL_BGC_L4_NRT_009_116-TDS
 OCEANCOLOUR_NRT_SERVICE cmems_obs-oc_atl_bgc-plankton_nrt_l4-gapfree-multi-1km_P1D
+!
+! Copernicus WAVES service
+wave-service MEDSEA_ANALYSISFORECAST_WAV_006_017-TDS
+!
+! Wave product
+wave-product med-hcmr-wav-an-fc-h

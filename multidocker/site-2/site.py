@@ -75,9 +75,9 @@ from output import send_output
 from pytz import timezone
 import numpy as np
 import pickle
+from wind_rose import wind_rose
 from buoy import Buoy
 from log import set_logger, now
-import vectors
 import os
 
 logger = set_logger()
@@ -96,18 +96,23 @@ def configuration():
 def subset(buoy, t0, t1):
     ''' Subset buoy data for the requested time period '''
     
-    # List of available times in the buoy dataset
+    logger.info(f'{now()} Getting list of available times in the buoy dataset...')
     time = np.array(buoy['time'])
-    
-    # Find appropriate time indexes
+  
+    logger.info(f'{now()} Finding start and end time indexes...')
     i0, i1 = np.argmin(abs(time - t0)), np.argmin(abs(time - t1)) + 1
     
+    logger.info(f'{now()} Subsetting time...')
     sub = {'time': buoy['time'][i0 : i1]}
+
+    logger.info(f'{now()} Subsetting each variable for the requested time period...')
     for i in buoy.keys():        
-        # Subset each parameter for the requested time period
+        logger.info(f'   {now()} ... subsetting {i}')
+
         sub[i] = buoy[i][i0 : i1]
         
     return sub
+
 
 def site_climatology(infile, time):
     ''' Reads site climatology from local PICKLE file '''
@@ -140,6 +145,12 @@ def site_climatology(infile, time):
     
     return Time, Seas, Pc90
 
+def prepare_wind_rose(r, D):
+    
+    r, D = np.array(r), np.array(D)
+
+    return np.vstack((r, D)).T
+
 def SITE(date=datetime.now()):
     
     root = os.path.abspath('.')
@@ -163,27 +174,98 @@ def SITE(date=datetime.now()):
         logger.info(f'{now()} Subsetting from {t0str} to {t1str}...')
         sub = subset(var, t0, t1)
 
+        ''' Wind Roses '''
+        logger.info(f'{now()} Getting wind rose for last 24 hours observed wind speed and direction...')
+
+        logger.info(f'{now()} Subset time, speed and direction for the last 24 hours...')
+        time, r, D = sub['time'][-144::], sub['Wind Speed'][-144::], sub['Wind Direction'][-144::]
+
+        logger.info(f'{now()} Creating wind rose figure for wind...')
+        idate, edate, wind_rose_fig = wind_rose(time, prepare_wind_rose(r, D), 'wind')
+
+        logger.info(f'{now()} Fix legend title ("speed" instead of "strength")')
+        wind_rose_fig = wind_rose_fig.replace("strength", "speed")
+
+        logger.info(f'{now()} Wrap into a dictionary to send to shared volume')
+        wind_rose_figure = {'idate': idate, 'edate': edate, 'fig': wind_rose_fig}
+
+
+
+        logger.info(f'{now()} Getting wind rose for last 24 hours observed wave peak period and direction...')
+
+        logger.info(f'{now()} Subset time, period and direction for the last 24 hours...')
+        time, r, D = sub['time'][-144::], sub['Wave Peak Period'][-144::], sub['Wave Peak Direction'][-144::]
+
+        logger.info(f'{now()} Creating wind rose figure for waves...')
+        idate, edate, wind_rose_fig = wind_rose(time, prepare_wind_rose(r, D), 'wave')
+
+        logger.info(f'{now()} Fix legend title ("period" instead of "strength")')
+        wind_rose_fig = wind_rose_fig.replace("strength", "period")
+
+        logger.info(f'{now()} Wrap into a dictionary to send to shared volume')
+        wave_rose_figure = {'idate': idate, 'edate': edate, 'fig': wind_rose_fig}
+
+        logger.info(f'{now()} Wrap time series into a dictionary for CSV export')
+        wave_rose_series = {'time': time, 'period': r, 'direction': D}
+      
+
+
+        logger.info(f'{now()} Getting wind rose for last 24 hours observed surface currents and direction...')
+
+        logger.info(f'{now()} Getting surface level ADCP measurements...')
+        r, D = [i[0] for i in sub['DCP speed']], [j[0] for j in sub['DCP dir']]
+
+        logger.info(f'{now()} Subset time, speed and direction for the last 24 hours...')
+        time, r, D = sub['time'][-144::], r[-144::], D[-144::]
+
+        logger.info(f'{now()} Creating wind rose figure for ADCP surface...')
+        logger.info(f'{now()} Length of "r" is {len(r)}')
+        logger.info(f'{now()} Length of "D" is {len(D)}')
+        idate, edate, wind_rose_fig = wind_rose(time, prepare_wind_rose(r, D), 'currents')
+
+        logger.info(f'{now()} Fix legend title ("speed" instead of "strength")')
+        wind_rose_fig = wind_rose_fig.replace("strength", "speed")
+
+        logger.info(f'{now()} Wrap into a dictionary to send to shared volume')
+        DCP_rose_figure_surface = {'idate': idate, 'edate': edate, 'fig': wind_rose_fig}
+
+        logger.info(f'{now()} Wrap time series into a dictionary for CSV export')
+        DCP_rose_series_surface = dict(time = time, speed = r, direction = D)
+      
+
+        logger.info(f'{now()} Getting wind rose for last 24 hours observed seabed currents and direction...')
+
+        logger.info(f'{now()} Getting seabed level ADCP measurements...')
+        r, D = [i[-1] for i in sub['DCP speed']], [j[-1] for j in sub['DCP dir']]
+
+        logger.info(f'{now()} Subset time, speed and direction for the last 24 hours...')
+        time, r, D = sub['time'][-144::], r[-144::], D[-144::]
+
+        logger.info(f'{now()} Creating wind rose figure for ADCP seabed...')
+        idate, edate, wind_rose_fig = wind_rose(time, prepare_wind_rose(r, D), 'currents')
+
+        logger.info(f'{now()} Fix legend title ("speed" instead of "strength")')
+        wind_rose_fig = wind_rose_fig.replace("strength", "speed")
+
+        logger.info(f'{now()} Wrap into a dictionary to send to shared volume')
+        DCP_rose_figure_seabed = {'idate': idate, 'edate': edate, 'fig': wind_rose_fig}
+
+        logger.info(f'{now()} Wrap time series into a dictionary for CSV export')
+        DCP_rose_series_seabed = dict(time = time, speed = r, direction = D)
+      
+
+
         ''' Read climatology '''
         f = config['clim_site']
         logger.info(f'{now()} Retrieving local climatology from file {f}')
         clim = site_climatology(f, sub['time'])
 
-        ''' Vectors '''
-        vector =    {'Surface currents'   : 'surf',
-                     'Mid-water currents' : 'midw',
-                     'Seabed currents'    : 'seab',
-                     'Winds'              : 'winds'}
-        
-        D = {}
-        
-        for i in vector.keys():
-            # Get vector data  
-            sub, u, v, t = vectors.vector_request(sub, i) 
-            # Get displacements
-            logger.info(f'{now()} Calculating displacements from {i}')
-            D[vector[i] + '-x'], D[vector[i] + '-y'] = vectors.get_displacements(u, v, t, i)
+        ''' DCPS depths from configuration file '''
+        DCPS = config['DCPS']
 
-        send_output(sub, D, clim, t)        
+        logger.info(f'{now()} SEND OUTPUT...')
+        send_output(sub, clim, DCPS, wind_rose_figure, wave_rose_figure, wave_rose_series,       
+            DCP_rose_figure_surface, DCP_rose_figure_seabed, DCP_rose_series_surface, DCP_rose_series_seabed)
             
         return 0, ''
 

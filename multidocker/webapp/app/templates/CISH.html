@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <html>
 	<head>
 		<title>El Campello In-situ Datos Históricos</title>
@@ -8,17 +8,48 @@
 		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
 		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style type="text/css">
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .landscape {
+            height: 75px;
+            width: 200px;
+        }
+
+    </style>
+
 	</head>
 
 	<body>
 	
     	<div class="grid">
-    		<div class="col-1-1">
+    		<div class="col-1-5">
     			<div class="content">
-        		    <img src="../static/logos.png" >			
-    			</div>
-    		</div>
+                                <div class="landscape">
+        		            <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" > </a> </p> </div> </div> </div>			
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.jpg" > </a> </p> </div> </div> </div>			
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" > </a> </p> </div> </div> </div>		
+    		<div class="col-1-8">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://www.xylem.com"> <img src="../static/xylem-logo.png" > </a> </p> </div> </div> </div>		
+    		<div class="col-1-9">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://avramar.eu"> <img src="../static/AVRAMAR-logo.png" > </a> </p> </div> </div> </div>			
     	</div>
+	
 	
 		<div class="grid">
  			<div class="col-10-12">
@@ -33,7 +64,7 @@
  			<div class="col-2-12">
  				<div class="content">
  				<a href="https://eurosea.marine.ie"
- 				   style="float:right">Página principal</a>
+ 				   style="float:right">HOME</a>
  				</div>
  			</div>
     	        </div>
@@ -43,13 +74,13 @@
  		<div class="content">
                            <div class="footer">
        <p align="justify"> 
-          Este portal da acceso a datos históricos sobre las condiciones oceanográficas en
-          El Campello. Todos estos datos son mediciones de la boya oceanográfica, salvo los 
-          del perfil de temperatura, que provienen de un modelo hidrodinámico.
-          <b>INSTRUCCIONES:</b> Indicar el intervalo de tiempo deseado seleccionando una fecha
-          inicial y una fecha final. Se mostrarán datos dentro del intervalo seleccionado, 
-          excepto para las corrientes oceánicas, para las que solo se puede mostrar un día 
-          en cada consulta.    
+          This portal provides information on past oceanographic conditions at El Campello. 
+          The data provided here has been recorded by the monitoring station at
+          the farm, except for the temperature profile, which is derived from a hydrodynamic
+          model.
+          <b>INSTRUCTIONS:</b> Enter the desired time range by selecting a start date and an end
+          date. This time range will apply to everything except for the oceanic currents
+          data. For oceanic currents, only one day can be displayed each time. 
        </p>
                             </div> 
     	        </div>
@@ -60,22 +91,22 @@
  	     <div class="col-1-1">
  		<div class="content">
                     <form method="POST" action="/El-Campello-in-situ-historical">
-                    <label for="start">Fecha inicial:</label>
+                    <label for="start">Start date:</label>
                     <input type="date" id="start" name="start-date" 
                            value={{date1}}
                            min={{timelist | first}}
                            max={{timelist | last}}>
-                    <label for="start" style="margin-left:25px;">Fecha final:</label>
+                    <label for="start" style="margin-left:25px;">End date:</label>
                     <input type="date" id="end" name="end-date"
                            value={{date2}}
                            min={{timelist | first}}
                            max={{timelist | last}}>
-                    <label for="start" style="margin-left:25px;">Seleccionar día para las corrientes oceánicas:</label>
+                    <label for="start" style="margin-left:25px;">Select date for currents:</label>
                     <input type="date" id="date-uv" name="uv-date"
                            value={{date3}}
                            min={{timelist | first}}
                            max={{timelist | last}}>
-                    <input type="submit" value="Consultar" name="submit" style="margin-left: 25px" />
+                    <input type="submit" value="Submit" name="submit" style="margin-left: 25px" />
     	        </div>
     	     </div>
     	 </div>
@@ -108,7 +139,7 @@
                     
                     var profileLayout = {
                        texttemplate: '%{value:.1f}',
-                       title: 'Perfil de temperatura del mar según el modelo en El Campello',
+                       title: 'Modelled seawater temperature profile at El Campello',
                        xaxis: {
                            mirror: true,
                            showline: true,
@@ -337,7 +368,7 @@
                                         data.push(trace_MHW)
                                     {% endfor %}
 
-                                    layout1['title'] = 'Temperatura del mar en El Campello'
+                                    layout1['title'] = 'Seawater temperature at El Campello'
                                     layout1.xaxis['autorange'] = false
                                     layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
                                     layout1.yaxis['title'] = 'ºC'
@@ -356,7 +387,7 @@
                         </div>
  			<div class="col-2-12">
  				<div class="content">
-            <input type="submit" value="Descargar como CSV" name="temp" />
+            <input type="submit" value="Download data as CSV" name="temp" />
  				</div>
  			</div>
     	        </div>
@@ -583,7 +614,7 @@
                         </div>
  			<div class="col-1-12">
  				<div class="content">
-            <input type="submit" value="Descargar" name="profile" />
+            <input type="submit" value="Download" name="profile" />
  				</div>
  			</div>
     	        </div>
@@ -594,7 +625,7 @@
                          <div class="content">
           		     <div class="Series" id="salt"></div>
                                  <script language="javascript" type="text/javascript">
-                                     layout1['title'] = 'Salinidad en El Campello'
+                                     layout1['title'] = 'Seawater salinity at El Campello'
                                      layout1.xaxis['autorange'] = false
                                      layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
                                      layout1.yaxis['title'] = ''
@@ -615,7 +646,7 @@
                         </div>
  			<div class="col-2-12">
  				<div class="content">
-            <input type="submit" value="Descargar como CSV" name="salt" />
+            <input type="submit" value="Download data as CSV" name="salt" />
  				</div>
  			</div>
     	        </div>
@@ -625,7 +656,7 @@
                          <div class="content">
           		     <div class="Series" id="O2"></div>
                                  <script language="javascript" type="text/javascript">
-                                     layout1['title'] = 'Saturación de Oxígeno en el mar en El Campello'
+                                     layout1['title'] = 'Dissolved Oxygen Saturation at El Campello'
                                      layout1.yaxis['title'] = '%'
                                      layout1.yaxis.tickformat = '.1f'
                                      TESTER = document.getElementById('O2');
@@ -644,7 +675,7 @@
                         </div>
  			<div class="col-2-12">
  				<div class="content">
-            <input type="submit" value="Descargar como CSV" name="O2" />
+            <input type="submit" value="Download data as CSV" name="O2" />
  				</div>
  			</div>
     	        </div>
@@ -654,7 +685,7 @@
                          <div class="content">
           		     <div class="Series" id="pH"></div>
                                  <script language="javascript" type="text/javascript">
-                                     layout1['title'] = 'Turbidez en El Campello'
+                                     layout1['title'] = 'Seawater turbidity at El Campello'
                                      layout1.xaxis['autorange'] = true
                                      layout1.yaxis['title'] = 'FNU'
                                      layout1.yaxis.tickformat = '.1f'
@@ -678,7 +709,7 @@
                         </div>
  			<div class="col-2-12">
  				<div class="content">
-            <input type="submit" value="Descargar como CSV" name="tur" />
+            <input type="submit" value="Download data as CSV" name="tur" />
  				</div>
  			</div>
     	        </div>
@@ -715,20 +746,6 @@
                                      layout3.yaxis['title'] = ''
                                      TESTER = document.getElementById('surface-currents-scatter');
                                      Plotly.newPlot( TESTER, [vectors, scatterText], layout3 );
-                                 </script>
-      			 </div>
-      		     </div>
-                    <div class="col-1-2">
-                        <div class="content">
-          		     <div class="Series" id="surface-currents-progressive"></div>
-                                 <script language="javascript" type="text/javascript">
-                                     layout4['title'] = 'Surface water displacement (km) for the last 24 hours'
-                                     layout4.yaxis['title'] = ''
-                                     TESTER = document.getElementById('surface-currents-progressive');
-                                     Plotly.newPlot( TESTER, [{
-                                     x: {{ Dx0|safe }},
-                                     y: {{ Dy0|safe }}, hoverinfo: 'none' }, displText], 
-                                     layout4 );
                                  </script>
       			 </div>
       		     </div>
@@ -778,20 +795,6 @@
                                  </script>
       			 </div>
       		     </div>
-                    <div class="col-1-2">
-                        <div class="content">
-          		     <div class="Series" id="mid-currents-progressive"></div>
-                                 <script language="javascript" type="text/javascript">
-                                     layout4['title'] = 'Mid-water water displacement (km) for the last 24 hours'
-                                     layout4.yaxis['title'] = ''
-                                     TESTER = document.getElementById('mid-currents-progressive');
-                                     Plotly.newPlot( TESTER, [{
-                                     x: {{ Dxmid|safe }},
-                                     y: {{ Dymid|safe }}, hoverinfo: 'none' }, displText], 
-                                     layout4 );
-                                 </script>
-      			 </div>
-      		     </div>
       	        </div>
 
 		<div class="grid">
@@ -835,20 +838,6 @@
                                      layout3.yaxis['title'] = ''
                                      TESTER = document.getElementById('seabed-currents-scatter');
                                      Plotly.newPlot( TESTER, [vectors, scatterText], layout3 );
-                                 </script>
-      			 </div>
-      		     </div>
-                    <div class="col-1-2">
-                        <div class="content">
-          		     <div class="Series" id="seabed-currents-progressive"></div>
-                                 <script language="javascript" type="text/javascript">
-                                     layout4['title'] = 'Seabed water displacement (km) for the last 24 hours'
-                                     layout4.yaxis['title'] = ''
-                                     TESTER = document.getElementById('seabed-currents-progressive');
-                                     Plotly.newPlot( TESTER, [{
-                                     x: {{ Dxbot|safe }},
-                                     y: {{ Dybot|safe }}, hoverinfo: 'none' }, displText], 
-                                     layout4 );
                                  </script>
       			 </div>
       		     </div>

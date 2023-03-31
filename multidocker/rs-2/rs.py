@@ -38,11 +38,11 @@
 
        crontab : A cron file to set this job to run once a day.
 
-       coastline-1.pkl : Coastline file to draw the shoreline in maps. You
+       coastline-2.pkl : Coastline file to draw the shoreline in maps. You
                          should produce a new one for your application
                          using the same format.
  
-       MUR-Climatology.nc : A spatial (2-D) SST climatology for calculation of
+       MUR-Campello.nc : A spatial (2-D) SST climatology for calculation of
                             SST anomalies and for determining the occurrence of
                             Marine Heat Waves. This is a heavy NetCDF file that
                             has to be produced for your application and is not
@@ -70,16 +70,32 @@
 '''
 
 from datetime import datetime, timedelta
-from oceancolour import oceancolour, get_boundaries
 from output import send_output
-import numpy as np
 from netCDF4 import Dataset
 from SST import SST
 from pickle import load
-from log import set_logger, now
+from waves import waves
 import os
 
+from log import set_logger, now
 logger = set_logger()
+
+def get_coordinate(key, config):
+    s = key.upper()
+    try:
+        v = config[key]
+        return float(v)
+    except KeyError:
+        raise KeyError(f'No value has been provided for {s} in config file. Aborting...')
+    except ValueError:
+        raise ValueError(f'''Wrong value {v} has been provided for {s} in config file.
+            'Please, make sure that the value provded is a valid number''')
+
+def get_boundaries(config):
+    keys, vals = ('west', 'east', 'south', 'north'), []    
+    for k in keys:
+        vals.append(get_coordinate(k, config))
+    return vals
 
 def configuration():
     ''' Read secrets (configuration) file '''
@@ -106,8 +122,10 @@ def climatology(file):
         seas = nc.variables['seas'][:]
         # Read 90-th percentile (MHW threshold)
         pc90 = nc.variables['thresh'][:]
+        # Read land/sea mask
+        mask = nc.variables['mask'][:]
 
-    return lon, lat, time, seas, pc90
+    return lon, lat, time, seas, pc90, mask
 
 def RS(date=datetime.now()):
     
@@ -131,23 +149,23 @@ def RS(date=datetime.now()):
         f = config['clim']
         logger.info(f'{now()} Retrieving climatology from file {f}')
         clim = climatology(f)
-        lon_c, lat_c, time_c, seas, pc90 = clim
+        lon_c, lat_c, time_c, seas, pc90, mask = clim
 
         # SST
         logger.info(f'{now()} Getting SST...')
         boundaries = get_boundaries(config)
-        sst_out = SST(time_c, seas, pc90, date.strftime('%Y-%m-%d'), boundaries)
+        sst_out = SST(time_c, seas, pc90, mask, date.strftime('%Y-%m-%d'), boundaries)
 
-        # Oceancolour
-        logger.info(f'{now()} Downloading oceancolour...')
-        colour = oceancolour(date, config)
+        # Read wave history/forecasts
+        logger.info(f'{now()} Starting download of wave forecasts...')
+        waves(date, config)
 
         # Site coordinates
         logger.info(f'{now()} Getting site longitude and latitude from config...')
         lon, lat = float(config['lon']), float(config['lat'])
         logger.info(f'{now()} Coordinates are {str(lat)}, {str(lon)}')
         
-        send_output(lon, lat, sst_out, colour, coast)        
+        send_output(lon, lat, sst_out, coast)        
             
         return 0, ''
 

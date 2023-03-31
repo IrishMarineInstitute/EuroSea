@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta
+import json
 from dateutil.parser import parse
 import paramiko
 import pysftp
 from numpy import nan as NaN
 from pytz import timezone
-import numpy as np
-import pickle
 import os
 from math import sin, cos, pi
 from log import set_logger, now
@@ -21,12 +20,15 @@ def Buoy(conf):
     host, user, pswd, folder = conf['host'], conf['user'], conf['pswd'], conf['folder']
     logger.info(f'{now()} BUOY: Credentials are {host}, {user}, {pswd}, {folder}')
     
-    localpath = '/xml-2'
+    localpath = '/xml'
     logger.info(f'{now()} BUOY: Localpath is {localpath}')
       
     # Retrieve names of *.xml files already downloaded and save to list
     local = update_local_directory(localpath, '.xml')
     logger.info(f'{now()} Local directory inspected. Number of files is {len(local)}')
+
+    # Get number of levels for Doppler Current Profiler
+    N = len(json.loads(conf['DCPS']))
    
     # Download files
     try:
@@ -37,145 +39,191 @@ def Buoy(conf):
     # Update list of names of *.xml files already downloaded
     local = update_local_directory(localpath, '.xml')
    
-    pickle_file = '/data/buoy-2.pkl'
-    if os.path.isfile(pickle_file):
-        # Load buoy data from older download        
-        with open(pickle_file, 'rb') as file:
-            var = pickle.load(file)
-        # Get latest time
-        latest = var['time'][-1].strftime('%Y%m%dT%H%M')
-        # Find index of file matching latest time
-        i = -1 # ... in case local directory is empty
-        for i, file in enumerate(local):
-            if file[0:13] == latest: 
-                break
-        local = local[i+1:]
-    else:       
-        # Initialize dictionary of output variables    
-        var = vardict() 
+    # Initialize dictionary of output variables    
+    var = vardict() 
+
+    ''' This section is meant to guarantee that:
+
+        1 - A constant time step (10 minutes) exists
+
+        2 - Files are processed in the right order '''
+
+    # Start reading from the first file. Take date from first file.
+
+    idate = timezone('UTC').localize(datetime.strptime(local[0][0:12] + '0', '%Y%m%dT%H%M'))
+
+    logger.info(f'{now()} Start time is {idate.strftime("%Y-%b-%d %H:%M")}')
+
+
+     # Next, determine the end time, matching the latest downloaded file
+
+    edate = timezone('UTC').localize(datetime.strptime(local[-1][0:12] + '0', '%Y%m%dT%H%M'))
+
+    logger.info(f'{now()} End time is {edate.strftime("%Y-%b-%d %H:%M")}')
+
+
+     # Now, create time list from "idate" to "edate" with 10-minute intervals
+
+    tiempo = []
     
-    for file in local:
-        tempo = datetime.strptime(file[0:13], '%Y%m%dT%H%M')
-        if not tempo.hour and not tempo.minute:
-            logger.info(f'{now()}: Reading ' + tempo.strftime('%d-%b-%Y %H:%M'))        
-        read_xml_file(localpath + '/' + file, var, conf)
-        
+    while idate <= edate:
+    
+         # Add a new time to the list of times to be processed
+         tiempo.append(idate)
+    
+         # Update (add +10 minutes)
+         idate += timedelta(minutes=10)
+     
+    
+    for i in tiempo: 
+    
+        if not i.hour and not i.minute:
+            logger.info(f'{now()}: Reading ' + i.strftime('%d-%b-%Y %H:%M'))        
+    
+        file = ''
+    
+        # Convert time to string. The time string defines the XML file name 
+    
+        dateString = i.strftime('%Y%m%dT%H%M')         
+    
+        # Search for file names containing the above date string.
+    
+        for f in local:
+    
+            if dateString in f:
+    
+                file = f; break
+    
+        if file:
+    
+            read_xml_file(localpath + '/' + file, var)
+    
+        else:
+    
+            # There is a missing file, not transmitted by the buoy
+    
+            logger.info(f'{now()}: WARNING! Missing file for {dateString}. Appending NaN...')
+    
+            for key in var.keys(): 
+                var[key].append(NaN) # Append NaN to all the variables in the data structure.
+
+            # For time, append the i-th time
+            var['time'][-1] = i
+
+            # For Doppler Current Profile variables (speed and direction) a list of NaN's 
+            # must be appended. The length must be "N" number of levels in the DCP sensor.
+            var['DCP speed'][-1] = [NaN for k in range(N)]
+            var['DCP dir'][-1] = [NaN for k in range(N)]
+
     # Apply a quality control (mask missing data)
     var = quality_control(var)    
         
-    # Update pickle file
-    with open(pickle_file, 'wb') as file:
-        pickle.dump(var, file)
     logger.info(f'{now()}: Quitting BUOY')  
     return var 
 
 def quality_control(var):
-    ''' This function makes sure that the time array is evenly-spaced with a
-    constant time step of 10 minutes until present. If data is not available,
-    missing data is marked as NaN. '''
-    
-    # Mask missing data
+
     for key in var.keys():
         var[key] = [i if ( i != 68. and i != 81. ) else NaN for i in var[key]]
-        
-    # Initialize dictionary of output variables    
-    new = vardict()
-    
-    # Get original time array
-    time = np.array(var['time'])
-    # Set latest date (today, if no data available until today)
-    today = datetime.now()
-    # Add timezone information
-    today = timezone('UTC').localize(today)
-    
-    #  Set start and end date
-    idate, edate = time[0], max(time[-1], today)
-    while idate <= edate:
-        # Make sure all times between idate and edate are in the new dictionary
-        new['time'].append(idate)
-        try: 
-            i = np.where(idate == time)[0][0] # If time exists in dataset...
-            for key in new.keys():
-                if key != 'time':
-                    new[key].append(var[key][i]) # ... append existing data, of course
-        except IndexError: # If time does not exist in dataset...
-            for key in new.keys():
-                if key != 'time':
-                    new[key].append(NaN) # ... append NaN
-        idate += timedelta(minutes=10)
-            
-    return new
-    
 
-def read_xml_file(file, var, config):
-    ''' Read an *.xml file and updates the fields of interest '''
-    
-    # SET MID-WATER AND SEABED DCPS CELL INDEXES AS PER CONFIG FILE
-    SUR, MID, BOT = int(config['SUR']), int(config['MID']), int(config['BOT'])
+    return var
+
+def read_xml_file(file, var):
+    ''' Read an *.xml file and update the fields of interest '''
+
+    # Prepare DCPS lists. For "El Campello", these lists should have
+    # 28 values for each time step: 8 (C1) + 20 (C2).  
+
+    speed = []     # DCPS speed [cm/s]
+    direction = [] # DCPS direction Deg.M
     
     with open(file, 'r') as f:
+
         # Discard header
         for i in range(5): f.readline()
+
         line = f.readline()
         while len(line):
+
             if '<Time>' in line:
+                                     
                 var['time'].append(find_time(line))
+
             elif 'Descr="Water Temperature"' in line:
+                 
                 var['Temperature'].append(find_value(f.readline()))
-            elif 'Descr="Salinity"' in line:
-                var['Salinity'].append(find_value(f.readline()))
+
             elif 'Descr="Dissolved Oxygen"' in line:
-                var['Oxygen Saturation'].append(sat_to_c(find_value(f.readline())))
-            elif 'Descr="Turbidity"' in line:
-                var['pH'].append(find_value(f.readline()))
-            elif 'Descr="Chlorophyll"' in line:
-                var['RFU'].append(rfu_to_c(find_value(f.readline())))
-            elif f'Cell Index="{SUR}"' in line:
-                if ( len(var['u0']) == len(var['time']) ): 
-                    line = f.readline(); continue
-                u, v = get_cartesian(f)
-                var['u0'].append(u); var['v0'].append(v);        
-            elif f'Cell Index="{MID}"' in line:
-                if ( len(var['umid']) == len(var['time']) ):
-                    line = f.readline(); continue
-                u, v = get_cartesian(f)
-                var['umid'].append(u); var['vmid'].append(v);
-            elif f'Cell Index="{BOT}"' in line:
-                if ( len(var['ubot']) == len(var['time']) ):
-                    line = f.readline(); continue
-                u, v = get_cartesian(f)
-                var['ubot'].append(u); var['vbot'].append(v);
+
+                var['Oxygen Saturation'].append(find_value(f.readline()))
+
+            elif 'Descr="Turbidity"' in line:       
+
+                var['TUR'].append(find_value(f.readline()))
+
+            elif '<Point ID="2">' in line:                             
+
+                speed.append(find_value(f.readline()))
+
+            elif '<Point ID="3">' in line:
+
+                direction.append(find_value(f.readline()))
+
             elif 'Average Corrected Wind Diretion' in line:
-                wind_direction = find_value(f.readline())
+
+                var['Wind Direction'].append(find_value(f.readline()))
+
             elif 'Average Corrected Wind Speed' in line:
-                wind_speed = find_value(f.readline())
-                var['uwind'].append(wind_speed * cos ( DEG2RAD * ( 90 - wind_direction ) ))
-                var['vwind'].append(wind_speed * sin ( DEG2RAD * ( 90 - wind_direction ) ))
+
+                var['Wind Speed'].append(find_value(f.readline()))
+
+            elif 'Descr="Significant Wave Height Hm0"' in line: 
+                var['Significant Wave Height Hm0'].append(find_value(f.readline()))
+
+            elif 'Descr="Wave Peak Direction"' in line:
+                var['Wave Peak Direction'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Peak Period"' in line:
+                var['Wave Peak Period'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Height Wind Hm0"' in line:
+                var['Wave Height Wind Hm0'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Height Swell Hm0"' in line:
+                var['Wave Height Swell Hm0'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Peak Period Wind"' in line:
+                var['Wave Peak Period Wind'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Peak Period Swell"' in line:
+                var['Wave Peak Period Swell'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Peak Direction Wind"' in line:
+                var['Wave Peak Direction Wind'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Peak Direction Swell"' in line:
+                var['Wave Peak Direction Swell'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Mean Direction"' in line:
+                var['Wave Mean Direction'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Height Hmax"' in line:
+                var['Wave Height Hmax'].append(find_value(f.readline()))
+                            
+            elif 'Descr="Wave Mean Period T1/3"' in line:
+                var['Wave Mean Period T1/3'].append(find_value(f.readline()))
                             
             # Read next line
             line = f.readline()
-                
-def get_cartesian(f):
-    ''' Extract u, v components from .xml file '''    
-    C = 0
-    while 1:
-        line = f.readline()
-        if 'Value' in line:
-            C += 1
-            if C == 3:
-                r = find_value(line)
-            elif C == 4:
-                D = find_value(line); break
-        if 'Cell Index' in line:
-            raise RuntimeError('Could not find velocity components in .xml file')
             
-    if ( r == 68 ) and ( D == 68 ): r, D = NaN, NaN
-    u = r * cos ( DEG2RAD * ( 90 - D ) ) # Get u-component
-    v = r * sin ( DEG2RAD * ( 90 - D ) ) # Get v-component
-    return u, v
-        
+    ''' Add DCPS recordings to in-situ data structure'''
+    var['DCP speed'].append(speed)
+    var['DCP dir'].append(direction)
+                 
 def find_value(line):
     ''' Get numeric value from line of text '''
+    if '<Value>' not in line:
+        return NaN
     i = line.find('e>') + 2
     e = line.find('</') 
     return float(line[i:e])    
@@ -186,16 +234,6 @@ def find_time(line):
     e = line.find('</') 
     return parse(line[i:e])    
 
-def sat_to_c(sat):
-    ''' TODO: Convert Dissolved Oxygen Saturation (%) to
-            Dissolved Oxygen Concentration '''
-    return sat
-
-def rfu_to_c(rfu):
-    ''' TODO: Convert Reference Fluorescence Units to
-            actual Chlorophyll-a Concentration '''
-    return rfu
-            
 def update_local_directory(localpath, extension):
     ''' Get a list with the names of *.xml files already downloaded '''
     local = []
@@ -225,10 +263,34 @@ def xml_file_download(local, localpath, host, user, pswd, folder):
 def vardict():
     ''' Initialize empty dictionary for buoy data '''
     return {
-        'time':  [], 'Temperature': [], 'Salinity':           [], 
-        'pH':    [], 'RFU':     [], 'Oxygen Saturation':  [], 
-        'u0':    [], 'v0':          [],
-        'umid':  [], 'vmid':        [],
-        'ubot':  [], 'vbot':        [],
-        'uwind': [], 'vwind':       [],
+        'time':  [], 
+
+        # YSI EXO3  
+        'Temperature': [],
+        'TUR':    [],
+        'Oxygen Saturation':  [], 
+
+        # Gill MaxiMet 200-2
+        'Wind Speed': [],
+        'Wind Direction': [],
+        'u-wind': [], 
+        'v-wind': [],
+
+        # Motus Wave Sensor
+        'Significant Wave Height Hm0': [],
+        'Wave Peak Direction': [],
+        'Wave Peak Period': [],
+        'Wave Height Wind Hm0': [],
+        'Wave Height Swell Hm0': [],
+        'Wave Peak Period Wind': [],
+        'Wave Peak Period Swell': [],
+        'Wave Peak Direction Wind': [],
+        'Wave Peak Direction Swell': [],
+        'Wave Mean Direction': [],
+        'Wave Height Hmax': [],
+        'Wave Mean Period T1/3': [],
+
+        # Doppler Current Profiler Sensor
+        'DCP speed': [],
+        'DCP dir': []
            }       

@@ -17,7 +17,7 @@ BOT 20
 !
 host enoc.puertos.es                    ! INS-TAC host
 user marine_instac                      ! INS-TAC user
-pswd ********                       ! INS-TAC password
+pswd ********                           ! INS-TAC password
 folder /CMS-INSTAC/DeenishIslandBuoy    ! INS-TAC folder
 !
 ! Local climatology file
