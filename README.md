@@ -87,5 +87,68 @@ sudo docker run -d -v shared-data:/data --name eurosea-chl eurosea-chl:latest
 
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, chlorophyll-a NetCDF files are downloaded to the ```/data/CHL``` folder, and CHL figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/CHL.pkl```. The website will read the CHL figures from this file. 
 
+## El Campello - SITE container
 
+This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at El Campello. In addition, it subsets the latest data
+for the number of days specified in the configuration file. All this data is wrapped in a BUOY.pkl file that is updated every ten minutes, and later accessed by the WEBAPP container through the shared volume. Historical data starting from the time the buoy started data transmission is compiled to address any request from the Historical Data Portal.
+   
+Navigate to the El Campello - SITE container
+```
+cd EuroSea/containers/El-Campello/site
+```
 
+Build image
+```
+sudo docker build -t eurosea-site:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+sudo docker run -d -v shared-data:/data --name eurosea-site eurosea-site:latest
+```
+ 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
+
+## El Campello - MODEL container
+
+This container is set to run hourly to download the model forecasts from CMEMS and ECMWF. This data is wrapped in a MODEL.pkl file that is updated every hour and later accessed by the WEBAPP container through the shared volume.
+   
+Navigate to the El Campello - MODEL container
+```
+cd EuroSea/containers/El-Campello/model
+```
+
+Build image
+```
+sudo docker build -t eurosea-model:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+sudo docker run -d -v shared-data:/data --name eurosea-model eurosea-model:latest
+```
+ 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
+
+## El Campello - WAVES container
+
+This container is set to run hourly to download the latest wave height forecasts for the Balearic Sea. Wave forecasts are provided by the Mediterranean Sea Waves Analysis and Forecast Service (DOI:10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4).
+   
+This application is set to run hourly to make sure that the website updates as soon as new forecasts are released by the Copernicus Marine Service. This application also creates the Balearic Sea figure that is later accessed by the WEBAPP container through the shared volume.
+
+Navigate to the El Campello - WAVES container
+```
+cd EuroSea/containers/El-Campello/waves
+```
+
+Build image
+```
+sudo docker build -t eurosea-waves:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+sudo docker run -d -v shared-data:/data --name eurosea-waves eurosea-waves:latest
+```
+ 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/WAVES.pkl```. The website will take the model forecast figure (exported as a Plotly JSON string) from this file. 
