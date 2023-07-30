@@ -38,5 +38,6 @@ Start container with data sharing to communicate with other containers.
 sudo docker run -d -v shared-data:/data --name eurosea-sst eurosea-sst:latest
 ```
 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, sea surface temperature NetCDF files are downloaded to the ```/data/SST``` folder, and a pickle file  ```/data/pkl/SST.pkl``` should exist. The website will read the SST figures from this file.
 
 
