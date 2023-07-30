@@ -12,9 +12,31 @@ These instructions have been tested on Ubuntu 18.04.6 LTS (Bionic Beaver). First
 git clone https://github.com/IrishMarineInstitute/EuroSea.git
 ```
 
-The code is structured in multiple Docker containers that communicate with each other through a shared volume. The next step is to initialize each container.
+The code is structured in multiple Docker containers that communicate with each other through a shared volume. The next step is to initialize each container. ``` crontab ``` is used to schedule tasks and ensure that the website updates on a regular basis. The containers work independently, so there is no need to initialize them in a specific order.
 
 ## Deenish Island - SST container
+
+This container is set to run hourly to download the latest sea surface temperature observations for the Irish EEZ. The sea surface temperature is provided by the 
+Operational Sea Surface Temperature and Ice Analysis (OSTIA) system run by the UK's Met Office and delivered by IFREMER.
+
+In addition, sea surface temperature anomalies are calculated using a 40-year baseline reference climatology. The occurrence of marine heat waves is determined using the Hobday et al. (2016) definition.
+
+This application is set to run hourly to make sure that the website updates as soon as a new daily layer is released by the Copernicus Marine Service. This application also creates the figures that are later accessed by the WEBAPP container through the shared volume.
+
+Navigate to the Deenish Island - SST container
+```
+cd EuroSea/containers/Deenish-Island/sst
+```
+
+Build image
+```
+sudo docker build -t eurosea-sst:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+sudo docker run -d -v shared-data:/data --name eurosea-sst eurosea-sst:latest
+```
 
 
 
