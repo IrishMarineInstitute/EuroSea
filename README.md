@@ -38,6 +38,54 @@ Start container with data sharing to communicate with other containers.
 sudo docker run -d -v shared-data:/data --name eurosea-sst eurosea-sst:latest
 ```
 
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, sea surface temperature NetCDF files are downloaded to the ```/data/SST``` folder, and a pickle file  ```/data/pkl/SST.pkl``` should exist. The website will read the SST figures from this file.
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, sea surface temperature NetCDF files are downloaded to the ```/data/SST``` folder, and SST figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/SST.pkl```. The website will read the SST figures from this file. 
+
+## Deenish Island - IWBN container
+
+This container is set to run hourly to download the latest seawater temperature observations from the Irish Weather Buoy Network. Data is downloaded from the Marine Institute ERDDAP. This application is set to run hourly to make sure that the website updates as soon as new data is released on the ERDDAP. This application also creates the figures that are later accessed by the WEBAPP container through the shared volume.
+
+Navigate to the Deenish Island - IWBN container
+```
+cd EuroSea/containers/Deenish-Island/iwbn
+```
+
+Build image
+```
+sudo docker build -t eurosea-iwbn:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+sudo docker run -d -v shared-data:/data --name eurosea-iwbn eurosea-iwbn:latest
+```
+
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, seawater temperature NetCDF files are downloaded to the ```/data/IWBN``` folder, and IWBN figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/IWBN.pkl```. The website will read the IWBN figures from this file. 
+
+## Deenish Island - CHL container
+
+This container is set to run hourly to download the latest seawater chlorophyll-a concentration observations in the Southwest of Ireland waters. The chlorophyll-a 
+concentration is provided by the Atlantic Ocean Colour Bio-Geo-Chemical L4 Satellite Observations (https://doi.org/10.48670/moi-00288).
+   
+In addition, chlorophyll-a anomaly is determined as the difference between the actual chlorophyll-a concentration and a 60-day running median, ending two weeks before the current image (Tomlinson et al., 2004).
+
+This application is set to run hourly to make sure that the website updates as soon as a new daily layer is released by the Copernicus Marine Service. This application also creates the figures that are later accessed by the WEBAPP container through the shared volume.
+
+Navigate to the Deenish Island - CHL container
+```
+cd EuroSea/containers/Deenish-Island/chl
+```
+
+Build image
+```
+sudo docker build -t eurosea-chl:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+sudo docker run -d -v shared-data:/data --name eurosea-chl eurosea-chl:latest
+```
+
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, chlorophyll-a NetCDF files are downloaded to the ```/data/CHL``` folder, and CHL figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/CHL.pkl```. The website will read the CHL figures from this file. 
+
 
 
