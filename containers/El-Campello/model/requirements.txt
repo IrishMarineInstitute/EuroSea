@@ -1,0 +1,9 @@
+ecmwf-opendata
+netCDF4==1.5.7
+matplotlib
+motuclient==1.8.4
+numpy
+pygrib
+pandas
+plotly
+pytz

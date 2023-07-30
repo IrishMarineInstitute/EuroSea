@@ -1,0 +1,28 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!                                                                     !
+!                       General app configuration                     !   
+!                                                                     !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Timezone 
+timezone Europe/Madrid
+!
+! Buoy coordinates (longitude and latitude)
+lon -0.2917                            
+lat 38.4375   
+!
+! CMEMS username and password
+USERNAME ********                      
+PASSWORD ********                     
+!
+! Copernicus PHYSICS service
+phy MEDSEA_ANALYSISFORECAST_PHY_006_013-TDS
+!
+! SST product
+sst cmems_mod_med_phy-tem_anfc_4.2km_PT1H-m
+!
+! Copernicus WAVES service
+wav MEDSEA_ANALYSISFORECAST_WAV_006_017-TDS
+!
+! Wave product
+waves med-hcmr-wav-an-fc-h

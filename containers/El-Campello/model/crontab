@@ -1,0 +1,2 @@
+40 * * * * /usr/local/bin/python /root/model.py 
+

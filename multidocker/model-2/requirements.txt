@@ -1,5 +1,0 @@
-netCDF4==1.5.7
-motuclient==1.8.4
-pandas
-plotly
-pytz

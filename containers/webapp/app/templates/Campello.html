@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Observatorio Eurosea - El Campello</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+    <style type="text/css">
+    p {
+       font-family: Calibri;
+       font-size: 15px;
+       align: justify;
+    }
+    .footer {
+       width: 100%;
+    }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .landscape {
+            height: 75px;
+            width: 200px;
+        }
+    .Campello {
+       height: 264px;
+       width: 264px;
+       display: inline-block;
+       float: left;
+       background-image: url('/static/El-Campello.png');
+       background-repeat: no-repeat;
+    }
+    .links {
+       height: 264px;
+       width: 264px;
+       display: inline-block;
+       float: right;
+       align-items: center;
+       justify-content: center;
+    }
+    .button {
+       background-color: #123944;
+       width: 250px;
+       border-radius: 5px;
+       padding: 11px 15px;
+       border: none;
+       text-align: center;
+       text-decoration: none;
+       display: block;
+       margin: 20px auto;
+       font-size: 16px;
+       color: #FFFFFF
+    }
+    .button:hover { background-color: #05C3DD }
+    h5 {
+       margin: 0px 15px;
+    }
+    </style>
+</head>
+<body>
+    	<div class="grid">
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" > </a> </p> </div> </div> </div>			
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" > </a> </p> </div> </div> </div>			
+    		<div class="col-1-5">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" > </a> </p> </div> </div> </div>		
+    		<div class="col-1-8">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://www.xylem.com"> <img src="../static/xylem-logo.png" > </a> </p> </div> </div> </div>		
+    		<div class="col-1-9">
+    			<div class="content">
+                                <div class="landscape">
+        		            <p> <a href="https://avramar.eu"> <img src="../static/AVRAMAR-logo.png" > </a> </p> </div> </div> </div>			
+    	</div>
+	
+        <div class="grid">
+    		<div class="col-1-1">
+			<div class="content">
+     				<p id="funding">
+           This project has received funding from the European Union's
+           Horizon 2020 research and innovation programme under grant
+           agreement No. 862626
+                                </p>
+ 			</div>
+ 		</div>
+        </div>
+    		
+    <div class="grid">
+ 	<div class="col-1-4">
+        	<div class="content">
+                   <div class="Campello"></div>
+ 		</div>
+ 	</div>
+ 	<div class="col-1-4">
+ 		<div class="content">
+                   <div class="links">
+                      <form method="POST" action="/">
+                         <h5 style="text-align: center"> 
+                            El Campello 
+                         </h5>
+                         <input class="button" type="submit" value="In-situ Warnings & Forecasts" 
+                            name="Campello ISO" />
+                         <br><br>
+                         <input class="button" type="submit" value="In-situ Historical Data" 
+                            name="Campello ISH" />
+                       </form>
+                    </div>
+ 		</div>
+	</div>
+    		
+    		<div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+       <p align="justify"> 
+          This is a EuroSea partnership between the Marine Institute, the Spanish National 
+          Research Council (CSIC), AVRAMAR and Xylem / 
+          Aanderaa Data Instruments. This part of the Marine Observatory work is being 
+          developed within the WP6 Ocean Health Demonstrator of  the EuroSea project 
+          “Improving and integrating the European Ocean Observing and Forecasting System”.
+          This project is funded by the EU Horizon 2020 research and innovation programme
+          under grant agreement No. 862626. 
+       </p>
+                            </div> 
+                           <div class="footer">
+       <p align="justify"> 
+           DISCLAIMER. Please, note that this service is currently in pre-operational phase of development.
+The user assumes the entire risk related to use of information contained in the Irish EuroSea Ocean Observation and Forecasting System. The data is provided "as is," and disclaims any and all warranties, whether expressed or implied, including (without limitation) any implied warranties of merchantability or fitness for a particular purpose.
+       </p>
+                            </div> 
+    			</div>
+    		</div>
+    	</div>
+</body>
+</html>
