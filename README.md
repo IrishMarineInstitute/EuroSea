@@ -6,9 +6,15 @@ This is a EuroSea partnership between the Marine Institute, the Spanish National
 
 # Installation
 
-These instructions have been tested on Ubuntu 18.04.6 LTS (Bionic Beaver). First, download the code with 
+These instructions have been tested on Ubuntu 18.04.6 LTS (Bionic Beaver). First, download the code with: 
 
 ```
 git clone https://github.com/IrishMarineInstitute/EuroSea.git
 ```
+
+The code is structured in multiple Docker containers that communicate with each other through a shared volume. The next step is to initialize each container.
+
+## Deenish Island - SST container
+
+
 
