@@ -151,4 +151,4 @@ Start container with data sharing to communicate with other containers.
 sudo docker run -d -v shared-data:/data --name eurosea-waves eurosea-waves:latest
 ```
  
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/WAVES.pkl```. The website will take the model forecast figure (exported as a Plotly JSON string) from this file. 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, wave forecasts are exported to a pickle file ```/data/pkl/WAVES.pkl```. The website will take the wave forecast figure (exported as a Plotly JSON string) from this file. 
