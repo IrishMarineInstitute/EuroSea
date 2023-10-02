@@ -1,0 +1,2 @@
+45 * * * * /usr/local/bin/python /root/iwbn.py 
+

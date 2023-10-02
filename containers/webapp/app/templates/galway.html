@@ -4,9 +4,10 @@
 	<head>
 		<title>Killeenaran and Galway Bay Warnings & Forecasts</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" >
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+                <link rel="icon" href="../static/MarineInstitute.png">
 		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 		<script src="../static/js/script.js"></script>
 
@@ -19,31 +20,96 @@
     width: 100px;
     text-align: center;       
     margin-top: 15px;
-    border: 1px solid black;
+    border: 0px solid black;
     border-radius: 5px;
     padding: 15px 15px;     
 }
 
-#time-1 {
+.unpadded {
+  padding: 0
+}
+
+.responsive {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+}
+
+.mobile {
+  display: none;
+}
+
+.desktop {
+  display: block;
+}
+
+.footer {
+  width: 100%;
+}
+
+.time-1 {
     background-color: #123944;
     width: 330px;
     border-radius: 5px;
     line-height: 60px;
     border: none;
     text-align: center;     
-    font-size: 20px;
+    font-size: 18px;
     color: #FFFFFF
 }
 
-#time-2 {
+.time-2 {
     background-color: #123944;
-    width: 730px;
+    width: 330px;
     border-radius: 5px;
     line-height: 60px;
     border: none;
     text-align: center;     
-    font-size: 20px;
+    font-size: 18px;
     color: #FFFFFF
+}
+
+@media screen and (max-width: 800px) {
+  .mobile {
+    display: block;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .galway-value-box {       
+    font-size: 14px;
+    font-weight: bold;       
+    width: 50px;
+    text-align: center;       
+    margin-top: 5px;
+    border: 0px solid black;
+    border-radius: 5px;
+    padding: 5px 5px;     
+  }
+
+  .time-1 {
+    background-color: #123944;
+    width: 200px;
+    border-radius: 5px;
+    line-height: 30px;
+    border: none;
+    text-align: center;     
+    font-size: 12px;
+    color: #FFFFFF
+  }
+
+  .time-2 {
+    background-color: #123944;
+    width: 200px;
+    border-radius: 5px;
+    line-height: 30px;
+    border: none;
+    text-align: center;     
+    font-size: 10px;
+    color: #FFFFFF
+  }
 }
 
                 </style>
@@ -52,24 +118,613 @@
 
 	<body>
 	
-  		<div class="grid">
-  			<div class="col-1-3 mobile-col-1-3">
-  				<div class="content">
-  				<input value="Killeenaran on {{ahora}}" type=text id="time-1" size='70'/>
+                <!-- MOBILE PHONE VERSION -->
+    	        <div class="grid mobile">
+    		    <div class="col-1-5 mobile-col-1-2">
+    			<div class="content unpadded">
+                            <div class="landscape">
+        	               <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                                   </a> </p> </div> </div> </div>			
+
+    		    <div class="col-1-5 mobile-col-1-2">
+    			<div class="content unpadded">
+                            <div class="landscape">
+        	                <p> <a href="https://cuanbeo.com"> <img src="../static/CuanBeo-logo.png" alt="Cuan Beo" class="responsive" >
+                                    </a> </p> </div> </div> </div>			
+                </div>        
+
+                <div class="grid mobile">
+    		   <div class="col-1-1">
+    			<div class="content unpadded">
+                           <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
+                                   This portal shows the seawater temperature and salinity conditions at Killeenaran (53.198ºN, 8.942ºW) 
+                                   in Galway Bay from a ROMS coastal model developed at the Marine Institute.  
+                               </p>
+                            </div> 
+                         </div>
+                      </div>
+                </div>
+
+  		<div class="grid mobile">
+  			<div class="col-1-1">
+  				<div class="content unpadded">
+                                    <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
+                                        Below, there are the <b> current seawater temperature and salinity </b> conditions at Killeenaran,
+                                        at the surface and the seabed. <b> Time is in UTC </b>. 
+                               </p>
+                                    </div>
   				</div>
   			</div>
-  			<div class="col-2-3 mobile-col-2-3">
+                </div>
+ 
+  		<div class="grid mobile">
+  			<div class="col-1-1 mobile-col-1-1">
   				<div class="content">
-  				<input type=text id="time-2" size='70'
-  				value="Killeenaran 3-day Forecast" />
+  				<input value="Killeenaran on {{ahora}}" type=text class="time-1" size='70'/>
   				</div>
   			</div>
   		</div>
     		
-		<div class="grid">
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-4">
+				<div class="content">
+					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-1-4">
+				<div class="content">
+                                    <p style="font-size:12px; font-family:Calibri">Surface</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{latest_temperature_surface}} ºC" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-4">
+				<div class="content">
+					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-1-4">
+				<div class="content">
+                                    <p style="font-size:12px; font-family:Calibri">Seabed</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{latest_temperature_seabed}} ºC" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-5">
+				<div class="content">
+					 <img src="../static/salt.png" alt="salinity" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-1-4">
+				<div class="content">
+                                    <p style="font-size:12px; margin-left:11px; font-family:Calibri">Surface</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input style="margin-left:7px"; 
+					        class="galway-value-box"
+					        value="{{latest_salinity_surface}}" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-5">
+				<div class="content">
+					 <img src="../static/salt.png" alt="salinity" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-1-4">
+				<div class="content">
+                                    <p style="font-size:12px; margin-left:11px; font-family:Calibri">Seabed</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input style="margin-left:7px"; 
+					        class="galway-value-box"
+					        value="{{latest_salinity_seabed}}" />
+				</div>
+			</div>
+                </div>
+			
+  		<div class="grid mobile">
+  			<div class="col-1-1">
+  				<div class="content unpadded">
+                                    <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
+                                        Below, there are the minimum and maximum seawater <b> temperatures </b>
+                                        at Killeenaran in a 3-day forecast.
+                               </p>
+                                    </div>
+  				</div>
+  			</div>
+                </div>
+ 
+  		<div class="grid mobile">
+  			<div class="col-1-1 mobile-col-1-1">
+  				<div class="content">
+  				<input type=text class="time-2" size='70'
+  				value="Killeenaran 3-day Temperature Forecast" />
+  				</div>
+  			</div>
+  		</div>
+    		
+
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-4">
+				<div class="content">
+					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Min. at surface</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{minimum_temperature_forecast_surface}} ºC" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-4">
+				<div class="content">
+					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Max. at surface</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{maximum_temperature_forecast_surface}} ºC" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-4">
+				<div class="content">
+					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Min. at seabed</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{minimum_temperature_forecast_seabed}} ºC" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-4">
+				<div class="content">
+					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Max. at seabed</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{maximum_temperature_forecast_seabed}} ºC" />
+				</div>
+			</div>
+                </div>
+			
+  		<div class="grid mobile">
+  			<div class="col-1-1">
+  				<div class="content unpadded">
+                                    <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
+                                        Below, there are the minimum and maximum seawater <b> salinities </b> 
+                                        at Killeenaran in a 3-day forecast.
+                               </p>
+                                    </div>
+  				</div>
+  			</div>
+                </div>
+ 
+  		<div class="grid mobile">
+  			<div class="col-1-1 mobile-col-1-1">
+  				<div class="content">
+  				<input type=text class="time-2" size='70'
+  				value="Killeenaran 3-day Salinity Forecast" />
+  				</div>
+  			</div>
+  		</div>
+    		
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-5">
+				<div class="content">
+					 <img src="../static/salt.png" alt="salinity" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Min. at surface</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{minimum_salinity_forecast_surface}}" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-5">
+				<div class="content">
+					 <img src="../static/salt.png" alt="salinity" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Max. at surface</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{maximum_salinity_forecast_surface}}" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-5">
+				<div class="content">
+					 <img src="../static/salt.png" alt="salinity" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Min. at seabed</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{minimum_salinity_forecast_seabed}}" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-6 mobile-col-1-5">
+				<div class="content">
+					 <img src="../static/salt.png" alt="salinity" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-12 mobile-col-2-5">
+				<div class="content">
+                                    <p style="font-size:10px; font-family:Calibri">Max. at seabed</p>
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-4">
+				<div class="content">
+					 <input  
+					        class="galway-value-box"
+					        value="{{maximum_salinity_forecast_seabed}}" />
+				</div>
+			</div>
+                </div>
+			
+		<div class="grid mobile">
+			<div class="col-1-1">
+				<div class="content unpadded">
+                                   <hr> </div> </div> </div>
+  			
+                <div class="grid mobile">
+    		   <div class="col-1-1">
+    			<div class="content unpadded">
+                           <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
+                                   The charts below show the time series of seawater temperature and salinity at Killeenaran.
+                                   The Galway Bay model "prediction" before present is referred to as "hindcast" (blue), whereas
+                                   the forecast is shown as an orange line. 
+                               </p>
+                            </div> 
+                         </div>
+                      </div>
+                </div>
+  			
+  		<script language="javascript" type="text/javascript">
+
+                    <!-- Time series layout -->
+                    var layout = {
+                       width: 250,
+                       height: 200,
+                       margin: {
+                           l: 40, r: 10, b: 30, t: 30, pad: 4, 
+                       },
+                       showlegend: false,
+                       texttemplate: '%{value:.1f}',
+                       title: '',
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickangle: 90,
+                           automargin: true,
+                           fixedrange: true,
+                           range: ["{{phone_idate}}", "{{edate}}"],
+                       },
+                       yaxis: {
+                           title: '',
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickformat: '.1f',
+                           fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 8,            
+                       },
+                       };
+                    
+                </script>
+  		
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content unpadded">
+          		    <div class="Series" id="surface-temperature"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sstK|safe }},
+                                        name: 'surface',
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    }
+                                    var trace3 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sstK_FC|safe }},
+                                        showlegend: false,
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    }
+                                    layout['title'] = 'Surface temperature at Killeenaran'
+                                    layout.yaxis['title'] = 'ºC'
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('surface-temperature');
+                                    Plotly.newPlot( TESTER, [trace1, trace3], layout, {displayModeBar: false} );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content unpadded">
+          		    <div class="Series" id="seabed-temperature"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace2 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sbtK|safe }},
+                                        name: 'seabed',
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    };
+                                    var trace4 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sbtK_FC|safe }},
+                                        showlegend: false,
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    };
+                                    layout['title'] = 'Seabed temperature at Killeenaran'
+                                    layout.yaxis['title'] = 'ºC'
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('seabed-temperature');
+                                    Plotly.newPlot( TESTER, [trace2, trace4], layout, {displayModeBar: false} );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content unpadded">
+          		    <div class="Series" id="surface-salinity"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sssK|safe }},
+                                        name: 'surface',
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    }
+                                    var trace3 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sssK_FC|safe }},
+                                        name: 'surface forecast',
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    }
+                                    layout['title'] = 'Surface salinity at Killeenaran'
+                                    layout.yaxis['title'] = ''
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('surface-salinity');
+                                    Plotly.newPlot( TESTER, [trace1, trace3], layout, {displayModeBar: false} );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content unpadded">
+          		    <div class="Series" id="seabed-salinity"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace2 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sbsK|safe }},
+                                        name: 'seabed',
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    };
+                                    var trace4 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sbsK_FC|safe }},
+                                        name: 'seabed forecast',
+                                        hoverinfo: 'x+y',
+                                        line: {width: 1},
+                                    };
+                                    layout['title'] = 'Seabed salinity at Killeenaran'
+                                    layout.yaxis['title'] = ''
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('seabed-salinity');
+                                    Plotly.newPlot( TESTER, [trace2, trace4], layout, {displayModeBar: false} );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+                <!-- DESKTOP VERSION -->
+    	        <div class="grid desktop">
+                    <div class="col-11-12"> <div class="content unpadded"> </div> </div>
+                    <div class="col-1-12"> 
+                       <div class="content unpadded">
+                           <img src="../static/QR-Killeenaran.png" class="responsive"> 
+                       </div>
+                    </div>
+                </div>
+
+    	        <div class="grid desktop">
+    		    <div class="col-1-4">
+    			<div class="content"></div> </div> 
+    		    <div class="col-1-4">
+    			<div class="content">
+                            <div class="landscape">
+        	               <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                                   </a> </p> </div> </div> </div>			
+
+    		    <div class="col-1-4">
+    			<div class="content">
+                            <div class="landscape">
+        	                <p> <a href="https://cuanbeo.com"> <img src="../static/CuanBeo-logo.png" alt=Cuan Beo" class="responsive" >
+                                    </a> </p> </div> </div> </div>			
+    		    <div class="col-1-4">
+    			<div class="content"></div> </div> 
+                </div>        
+
+                <div class="grid desktop">
+    		   <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                                   This portal shows the seawater temperature and salinity conditions at Killeenaran (53.198ºN, 8.942ºW) 
+                                   in Galway Bay from a ROMS hydrodynamic coastal model developed at the Marine Institute. Please use 
+                                   the QR code on the top right for ease of access from your phone.  
+                               </p>
+                            </div> 
+                         </div>
+                      </div>
+                </div>
+
+  		<div class="grid desktop">
+  			<div class="col-1-3">
+  				<div class="content">
+                                    <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:14px;"> 
+                                        Below, there are the <b> current seawater temperature and salinity </b> conditions at Killeenaran,
+                                        at the surface and the seabed. <b> Time is in UTC. </b>
+                               </p>
+                                    </div>
+  				</div>
+  			</div>
+  			<div class="col-1-3">
+  				<div class="content">
+                                    <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:14px;"> 
+                                        Below, there are the minimum and maximum seawater <b> temperatures </b>
+                                        at Killeenaran in a 3-day forecast.
+                               </p>
+                                    </div>
+  				</div>
+  			</div>
+  			<div class="col-1-3">
+  				<div class="content">
+                                    <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:14px;"> 
+                                        Below, there are the minimum and maximum seawater <b> salinities </b>
+                                        at Killeenaran in a 3-day forecast.
+                               </p>
+                                    </div>
+  				</div>
+  			</div>
+  		</div>
+    		
+  		<div class="grid desktop">
+  			<div class="col-1-3">
+  				<div class="content">
+  				<input value="Killeenaran on {{ahora}}" type=text class="time-1" size='70'/>
+  				</div>
+  			</div>
+  			<div class="col-1-3">
+  				<div class="content">
+  				<input type=text class="time-2" size='70'
+  				value="Killeenaran 3-day Temperature Forecast" />
+  				</div>
+  			</div>
+  			<div class="col-1-3">
+  				<div class="content">
+  				<input type=text class="time-2" size='70'
+  				value="Killeenaran 3-day Salinity Forecast" />
+  				</div>
+  			</div>
+  		</div>
+    		
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
-					 <img src="../static/thermometer.png" class="icon">
+					 <img src="../static/seawater-temperature.png" class="responsive">
 				</div>
 			</div>
 			<div class="col-1-12">
@@ -99,23 +754,23 @@
 			</div>
 			<div class="col-2-12">
 				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface max.</p>
+                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface min.</p>
 				</div>
 			</div>
 			<div class="col-1-12">
 				<div class="content">
 					 <input id="Marine-Heat-Wave-1" 
 					        class="galway-value-box"
-					        value="{{maximum_temperature_forecast_surface}} ºC" />
+					        value="{{minimum_salinity_forecast_surface}}" />
 				</div>
 			</div>
 		</div>
 
 
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
-					 <img src="../static/thermometer.png" class="icon">
+					 <img src="../static/seawater-temperature.png" class="responsive">
 				</div>
 			</div>
 			<div class="col-1-12">
@@ -133,36 +788,36 @@
 			
 			<div class="col-2-12">
 				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed min.</p>
+                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface max.</p>
 				</div>
 			</div>
 			<div class="col-2-12">
 				<div class="content">
 					 <input id="Marine-Heat-Wave-1" 
 					        class="galway-value-box"
-					        value="{{minimum_temperature_forecast_seabed}} ºC" />
+					        value="{{maximum_temperature_forecast_surface}} ºC" />
 				</div>
 			</div>
 			<div class="col-2-12">
 				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed max.</p>
+                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface max.</p>
 				</div>
 			</div>
 			<div class="col-2-12">
 				<div class="content">
 					 <input id="Marine-Heat-Wave-1" 
 					        class="galway-value-box"
-					        value="{{maximum_temperature_forecast_seabed}} ºC" />
+					        value="{{maximum_salinity_forecast_surface}}" />
 				</div>
 			</div>
 		</div>
 
 
 
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
-					 <img src="../static/salt.png" class="icon">
+					 <img src="../static/salt.png" class="responsive">
 				</div>
 			</div>
 			<div class="col-1-12">
@@ -180,35 +835,35 @@
 			
 			<div class="col-2-12">
 				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface min.</p>
+                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed min.</p>
 				</div>
 			</div>
 			<div class="col-2-12">
 				<div class="content">
 					 <input id="Marine-Heat-Wave-1" 
 					        class="galway-value-box"
-					        value="{{minimum_salinity_forecast_surface}}" />
+					        value="{{minimum_temperature_forecast_seabed}} ºC" />
 				</div>
 			</div>
 			<div class="col-2-12">
 				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface max.</p>
+                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed min.</p>
 				</div>
 			</div>
 			<div class="col-1-12">
 				<div class="content">
 					 <input id="Marine-Heat-Wave-1" 
 					        class="galway-value-box"
-					        value="{{maximum_salinity_forecast_surface}}" />
+					        value="{{minimum_salinity_forecast_seabed}}" />
 				</div>
 			</div>
 		</div>
 
 
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
-					 <img src="../static/salt.png" class="icon">
+					 <img src="../static/salt.png" class="responsive">
 				</div>
 			</div>
 			<div class="col-1-12">
@@ -226,14 +881,14 @@
 			
 			<div class="col-2-12">
 				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed min.</p>
+                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed max.</p>
 				</div>
 			</div>
 			<div class="col-2-12">
 				<div class="content">
 					 <input id="Marine-Heat-Wave-1" 
 					        class="galway-value-box"
-					        value="{{minimum_salinity_forecast_seabed}}" />
+					        value="{{maximum_temperature_forecast_seabed}} ºC" />
 				</div>
 			</div>
 			<div class="col-2-12">
@@ -250,7 +905,25 @@
 			</div>
 		</div>
 
+                
+		<div class="grid desktop">
+			<div class="col-1-1">
+				<div class="content">
+                                   <hr> </div> </div> </div>
 		    		
+                <div class="grid desktop">
+    		   <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                                   The charts below show the time series of seawater temperature and salinity at Killeenaran.
+                                   The Galway Bay model "prediction" before present is referred to as "hindcast" (blue), whereas
+                                   the forecast is shown as an orange line. 
+                               </p>
+                            </div> 
+                         </div>
+                      </div>
+                </div>
   			
   		<script language="javascript" type="text/javascript">
                     <!-- Time series layout -->
@@ -263,6 +936,7 @@
                            ticks: 'outside',
                            tickangle: 90,
                            automargin: true,
+                           range: ["{{desktop_idate}}", "{{edate}}"],
                        },
                        yaxis: {
                            title: '',
@@ -279,779 +953,114 @@
                     
                 </script>
   		
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-1">
       			<div class="content">
-          		    <div class="Series" id="temp"></div>
+          		    <div class="Series" id="surface-temperature-desktop"></div>
                                 <script language="javascript" type="text/javascript">
                                     var trace1 = {
                                         x: {{ time_hindcast|safe }},
                                         y: {{ sstK|safe }},
-                                        name: 'surface',
+                                        name: 'Hindcast',
                                         hoverinfo: 'x+y',
                                     }
-                                    var trace2 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sbtK|safe }},
-                                        name: 'seabed',
-                                        hoverinfo: 'x+y',
-                                    };
                                     var trace3 = {
                                         x: {{ time_forecast|safe }},
                                         y: {{ sstK_FC|safe }},
-                                        name: 'surface forecast',
+                                        name: 'Forecast',
                                         hoverinfo: 'x+y',
                                     }
-                                    var trace4 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sbtK_FC|safe }},
-                                        name: 'seabed forecast',
-                                        hoverinfo: 'x+y',
-                                    };
-                                    layout['title'] = 'Seawater temperature at Killenaran'
+                                    layout['title'] = 'Surface temperature at Killenaran'
                                     layout.yaxis['title'] = 'ºC'
                                     layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('temp');
-                                    Plotly.newPlot( TESTER, [trace1, trace2, trace3, trace4], layout );
+                                    TESTER = document.getElementById('surface-temperature-desktop');
+                                    Plotly.newPlot( TESTER, [trace1, trace3], layout );
                                 </script>
       			</div>
                      </div>
       	        </div>
 
-
-
-  		
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-1">
       			<div class="content">
-          		    <div class="Series" id="salt"></div>
+          		    <div class="Series" id="seabed-temperature-desktop"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace2 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sbtK|safe }},
+                                        name: 'Hindcast',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    var trace4 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sbtK_FC|safe }},
+                                        name: 'Forecast',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    layout['title'] = 'Seabed temperature at Killenaran'
+                                    layout.yaxis['title'] = 'ºC'
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('seabed-temperature-desktop');
+                                    Plotly.newPlot( TESTER, [trace2, trace4], layout );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		<div class="grid desktop">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="surface-salinity-desktop"></div>
                                 <script language="javascript" type="text/javascript">
                                     var trace1 = {
                                         x: {{ time_hindcast|safe }},
                                         y: {{ sssK|safe }},
-                                        name: 'surface',
+                                        name: 'Hindcast',
                                         hoverinfo: 'x+y',
                                     }
-                                    var trace2 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sbsK|safe }},
-                                        name: 'seabed',
-                                        hoverinfo: 'x+y',
-                                    };
                                     var trace3 = {
                                         x: {{ time_forecast|safe }},
                                         y: {{ sssK_FC|safe }},
-                                        name: 'surface forecast',
+                                        name: 'Forecast',
                                         hoverinfo: 'x+y',
                                     }
-                                    var trace4 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sbsK_FC|safe }},
-                                        name: 'seabed forecast',
-                                        hoverinfo: 'x+y',
-                                    };
-                                    layout['title'] = 'Seawater salinity at Killenaran'
+                                    layout['title'] = 'Surface salinity at Killenaran'
                                     layout.yaxis['title'] = ''
                                     layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('salt');
-                                    Plotly.newPlot( TESTER, [trace1, trace2, trace3, trace4], layout );
+                                    TESTER = document.getElementById('surface-salinity-desktop');
+                                    Plotly.newPlot( TESTER, [trace1, trace3], layout );
                                 </script>
       			</div>
                      </div>
       	        </div>
 
-<br><br>
-
-    	<div class="grid">
-    		<div class="col-1-2">
-    			<div class="content">
-          		    <div id="animation"></div>
-
-                                        <script language="javascript" type="text/javascript">
-     var trace_00 =  {z: {{sss_00}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_01 =  {z: {{sss_01}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_02 =  {z: {{sss_02}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_03 =  {z: {{sss_03}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_04 =  {z: {{sss_04}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_05 =  {z: {{sss_05}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_06 =  {z: {{sss_06}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_07 =  {z: {{sss_07}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_08 =  {z: {{sss_08}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_09 =  {z: {{sss_09}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_10 =  {z: {{sss_10}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_11 =  {z: {{sss_11}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_12 =  {z: {{sss_12}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_13 =  {z: {{sss_13}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_14 =  {z: {{sss_14}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_15 =  {z: {{sss_15}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_16 =  {z: {{sss_16}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_17 =  {z: {{sss_17}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_18 =  {z: {{sss_18}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_19 =  {z: {{sss_19}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_20 =  {z: {{sss_20}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_21 =  {z: {{sss_21}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_22 =  {z: {{sss_22}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_23 =  {z: {{sss_23}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_24 =  {z: {{sss_24}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_25 =  {z: {{sss_25}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_26 =  {z: {{sss_26}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_27 =  {z: {{sss_27}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_28 =  {z: {{sss_28}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_29 =  {z: {{sss_29}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_30 =  {z: {{sss_30}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_31 =  {z: {{sss_31}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_32 =  {z: {{sss_32}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_33 =  {z: {{sss_33}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_34 =  {z: {{sss_34}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_35 =  {z: {{sss_35}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_36 =  {z: {{sss_36}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_37 =  {z: {{sss_37}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_38 =  {z: {{sss_38}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_39 =  {z: {{sss_39}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_40 =  {z: {{sss_40}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_41 =  {z: {{sss_41}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_42 =  {z: {{sss_42}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_43 =  {z: {{sss_43}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_44 =  {z: {{sss_44}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_45 =  {z: {{sss_45}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_46 =  {z: {{sss_46}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_47 =  {z: {{sss_47}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_48 =  {z: {{sss_48}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_49 =  {z: {{sss_49}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_50 =  {z: {{sss_50}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_51 =  {z: {{sss_51}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_52 =  {z: {{sss_52}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_53 =  {z: {{sss_53}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_54 =  {z: {{sss_54}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_55 =  {z: {{sss_55}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_56 =  {z: {{sss_56}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_57 =  {z: {{sss_57}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_58 =  {z: {{sss_58}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_59 =  {z: {{sss_59}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_60 =  {z: {{sss_60}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_61 =  {z: {{sss_61}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_62 =  {z: {{sss_62}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_63 =  {z: {{sss_63}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_64 =  {z: {{sss_64}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_65 =  {z: {{sss_65}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_66 =  {z: {{sss_66}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_67 =  {z: {{sss_67}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_68 =  {z: {{sss_68}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_69 =  {z: {{sss_69}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_70 =  {z: {{sss_70}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_71 =  {z: {{sss_71}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_72 =  {z: {{sss_72}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-
-                                            var coast = {
-                                               name: 'coast',
-                                               x: {{lon_coast}},
-                                               y: {{lat_coast}},
-                                               type: 'scatter',
-                                               hovermode: false,
-                                               hoverinfo: 'none',
-                                               line: {
-                                                   color: 'rgb(0, 0, 0)',
-                                                   width: 1,
-                                               },
-                                            };
-                                            var site = {
-                                               name: 'buoy',
-                                               x: [-8.9422777777777],
-                                               y: [53.1978333333],
-                                               mode: 'markers',
-                                               hoverinfo: 'none',
-                                               marker: {
-                                                  size: 20,
-                                                  symbol: 'cross-thin',
-                                                  line: { 
-                                                      color: 'rgb(0, 0, 0)',
-                                                      width: 1,
-                                                  },
-                                               },
-                                            };
-
-                                    var titles = [
- "{{time_00}}", "{{time_01}}", "{{time_02}}", "{{time_03}}", "{{time_04}}", "{{time_05}}",
- "{{time_06}}", "{{time_07}}", "{{time_08}}", "{{time_09}}", "{{time_10}}", "{{time_11}}",
- "{{time_12}}", "{{time_13}}", "{{time_14}}", "{{time_15}}", "{{time_16}}", "{{time_17}}",
- "{{time_18}}", "{{time_19}}", "{{time_20}}", "{{time_21}}", "{{time_22}}", "{{time_23}}",
- "{{time_24}}", "{{time_25}}", "{{time_26}}", "{{time_27}}", "{{time_28}}", "{{time_29}}",
- "{{time_30}}", "{{time_31}}", "{{time_32}}", "{{time_33}}", "{{time_34}}", "{{time_35}}",
- "{{time_36}}", "{{time_37}}", "{{time_38}}", "{{time_39}}", "{{time_40}}", "{{time_41}}",
- "{{time_42}}", "{{time_43}}", "{{time_44}}", "{{time_45}}", "{{time_46}}", "{{time_47}}",
- "{{time_48}}", "{{time_49}}", "{{time_50}}", "{{time_51}}", "{{time_52}}", "{{time_53}}",
- "{{time_54}}", "{{time_55}}", "{{time_56}}", "{{time_57}}", "{{time_58}}", "{{time_59}}",
- "{{time_60}}", "{{time_61}}", "{{time_62}}", "{{time_63}}", "{{time_64}}", "{{time_65}}",
- "{{time_66}}", "{{time_67}}", "{{time_68}}", "{{time_69}}", "{{time_70}}", "{{time_71}}", "{{time_72}}",
-];
-
-
-                                    var layout2 = {
-                                        autosize: false,
-                                        width: 500,
-                                        height: 490, 
-                                        margin: {l: 10, r: 10, b: 10, t: 30, pad: 0},
-                                        showlegend: false,
-                                        title: {
-                                            text: '',
-                                            font: {
-                                                size: 18,
-                                            },
-                                        },
-                                        xaxis: {
-                                            mirror: true,
-                                            showline: true,
-                                            ticks: 'outside',
-                                            tickvals: [],
-                                            automargin: true,
-                                            range: [-9.09, -8.9],
-                                        },
-                                        yaxis: {
-                                            mirror: true,
-                                            showline: true,
-                                            ticks: 'outside',
-                                            tickvals: [],
-                                            range: [53.12, 53.229],
-                                        },
-                                        font: {
-                                            family: 'Sans-Serif',
-                                            size: 18,            
-                                        },
+  		<div class="grid desktop">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="seabed-salinity-desktop"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace2 = {
+                                        x: {{ time_hindcast|safe }},
+                                        y: {{ sbsK|safe }},
+                                        name: 'Hindcast',
+                                        hoverinfo: 'x+y',
                                     };
-
-                                    var frameIndex = 0;
-
-  var data00 = [trace_00, coast, site];
-  var data01 = [trace_01, coast, site];
-  var data02 = [trace_02, coast, site];
-  var data03 = [trace_03, coast, site];
-  var data04 = [trace_04, coast, site];
-  var data05 = [trace_05, coast, site];
-  var data06 = [trace_06, coast, site];
-  var data07 = [trace_07, coast, site];
-  var data08 = [trace_08, coast, site];
-  var data09 = [trace_09, coast, site];
-  var data10 = [trace_10, coast, site];
-  var data11 = [trace_11, coast, site];
-  var data12 = [trace_12, coast, site];
-  var data13 = [trace_13, coast, site];
-  var data14 = [trace_14, coast, site];
-  var data15 = [trace_15, coast, site];
-  var data16 = [trace_16, coast, site];
-  var data17 = [trace_17, coast, site];
-  var data18 = [trace_18, coast, site];
-  var data19 = [trace_19, coast, site];
-  var data20 = [trace_20, coast, site];
-  var data21 = [trace_21, coast, site];
-  var data22 = [trace_22, coast, site];
-  var data23 = [trace_23, coast, site];
-  var data24 = [trace_24, coast, site];
-  var data25 = [trace_25, coast, site];
-  var data26 = [trace_26, coast, site];
-  var data27 = [trace_27, coast, site];
-  var data28 = [trace_28, coast, site];
-  var data29 = [trace_29, coast, site];
-  var data30 = [trace_30, coast, site];
-  var data31 = [trace_31, coast, site];
-  var data32 = [trace_32, coast, site];
-  var data33 = [trace_33, coast, site];
-  var data34 = [trace_34, coast, site];
-  var data35 = [trace_35, coast, site];
-  var data36 = [trace_36, coast, site];
-  var data37 = [trace_37, coast, site];
-  var data38 = [trace_38, coast, site];
-  var data39 = [trace_39, coast, site];
-  var data40 = [trace_40, coast, site];
-  var data41 = [trace_41, coast, site];
-  var data42 = [trace_42, coast, site];
-  var data43 = [trace_43, coast, site];
-  var data44 = [trace_44, coast, site];
-  var data45 = [trace_45, coast, site];
-  var data46 = [trace_46, coast, site];
-  var data47 = [trace_47, coast, site];
-  var data48 = [trace_48, coast, site];
-  var data49 = [trace_49, coast, site];
-  var data50 = [trace_50, coast, site];
-  var data51 = [trace_51, coast, site];
-  var data52 = [trace_52, coast, site];
-  var data53 = [trace_53, coast, site];
-  var data54 = [trace_54, coast, site];
-  var data55 = [trace_55, coast, site];
-  var data56 = [trace_56, coast, site];
-  var data57 = [trace_57, coast, site];
-  var data58 = [trace_58, coast, site];
-  var data59 = [trace_59, coast, site];
-  var data60 = [trace_60, coast, site];
-  var data61 = [trace_61, coast, site];
-  var data62 = [trace_62, coast, site];
-  var data63 = [trace_63, coast, site];
-  var data64 = [trace_64, coast, site];
-  var data65 = [trace_65, coast, site];
-  var data66 = [trace_66, coast, site];
-  var data67 = [trace_67, coast, site];
-  var data68 = [trace_68, coast, site];
-  var data69 = [trace_69, coast, site];
-  var data70 = [trace_70, coast, site];
-  var data71 = [trace_71, coast, site];
-  var data72 = [trace_72, coast, site];
-
-
-
-var frames = [data00,data01,data02,data03,data04,data05,
-data06,data07,data08,data09,data10,data11,
-data12,data13,data14,data15,data16,data17,
-data18,data19,data20,data21,data22,data23,
-data24,data25,data26,data27,data28,data29,
-data30,data31,data32,data33,data34,data35,
-data36,data37,data38,data39,data40,data41,
-data42,data43,data44,data45,data46,data47,
-data48,data49,data50,data51,data52,data53,
-data54,data55,data56,data57,data58,data59,
-data60,data61,data62,data63,data64,data65,
-data66,data67,data68,data69,data70,data71,
-data72];
-
-                                    layout2.title.text = "Surface salinity on ".concat(titles[frameIndex]);
-                                    TESTER = document.getElementById('animation');
-                                    Plotly.newPlot( TESTER, frames[frameIndex], layout2);
-
-                                    function moveBackward() {
-                                            frameIndex -= 1
-                                            frameIndex = Math.max(frameIndex, 0);
-                                            layout2.title.text = "Surface salinity on ".concat(titles[frameIndex]);
-                                            var data_update = frames[frameIndex];
-
-                                            TESTER = document.getElementById('animation');
-                                            Plotly.react( TESTER, data_update, layout2)
-                                    }
-
-                                    function moveForward() {
-                                            frameIndex += 1
-                                            frameIndex = Math.min(frameIndex, frames.length - 1);
-                                            layout2.title.text = "Surface salinity on ".concat(titles[frameIndex]);
-                                            var data_update = frames[frameIndex];
-
-                                            TESTER = document.getElementById('animation');
-                                            Plotly.react( TESTER, data_update, layout2)
-
-                                    }
-                            </script>
-                        </div>
-	        </div>  
-
-
-    		<div class="col-1-2">
-    			<div class="content">
-          		    <div id="animation-2"></div>
-
-                                        <script language="javascript" type="text/javascript">
-     var trace_00 =  {z: {{sbs_00}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_01 =  {z: {{sbs_01}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_02 =  {z: {{sbs_02}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_03 =  {z: {{sbs_03}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_04 =  {z: {{sbs_04}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_05 =  {z: {{sbs_05}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_06 =  {z: {{sbs_06}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_07 =  {z: {{sbs_07}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_08 =  {z: {{sbs_08}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_09 =  {z: {{sbs_09}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_10 =  {z: {{sbs_10}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_11 =  {z: {{sbs_11}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_12 =  {z: {{sbs_12}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_13 =  {z: {{sbs_13}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_14 =  {z: {{sbs_14}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_15 =  {z: {{sbs_15}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_16 =  {z: {{sbs_16}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_17 =  {z: {{sbs_17}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_18 =  {z: {{sbs_18}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_19 =  {z: {{sbs_19}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_20 =  {z: {{sbs_20}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_21 =  {z: {{sbs_21}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_22 =  {z: {{sbs_22}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_23 =  {z: {{sbs_23}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_24 =  {z: {{sbs_24}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_25 =  {z: {{sbs_25}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_26 =  {z: {{sbs_26}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_27 =  {z: {{sbs_27}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_28 =  {z: {{sbs_28}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_29 =  {z: {{sbs_29}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_30 =  {z: {{sbs_30}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_31 =  {z: {{sbs_31}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_32 =  {z: {{sbs_32}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_33 =  {z: {{sbs_33}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_34 =  {z: {{sbs_34}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_35 =  {z: {{sbs_35}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_36 =  {z: {{sbs_36}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_37 =  {z: {{sbs_37}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_38 =  {z: {{sbs_38}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_39 =  {z: {{sbs_39}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_40 =  {z: {{sbs_40}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_41 =  {z: {{sbs_41}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_42 =  {z: {{sbs_42}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_43 =  {z: {{sbs_43}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_44 =  {z: {{sbs_44}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_45 =  {z: {{sbs_45}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_46 =  {z: {{sbs_46}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_47 =  {z: {{sbs_47}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_48 =  {z: {{sbs_48}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_49 =  {z: {{sbs_49}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_50 =  {z: {{sbs_50}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_51 =  {z: {{sbs_51}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_52 =  {z: {{sbs_52}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_53 =  {z: {{sbs_53}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_54 =  {z: {{sbs_54}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_55 =  {z: {{sbs_55}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_56 =  {z: {{sbs_56}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_57 =  {z: {{sbs_57}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_58 =  {z: {{sbs_58}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_59 =  {z: {{sbs_59}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_60 =  {z: {{sbs_60}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_61 =  {z: {{sbs_61}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_62 =  {z: {{sbs_62}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_63 =  {z: {{sbs_63}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_64 =  {z: {{sbs_64}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_65 =  {z: {{sbs_65}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_66 =  {z: {{sbs_66}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_67 =  {z: {{sbs_67}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_68 =  {z: {{sbs_68}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_69 =  {z: {{sbs_69}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_70 =  {z: {{sbs_70}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_71 =  {z: {{sbs_71}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-     var trace_72 =  {z: {{sbs_72}}, x: {{lon}}, y: {{lat}}, type: 'contour', hoverinfo: 'z',
-         colorbar: {title: ''}, contours: {start: 10, end: 34, size: 4}};
-
-
-
-                                    var layout3 = {
-                                        autosize: false,
-                                        width: 500,
-                                        height: 490, 
-                                        margin: {l: 10, r: 10, b: 10, t: 30, pad: 0},
-                                        showlegend: false,
-                                        title: {
-                                            text: '',
-                                            font: {
-                                                size: 18,
-                                            },
-                                        },
-                                        xaxis: {
-                                            mirror: true,
-                                            showline: true,
-                                            ticks: 'outside',
-                                            tickvals: [],
-                                            automargin: true,
-                                            range: [-9.09, -8.9],
-                                        },
-                                        yaxis: {
-                                            mirror: true,
-                                            showline: true,
-                                            ticks: 'outside',
-                                            tickvals: [],
-                                            range: [53.12, 53.229],
-                                        },
-                                        font: {
-                                            family: 'Sans-Serif',
-                                            size: 18,            
-                                        },
+                                    var trace4 = {
+                                        x: {{ time_forecast|safe }},
+                                        y: {{ sbsK_FC|safe }},
+                                        name: 'Forecast',
+                                        hoverinfo: 'x+y',
                                     };
+                                    layout['title'] = 'Seabed salinity at Killenaran'
+                                    layout.yaxis['title'] = ''
+                                    layout.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('seabed-salinity-desktop');
+                                    Plotly.newPlot( TESTER, [trace2, trace4], layout );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
 
-                                    var frameIndex2 = 0;
-
-  var data00 = [trace_00, coast, site];
-  var data01 = [trace_01, coast, site];
-  var data02 = [trace_02, coast, site];
-  var data03 = [trace_03, coast, site];
-  var data04 = [trace_04, coast, site];
-  var data05 = [trace_05, coast, site];
-  var data06 = [trace_06, coast, site];
-  var data07 = [trace_07, coast, site];
-  var data08 = [trace_08, coast, site];
-  var data09 = [trace_09, coast, site];
-  var data10 = [trace_10, coast, site];
-  var data11 = [trace_11, coast, site];
-  var data12 = [trace_12, coast, site];
-  var data13 = [trace_13, coast, site];
-  var data14 = [trace_14, coast, site];
-  var data15 = [trace_15, coast, site];
-  var data16 = [trace_16, coast, site];
-  var data17 = [trace_17, coast, site];
-  var data18 = [trace_18, coast, site];
-  var data19 = [trace_19, coast, site];
-  var data20 = [trace_20, coast, site];
-  var data21 = [trace_21, coast, site];
-  var data22 = [trace_22, coast, site];
-  var data23 = [trace_23, coast, site];
-  var data24 = [trace_24, coast, site];
-  var data25 = [trace_25, coast, site];
-  var data26 = [trace_26, coast, site];
-  var data27 = [trace_27, coast, site];
-  var data28 = [trace_28, coast, site];
-  var data29 = [trace_29, coast, site];
-  var data30 = [trace_30, coast, site];
-  var data31 = [trace_31, coast, site];
-  var data32 = [trace_32, coast, site];
-  var data33 = [trace_33, coast, site];
-  var data34 = [trace_34, coast, site];
-  var data35 = [trace_35, coast, site];
-  var data36 = [trace_36, coast, site];
-  var data37 = [trace_37, coast, site];
-  var data38 = [trace_38, coast, site];
-  var data39 = [trace_39, coast, site];
-  var data40 = [trace_40, coast, site];
-  var data41 = [trace_41, coast, site];
-  var data42 = [trace_42, coast, site];
-  var data43 = [trace_43, coast, site];
-  var data44 = [trace_44, coast, site];
-  var data45 = [trace_45, coast, site];
-  var data46 = [trace_46, coast, site];
-  var data47 = [trace_47, coast, site];
-  var data48 = [trace_48, coast, site];
-  var data49 = [trace_49, coast, site];
-  var data50 = [trace_50, coast, site];
-  var data51 = [trace_51, coast, site];
-  var data52 = [trace_52, coast, site];
-  var data53 = [trace_53, coast, site];
-  var data54 = [trace_54, coast, site];
-  var data55 = [trace_55, coast, site];
-  var data56 = [trace_56, coast, site];
-  var data57 = [trace_57, coast, site];
-  var data58 = [trace_58, coast, site];
-  var data59 = [trace_59, coast, site];
-  var data60 = [trace_60, coast, site];
-  var data61 = [trace_61, coast, site];
-  var data62 = [trace_62, coast, site];
-  var data63 = [trace_63, coast, site];
-  var data64 = [trace_64, coast, site];
-  var data65 = [trace_65, coast, site];
-  var data66 = [trace_66, coast, site];
-  var data67 = [trace_67, coast, site];
-  var data68 = [trace_68, coast, site];
-  var data69 = [trace_69, coast, site];
-  var data70 = [trace_70, coast, site];
-  var data71 = [trace_71, coast, site];
-  var data72 = [trace_72, coast, site];
-
-
-
-var frames2 = [data00,data01,data02,data03,data04,data05,
-data06,data07,data08,data09,data10,data11,
-data12,data13,data14,data15,data16,data17,
-data18,data19,data20,data21,data22,data23,
-data24,data25,data26,data27,data28,data29,
-data30,data31,data32,data33,data34,data35,
-data36,data37,data38,data39,data40,data41,
-data42,data43,data44,data45,data46,data47,
-data48,data49,data50,data51,data52,data53,
-data54,data55,data56,data57,data58,data59,
-data60,data61,data62,data63,data64,data65,
-data66,data67,data68,data69,data70,data71,
-data72];
-
-                                    layout3.title.text = "Seabed salinity on ".concat(titles[frameIndex2]);
-                                    TESTER = document.getElementById('animation-2');
-                                    Plotly.newPlot( TESTER, frames2[frameIndex2], layout3);
-
-                                    function moveBackward2() {
-                                            frameIndex2 -= 1
-                                            frameIndex2 = Math.max(frameIndex2, 0);
-                                            layout3.title.text = "Seabed salinity on ".concat(titles[frameIndex2]);
-                                            var data_update = frames2[frameIndex2];
-
-                                            TESTER = document.getElementById('animation-2');
-                                            Plotly.react( TESTER, data_update, layout3)
-                                    }
-
-                                    function moveForward2() {
-                                            frameIndex2 += 1
-                                            frameIndex2 = Math.min(frameIndex2, frames2.length - 1);
-                                            layout3.title.text = "Seabed salinity on ".concat(titles[frameIndex2]);
-                                            var data_update = frames2[frameIndex2];
-
-                                            TESTER = document.getElementById('animation-2');
-                                            Plotly.react( TESTER, data_update, layout3)
-
-                                    }
-                            </script>
-                        </div>
-	        </div>  
-    	</div>
-
-
-    	<div class="grid">
-    		<div class="col-1-6">
-    			<div class="content">
-                            <button class="buttonLeft" onclick="javascript:moveBackward();"></button>                       
-                        </div>
-                </div>
-
-    		<div class="col-1-6">
-    			<div class="content">
-                            <button class="buttonRight" onclick="javascript:moveForward();"></button> 
-                        </div>
-                </div>
-
-    		<div class="col-1-6">
-    			<div class="content">
-                       
-                        </div>
-                </div>
-
-    		<div class="col-1-6">
-    			<div class="content">
-                            <button class="buttonLeft" onclick="javascript:moveBackward2();"></button> 
-                        </div>
-                </div>
-
-    		<div class="col-1-6">
-    			<div class="content">
-                            <button class="buttonRight" onclick="javascript:moveForward2();"></button> 
-                        </div>
-                </div>
     </body>
 
 </html>

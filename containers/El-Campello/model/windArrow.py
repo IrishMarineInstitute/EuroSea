@@ -17,7 +17,7 @@ def set_size(w,h, ax=None):
     ax.figure.set_size_inches(figw, figh)
 
 def windArrow(PKL, fout):
-    ''' Draw Met Eireann-like wind arrows '''
+    ''' Draw Met Eireann like wind arrows '''
     
     ''' Set speed color scale following Beaufort scale '''
     Beaufort = dict(low=(0, 2, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118),
@@ -93,11 +93,11 @@ def windArrow(PKL, fout):
     # Crop units    
     im1 = im.crop((left, top, right, bottom))
         
-    left, top, right, bottom = 525, 360, 3340, 760
+    left, top, right, bottom = 525, 360, 3350, 760
     # Crop first 36 hours of forecast    
     im2 = im.crop((left, top, right, bottom))
         
-    left, top, right, bottom = 3340, 360, 6200, 760
+    left, top, right, bottom = 3350, 360, 6200, 760
     # Crop last 36 hours of forecast    
     im3 = im.crop((left, top, right, bottom))
     
@@ -114,3 +114,69 @@ def windArrow(PKL, fout):
     
     # Save image
     dst.save(fout)
+
+
+def windArrowIcons(PKL):
+    ''' Draw Met Eireann like wind arrows '''
+    
+    ''' Set speed color scale following Beaufort scale '''
+    Beaufort = dict(low=(0, 2, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118),
+                    high=(1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1e9),
+                    color=('#D3D3D3', '#AEF1F9', '#96F7DC', '#96F7B4', 
+                           '#6FF46F', '#73ED12', '#A4ED12', '#DAED12', 
+                           '#EDC212', '#ED8F12', '#ED6312', '#ED2912', '#D5102D'))                    
+    
+    # Load forecast data
+    with open(PKL, 'rb') as f:   
+        data = load(f)
+        
+    # Retrieve u, v components of wind
+    u, v = data['u_wind_fc'], data['v_wind_fc']
+    u, v = np.array(loads(u)), np.array(loads(v))
+      
+    # Round wind speed values
+    speed = np.round((u**2 + v**2)**.5)
+    
+    C = 0
+    
+    for s, U, V in zip(speed, u, v):
+        
+        fig, ax = plt.subplots()
+        
+        for l, h, c in zip(Beaufort['low'], Beaufort['high'], Beaufort['color']):
+            if s >= l and s <= h:
+                color = c
+        ax.scatter(0, 0, s=300, color=color, 
+                   linewidths=4, facecolors='none')    
+        ax.scatter(0, 0, s=400, 
+                   linewidths=1, facecolors='none')    
+        
+        # Add speed label
+        if s < 10:
+            x_shift = 36*.00003
+        else:
+            x_shift = 36*.00005
+        ax.text(-x_shift, -.00144, f'%d' % s, fontsize=8)
+        
+        # Normalize arrows so that all have (hopefully) the same length 
+        unorm, vnorm = U/s, V/s
+        # Add arrows
+        ax.quiver(0, 0, np.array(unorm), np.array(vnorm), 
+                  color=color, headwidth=5)    
+        # Add white circles
+        ax.scatter(0, 0, s=100, color='white', linewidths=4, facecolors='white')
+            
+        plt.axis('off')
+        
+        C += 1 
+        
+        filename = f'/data/IMG/ECMWF-' + '%02d' % C + '.png'
+        # Save image
+        plt.savefig(filename, dpi=500)
+        
+        ''' Crop image just around the arrow '''
+        im = Image.open(filename); top, right, bottom, left = 950, 1750, 1260, 1410
+        # Crop
+        im = im.crop((left, top, right, bottom))
+        # Save 
+        im.save(filename); im.close()

@@ -56,7 +56,6 @@ def send_output(coast, tz, buoy):
     # Subset
     time = time[i0 : i1 + 1]; waves = waves[i0 : i1 + 1, :, :]
 
-    # Create wave forecast figure with slider
     fig = waveSlider(longitude, latitude, time, waves, coast, buoy)
 
     RS = {

@@ -4,8 +4,6 @@ import plotly
 import json
 
 def waveSlider(lon, lat, time, waves, coast, buoy):
-    ''' Create wave height figure with slider for website (Balearic Sea) '''
-
     x_coast, y_coast = coast
     x_buoy,  y_buoy  = buoy
 

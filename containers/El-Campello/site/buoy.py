@@ -30,8 +30,9 @@ def Buoy(conf):
     N = len(json.loads(conf['DCPS']))
 
     # Remove empty (corrupted) files
-    files = glob(localpath + '/*.xml')
+    files = sorted(glob(localpath + '/*.xml'))
     for file in files:
+        logger.info(file)
         if is_empty(file):
             os.remove(file)
    
@@ -42,7 +43,7 @@ def Buoy(conf):
         pass
     
     # Remove empty (corrupted) files
-    files = glob(localpath + '/*.xml')
+    files = sorted(glob(localpath + '/*.xml'))
     for file in files:
         if is_empty(file):
             os.remove(file)

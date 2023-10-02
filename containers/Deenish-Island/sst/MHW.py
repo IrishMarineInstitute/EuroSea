@@ -40,7 +40,7 @@ def MarineHeatWaves(clm):
     anm[MHW == 0] = np.nan
     
     # Prepare output arrays (anomalies where there is an ongoing MHW)
-    MHW = anm[4::]
+    MHW = np.copy(anm[4::])
     
     C = -1    
     for index in range(4, len(time)): # This index is used for the extended
@@ -69,6 +69,6 @@ def MarineHeatWaves(clm):
         
     MHW[np.isnan(MHW)] = 0.0 
     # Mask missing values
-    MHW = MHW.filled(0.0)
+    # MHW = MHW.filled(0.0)
 
     return MHW

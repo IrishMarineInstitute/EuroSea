@@ -2,7 +2,7 @@
 
 # Copyright notice
 #   --------------------------------------------------------------------
-#   Copyright (C) 2022 Marine Institute, ICMAN-CSIC
+#   Copyright (C) 2022 Marine Institute
 #       Diego Pereiro Rodriguez
 #
 #       diego.pereiro@marine.ie
@@ -29,7 +29,6 @@ RUN apt-get update && apt-get -y install cron vim
 
 # Directory to store logging files
 RUN mkdir /log
-RUN mkdir /data
 
 WORKDIR /root
 

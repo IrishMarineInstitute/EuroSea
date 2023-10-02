@@ -2,9 +2,40 @@ from datetime import datetime
 from pickle import dump
 from json import dumps
 from log import set_logger, now
+import numpy as np
+import pandas as pd
 import pytz
 
 logger = set_logger()
+
+def dates_in_table(time):    
+    ''' Return the dates existing in list TIME (both in English and Spanish)
+        and the number of times each date appears in the list '''  
+        
+    # Convert dates to format Weekday Day Month
+    dates = np.array([i.strftime('%a %d %B') for i in time])
+    
+    # Get a list of the dates existing in list
+    EN = pd.unique(dates).tolist()
+    
+    # Find out how many times each date exists in list
+    C = [np.count_nonzero(dates==i) for i in EN]; C = [str(i) for i in C]
+    
+    # Translate to Spanish    
+    translator = {'Mon': 'Lunes', 'Tue': 'Martes', 'Wed': 'Miércoles', 'Thu': 'Jueves',
+                'Fri': 'Viernes', 'Sat': 'Sábado', 'Sun': 'Domingo', 'January': 'Enero',
+                'February': 'Febrero', 'March': 'Marzo', 'April': 'Abril', 'May': 'Mayo',
+                'June': 'Junio', 'July': 'Julio', 'August': 'Agosto', 'September': 'Septiembre',
+                'October': 'Octubre', 'November': 'Noviembre', 'December': 'Diciembre'}
+    
+    ES = []
+    for i in EN:
+        for word in translator.items():
+            en, es = word[0], word[1]
+            i = i.replace(en, es)
+        ES.append(i)
+        
+    return EN, ES, C
 
 def jsonize(data):
     logger.info(f'{now()} OUTPUT: Starting JSONization of data dict')
@@ -108,6 +139,35 @@ def send_output(FC, wave_rose_figure, wave_rose_series, wind_rose_figure, wind_r
         'fc_wave_rose_direction': wave_rose_series['direction'],
         }
    
+    MODEL = jsonize(MODEL)
+    
+    # Update September 2023. Add forecast time and Significant Wave
+    # Height as lists (no JSON) for the scrollable table.
+    items = []; dates = []
+
+    for i, j in zip(fc_wav_time, FC['Hs_fc'][1]):
+
+        # Set warning color
+        if j > 3:
+            color = '#FF0000' # Red warning 
+        elif j > 2:
+            color = '#FC6A03' # Orange warning 
+        elif j > 0:
+            color = '#39E75F' # No warning
+        else:
+            color = '#9E9E9E' # No data
+
+        items.append( dict(time=i.strftime('%H:%M'), swh='%.2f' % j, color=color) )
+
+    MODEL['wave_forecast_table'] = items
+
+    EN, ES, C = dates_in_table(fc_wav_time)
+
+    items = [];
+    for i, j, k in zip(EN, ES, C):
+        items.append( dict(dates=i, fechas=j, counter=k ) )
+    MODEL['wave_forecast_dates']= items
+
     outfile = '/data/pkl/MODEL-2.pkl'
     with open(outfile, 'wb') as f:
-        dump(jsonize(MODEL), f)
+        dump(MODEL, f)

@@ -7,6 +7,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" >
 		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
 		<link rel="stylesheet" type="text/css" href="../static/css/main.css?version=1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 400px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-device-width: 400px)' href="../static/css/tiny.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
 		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 		<script src="../static/js/script-2.js"></script>
 
@@ -24,100 +31,162 @@
 		<meta id="swell-value" content="{{L_Wave_Height_Swell_Hm0}}" >
 		<meta id="forecast-max-swell-value" content="{{forecast_max_swh_sw2}}" >
 
-		<meta id="MHW-1" content="{{MHWobs}}" >
-		<meta id="MHW-2" content="{{MHWmod}}" >
+		<meta id="significant-wave-height-mobile" content="{{L_Significant_Wave_Height_Hm0}}" >
+		<meta id="forecast-max-swh-mobile" content="{{forecast_max_swh}}" >
+
+		<meta id="swell-mobile" content={{L_Wave_Height_Swell_Hm0}} >
+		<meta id="forecast-max-swell-mobile" content="{{forecast_max_swh_sw2}}" >
 
 
-        <style type="text/css">
-           .label {
-               font-family: Arial;
-               font-size: 20px;
-           }
-        img {
-            max-width: 100%;
-            max-height: 100%;
+    <style>
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 0px solid #ddd;
         }
-
-        .landscape {
-            height: 75px;
-            width: 200px;
+          
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
         }
-           h2 {
-               display: flex;
-               width: 100%;
-               justify-content: center;
-               align-items: center;
-               text-align: center;
-           }
+  
 
-           h2:before,
-           h2:after {
-               content: '';
-               border-top: 2px solid;
-               margin: 0 20px 0 0;
-               flex: 1 0 20px;
-           }
-
-           h2:after {
-               margin: 0 0 0 20px;
-           }
-
-           h2 {
-               margin: 30px 0;
-               font: 700 2em/1.4 'Avenir', sans-serif;
-           }
-
-          .footer {
-               width: 100%;
-          }
-
-        </style>
+        ::-webkit-scrollbar {
+            height: 20px;            
+            width: 4px;             
+            border: 1px solid #d5d5d5;
+        }
+  
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+  
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+  
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+          
+        .scroll {
+            display: block;
+            border: 0px solid red;
+            padding: 5px;
+            margin-top: 5px;
+            width: 100%;
+            height: 100px;
+            overflow-x: auto;
+        }
+    </style>
 
 	</head>
 
 	<body onload="init()">
 	
+	<div class="languages-desktop topcorner">
 
-    	<div class="grid">
-    		<div class="col-1-5">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" > </a> </p> </div> </div> </div>			
-    		<div class="col-1-5">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" > </a> </p> </div> </div> </div>			
-    		<div class="col-1-5">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" > </a> </p> </div> </div> </div>		
-    		<div class="col-1-8">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://www.xylem.com"> <img src="../static/xylem-logo.png" > </a> </p> </div> </div> </div>		
-    		<div class="col-1-9">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://avramar.eu"> <img src="../static/AVRAMAR-logo.png" > </a> </p> </div> </div> </div>			
-    	</div>
-	
-		<div class="grid">
- 			<div class="col-10-12">
- 				<div class="content">
-     				<p id="funding">
-           Este proyecto ha sido financiado por el programa de investigación
-           e innovación Horizonte 2020 de la UE bajo acuerdo de
-           financiación No. 862626.
-                     </p>
- 				</div>
- 			</div>
- 			<div class="col-2-12">
- 				<div class="content">
+         <div style="width: 25px; float:right; height:28px; margin:13px 150px 10px 10px">
+               <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-in-situ"> <img src="../static/EN.png" > </a> </p>
+         </div>
+
+         <div class="center" style="width: 10px; float:right; height:28px; margin:15px 0px 0px 0px; border-width: 0px;">
+               <p style="margin:5px 0px;"> <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-in-situ"> EN </a> </p> 		
+         </div>
+
+          <div style="width:100px; float:right; height:30px; margin:16px 30px 0px 5px;">
  				<a href="https://eurosea.marine.ie/es"
- 				   style="float:right"><img src="../static/home.png"></a>
- 				</div>
- 			</div>
-    	        </div>
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+ 	</div>
+
+        <div class="languages-tiny topcorner">
+
+          <div style="width:12px; float:right; height:0px; margin:12px 20px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-in-situ"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:16px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-in-situ"> EN </a> </p> 
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-portrait topcorner">
+
+          <div style="width:8px; float:right; height:0px; margin:13.5px 10px 0px 0px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-in-situ"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:20px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-in-situ"> EN </a> </p> 
+          </div>
+
+          <div style="width:8px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 30px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-in-situ"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:17px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-in-situ"> EN </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:22px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-ipad topcorner">
+          <div style="width:30px; float:right; height:0px; margin:30px 30px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-in-situ"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:27px 5px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-in-situ"> EN </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:33px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> OBSERVATORIO MARINO PARA LA ACUICULTURA </h1> 
+                    <hr>
+                </div> 
+            </div>
+        </div>
+	
 
          <!-------------------------------------------------------------------------->
          <!--                                                                      -->
@@ -125,11 +194,12 @@
          <!--                                                                      -->
          <!-------------------------------------------------------------------------->
 
+
     	<div class="grid">
     		<div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro" > 
                                    Use estos enlaces para acceder rápidamente a las distintas secciones en la página:
                                    
                                </p>
@@ -138,18 +208,30 @@
                    </div>
            </div>
 
-         <div class="grid">
-             <div class="col-1-4">
-                 <div class="content">
+         <div class="grid desktop-ipad">
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro" style="margin-left:10px">
                      <a href="#Waves Header"> Oleaje </a> </div> </div>
-             <div class="col-1-4">
-                 <div class="content">
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
                      <a href="#Currents Header"> Corrientes </a> </div> </div>
-             <div class="col-1-4">
-                 <div class="content">
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
                      <a href="#Winds Header"> Viento </a> </div> </div>
-             <div class="col-1-4">
-                 <div class="content">
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
+                     <a href="#Water Quality Header"> Agua </a> </div> </div>
+         </div>
+    		
+         <div class="grid mobile">
+             <div class="col-1-3 mobile-col-1-3">
+                 <div class="content intro" style="margin-left:10px">
+                     <a href="#Waves Header"> Oleaje </a> </div> </div>
+             <div class="col-1-3 mobile-col-1-3">
+                 <div class="content intro">
+                     <a href="#Winds Header"> Viento </a> </div> </div>
+             <div class="col-1-3 mobile-col-1-3">
+                 <div class="content intro">
                      <a href="#Water Quality Header"> Agua </a> </div> </div>
          </div>
     		
@@ -168,16 +250,15 @@
                     </div>
                 </div>
 
-    	<div class="grid">
+    	<div class="grid desktop-ipad">
     		<div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Aquí se muestra la altura significante de ola en El Campello (38.43ºN 0.30ºW) a tiempo 
                                    real, en base a las medidas del Sensor de Onda Direccional MOTUS de Aanderaa.
                                    Además, se ofrece una estimación de la altura de ola debida al mar de fondo. Esta
                                    información se actualiza cada diez minutos.
-
                                </p>
                             </div> 
                          </div>
@@ -186,18 +267,18 @@
     		<div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Esta es la altura significante de ola <b> más alta </b> que se espera en una predicción a 
-                                   cinco días en El Campello. Las predicciones provienen del Sistema de Análisis
-                                   y Predicción del Oleaje en el Mediterráneo 
-                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">(DOI:10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4)</a>. Al igual que las observaciones, se ofrece una descomposición de la componente debida al mar de fondo.
+                                   cinco días en El Campello. Las predicciones provienen del 
+                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">Sistema
+                                   de Análisis y Predicción del Oleaje en el Mediterráneo</a>. 
                                </p>
                             </div> 
                          </div>
                    </div>
            </div>
 
-  		<div class="grid">
+  		<div class="grid desktop">
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
   				<input value="Altura del oleaje en El Campello a {{t1}}" type=text id="time" size='70' />
@@ -207,15 +288,91 @@
   				<div class="content">
   				<input type=text id="time" size='70'
   				value="Altura del oleaje en El Campello. Predicción a 5 días" />
-
   				</div>
   			</div>
   		</div>
 
-		<div class="grid">
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" value="Altura del oleaje en El Campello a {{t1}}" type=text />
+                   </div> 
+                </div>
+            </div>
+
+         <div class="grid mobile">
+			<div class="col-1-3 mobile-col-2-3">
+				<div class="content">
+					 <p class="label-value"> Altura significante de ola </p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-swh-mobile" 
+					       class="value-box-1"
+					       value="{{L_Significant_Wave_Height_Hm0}} m" />
+				</div>
+                        </div>
+           </div>
+
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" value="El Campello: oleaje más alto en los próximos 5 días" type=text />
+                   </div> 
+                </div>
+            </div>
+
+         <div class="grid mobile">
+			<div class="col-1-3 mobile-col-2-3">
+				<div class="content">
+					 <p class="label-value"> Altura significante de ola </p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-3">
+				<div class="content">
+					<input id="max-swh-fc-mobile" 
+					       class="value-box-1"
+					       value="{{forecast_max_swh}} m" />
+				</div>
+                        </div>
+           </div>
+
+<div class="grid mobile">
+    <div class="col-1-1 mobile-col-1-1">
+        <div class="content">
+<div class="scroll" id="wave-table">
+
+<table>
+<caption>Altura del Oleaje (SWH) Próximos 5 días</caption>
+<tbody>
+<TR>
+<th>Fecha</th>
+{% for item in wave_forecast_dates %}
+   <TD colspan={{item.counter}}>{{item.fechas}}</TD>
+{% endfor %}
+</TR>
+<TR>
+<th>Hora</th>
+{% for item in wave_forecast_table %}
+   <TD>{{item.time}}</TD>
+{% endfor %}
+</TR>
+<TR>
+<th>SWH (m)</th>
+{% for item in wave_forecast_table %}
+   <TD style="background-color:{{item.color}}">{{item.swh}}</TD>
+{% endfor %}
+</TR>
+</tbody>
+</table>
+
+</div> </div> </div> </div>
+
+		<div class="grid desktop">
 			<div class="col-1-3">
 				<div class="content">
-					 <p class="label"> Altura significante de ola </p>
+					 <p class="label"> Altura significante de ola</p>
 				</div>
 			</div>
 			<div class="col-1-6">
@@ -227,7 +384,7 @@
                         </div>
 			<div class="col-1-3">
 				<div class="content">
-					 <p class="label"> Altura significante de ola </p>
+					 <p class="label"> Altura significante de ola</p>
 				</div>
 			</div>
 			<div class="col-1-6">
@@ -239,7 +396,7 @@
                         </div>
                 </div>
 
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-3">
 				<div class="content">
 					 <p class="label"> Mar de fondo </p>
@@ -268,124 +425,120 @@
 
   		<script language="javascript" type="text/javascript">
 
+                <!-- Configuration of Mode Bar and Image download -->
+                    
+                 var config = {
+                     'toImageButtonOptions': {
+                         'format': 'png',    // Download figure as PNG
+                         'scale': 10,        // High resolution figure, suitable for journal publications
+                     },
+                     'displaylogo': false,
+                     // Remove the buttons in the list below, as they are not needed
+                     modeBarButtonsToRemove: ['toImage', 'zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
+                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines'],
+                 };
+
                     <!-- Wave height series layout -->
-
-                    var layout_waves = {
+                    var layoutWavesDesktop = {
                        texttemplate: '%{value:.1f}',
-                       title: 'Altura significante de ola en El Campello',
+                       title: 'Altura del oleaje en El Campello',
                        xaxis: {
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tick0: "{{tick0}}",
-                           dtick: 86400000,  
-                           tickformat: '%d %b %y',     
-                           tickangle: 90,
-                           automargin: true,
-                           autorange: false,
-                           range: ["{{t0}}", "{{tw}}"]
+                           mirror: true, showline: true, ticks: 'outside', tick0: "{{tick0}}",
+                           dtick: 86400000, tickformat: '%d %b %y', tickangle: 90, fixedrange: true,
+                           automargin: true, autorange: false, range: ["{{t0}}", "{{tw}}"]
                        },
                        yaxis: {
-                           title: 'm',
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickformat: '.2f',
+                           title: 'm', mirror: true, showline: true, ticks:
+                           'outside', tickformat: '.2f', fixedrange: true,
                        },
                        font: {
-                           family: 'Sans-Serif',
-                           size: 18,            
+                           family: 'Sans-Serif', size: 18,            
                        },
                        };
+
+                    var layoutWavesMobile = {
+                       margin: {    l: 30,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', showlegend: false,
+                       title: 'Altura del oleaje en El Campello',
+                       xaxis: {
+                           mirror: true, showline: true, ticks: 'outside', tick0: "{{tick0}}",
+                           dtick: 86400000, tickformat: '%d %b %y', tickangle: 90, fixedrange: true,
+                           automargin: true, autorange: false, range: ["{{t0}}", "{{tw}}"]
+                       },
+                       yaxis: {
+                           title: 'm', mirror: true, showline: true, ticks:
+                           'outside', tickformat: '.2f', fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 10,            
+                       },};
 
                     <!-- Time series layout -->
-                    var wind_layout = {
-                       texttemplate: '%{value:.1f}',
-                       title: '',
+                    var layoutDesktop = {
+                       texttemplate: '%{value:.1f}', title: '',
                        xaxis: {
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tick0: "{{tick0}}",
-                           dtick: 86400000,  
-                           tickformat: '%d %b %y',     
-                           tickangle: 90,
-                           automargin: true,
+                           mirror: true,showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y', 
+                           tickangle: 90, automargin: true, fixedrange: true,
                        },
                        yaxis: {
-                           title: '',
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickformat: '.1f',
+                           title: '', mirror: true, showline: true,
+                           ticks: 'outside', tickformat: '.1f', fixedrange: true,
                        },
                        font: {
-                           family: 'Sans-Serif',
-                           size: 18,            
-                       },
-                       coloraxis: {
-                           colorscale: 'Bluered',
-                           showscale: true,
-                           cmin:  0,
-                           cmax: 25,
-                       },
-                       };
+                           family: 'Sans-Serif', size: 18,            
+                       },};
 
-
-                    <!-- Time series layout -->
-                    var layout1 = {
-                       texttemplate: '%{value:.1f}',
-                       title: '',
+                    var layoutMobile = {
+                       height: 300,
+                       margin: {    l: 40,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', title: '',showlegend: true,
+                       legend:{xanchor:"center", yanchor:"top", y:-0.3, x:0.5, orientation: 'h'},
                        xaxis: {
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tick0: "{{tick0}}",
-                           dtick: 86400000,  
-                           tickformat: '%d %b %y',     
-                           tickangle: 90,
-                           automargin: true,
+                           mirror: true,showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y', 
+                           tickangle: 90, automargin: true, fixedrange: true,
                        },
                        yaxis: {
-                           title: '',
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickformat: '.1f',
+                           title: '', mirror: true, showline: true,
+                           ticks: 'outside', tickformat: '.1f', fixedrange: true,
                        },
                        font: {
-                           family: 'Sans-Serif',
-                           size: 18,            
-                       },
-                       };
+                           family: 'Sans-Serif', size: 10,            
+                       },};
 
                     <!-- Turbidity (log-y) series layout -->
-                    var layout2 = {
-                       texttemplate: '%{value:.1f}',
-                       title: 'Turbidez del agua en El Campello',
+                    var layoutTurbidityDesktop = {
+                       texttemplate: '%{value:.1f}', title: 'Turbidez del agua en El Campello',
                        xaxis: {
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tick0: "{{tick0}}",
-                           dtick: 86400000,  
-                           tickformat: '%d %b %y',     
-                           tickangle: 90,
-                           automargin: true,
+                           mirror: true, showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y',     
+                           tickangle: 90, automargin: true, fixedrange: true,
                        },
                        yaxis: {
-                           title: 'FNU',
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickformat: '.1f',
-                           type: 'log',
+                           title: 'FNU', mirror: true, showline: true, fixedrange: true,
+                           ticks: 'outside', tickformat: '.1f', type: 'log',
                        },
                        font: {
-                           family: 'Sans-Serif',
-                           size: 18,            
+                           family: 'Sans-Serif', size: 18,            
+                       },};
+
+                    var layoutTurbidityMobile = {
+                       height: 300,
+                       margin: {    l: 40,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', title: 'Turbidez del agua en El Campello',
+                       xaxis: {
+                           mirror: true, showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y',     
+                           tickangle: 90, automargin: true, fixedrange: true,
                        },
-                       };
+                       yaxis: {
+                           title: 'FNU', mirror: true, showline: true, fixedrange: true,
+                           ticks: 'outside', tickformat: '.1f', type: 'log',
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 10,            
+                       },};
 
                 </script>
 
@@ -492,13 +645,13 @@
 
                             <p id="Wave-Height-Series"> </p>
 
-    	       <div class="grid">
+    	       <div class="grid desktop">
     		<div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                   Aquí se muestra la evolución de la altura significante de ola en El Campello
-                                  durante los últimos 14 días, mostrando tanto la altura total (azul) como la debida
+                                  durante los últimos siete días, mostrando tanto la altura total (azul) como la debida
                                   a la componente de mar de fondo. A continuación, en línea discontinua, se muestra
                                   la predicción a cinco días. La alerta naranja se activa cuando la altura significante
                                   supera los dos metros, mientras que la alerta roja se activa cuando excede los tres 
@@ -508,8 +661,9 @@
                             </div> 
                          </div>
                    </div>
+                </div>
 
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-1">
       			<div class="content">
           		    <div class="Series" id="Hs"></div>
@@ -553,21 +707,48 @@
                                         }
                                     };
 
-                                    layout_waves['shapes'] = shapes
 
-                <!-- Configuration of Mode Bar and Image download -->
-                 var config_swh = {
-                     'toImageButtonOptions': {
-                         'filename': 'Altura-de-Ola-Significante-en-El-Campello',
-                         'format': 'png',   
-                         'scale': 10,        
-                     },
-                     modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
-                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines', 'toImage'],
-                 };
-
+                                    layoutWavesDesktop['shapes'] = shapes
+                                    // Set image file name
+                                    config['toImageButtonOptions']['filename'] = 'Altura-de-Ola-Significante-en-El-Campello'
                                     TESTER = document.getElementById('Hs');
-                                    Plotly.newPlot( TESTER, [trace1, trace2, trace4, trace6], layout_waves, config_swh);
+                                    Plotly.newPlot( TESTER, [trace1, trace2, trace4, trace6], layoutWavesDesktop, config);
+
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="HsMobile"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time | safe }},
+                                        y: {{ Significant_Wave_Height_Hm0 | safe }},
+                                        name: 'SWH sensor',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#1F77B4', 
+                                        }
+                                    };
+                                    var trace2 = {
+                                        x: {{ fc_wav_time | safe }},
+                                        y: {{ fc_wav | safe }},
+                                        name: 'Forecast SWH',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#1F77B4', 
+                                            dash: 'dot',
+                                        }
+                                    };
+
+                                    layoutWavesMobile['shapes'] = shapes
+                                    // Set image file name
+                                    config['toImageButtonOptions']['filename'] = 'Significant-Wave-Height-at-El-Campello'
+                                    TESTER = document.getElementById('HsMobile');
+                                    Plotly.newPlot( TESTER, [trace1, trace2], layoutWavesMobile, config);
 
                                 </script>
       			</div>
@@ -577,13 +758,13 @@
 
                 <!-- DOWNLOAD DATA AS CSV (SIGNIFICANT WAVE HEIGHT SERIES) -->
 
-		<div class="grid">
-                        <div class="col-10-12">
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="SWH" />
     </form>
  				</div>
@@ -592,18 +773,17 @@
 
                             <p id="Wave-Wind-Roses"> </p>
 
-    	<div class="grid">
+    	<div class="grid desktop">
     		<div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Este diagrama muestra la dirección y periodo del oleaje predominantes en
                                    El Campello en las últimas 24 horas. Utilice el botón de "Descargar como CSV"
                                    para obtener los datos en un fichero de valores separados por comas, con la
                                    serie temporal de dirección y periodo del oleaje, combinando observaciones y 
                                    predicciones. <br><br><b> NOTA</b>: la dirección del oleaje se refiere a la
                                    dirección de <b>PROCEDENCIA</b> de las olas.
-                                   
                                </p>
                             </div> 
                          </div>
@@ -612,13 +792,13 @@
     		<div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Aquí se muestra el periodo <b>más corto</b> del oleaje (y su dirección asociada) en una predicción de las
-                                   próximas 24 horas. Las predicciones se obtienen del Sistema de Análisis y Predicción del Oleaje en el 
-                                   Mediterráneo 
-                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">(DOI:10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4)</a>). 
-                                   Use el botón de "Descargar como CSV" para obtener los datos observados y predicción en
-                                    fichero separado por comas.  
+                                   próximas 24 horas. Las predicciones se obtienen del 
+                                   
+                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">Sistema de Análisis y Predicción del Oleaje en el Mediterráneo</a>. 
+                                   Use el botón de "Descargar como CSV" para obtener los datos observados y predicción en un
+                                    fichero  de valores separado por comas.  
                                    <br><br><b> NOTA</b>: la dirección del oleaje se refiere a la
                                    dirección de <b>PROCEDENCIA</b> de las olas.
                                </p>
@@ -630,7 +810,8 @@
 
 
                 <!-- BLUE (HEADER) TEXT BOXES -->
-  		<div class="grid">
+
+  		<div class="grid desktop">
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
   				<input value="Dirección y periodo pico del oleaje en El Campello a {{t1}}" type=text id="time-small" size='70' />
@@ -645,8 +826,7 @@
   		</div>
     		
                 <!-- LATEST RECORDINGS AND FORECASTS -->
-
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
 					 <img src="../static/compass-icon.jpg" class="icon">
@@ -701,7 +881,7 @@
 		</div>
 		    		
 
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-2">
       			<div class="content">
           		     <div class="Series" id="WaveRose"></div>
@@ -712,7 +892,7 @@
                                      TESTER = document.getElementById('WaveRose')
                                      var polarLayout = {
                                          title: {
-                                             text: 'Dirección (PROCEDENCIA) y Periodo Pico de Ola: {{wave_rose_idate}} a {{wave_rose_edate}}',
+                                             text:'Dirección (PROCEDENCIA) y Periodo Pico de Ola:<br>{{wave_rose_idate}} a {{wave_rose_edate}}',
                                              font: {
                                                  family: 'Courier New, monospace',
                                                  size: 10,
@@ -737,7 +917,7 @@
                                      TESTER = document.getElementById('WaveRoseForecast')
                                      var polarLayout = {
                                          title: {
-                                             text: 'Dirección (PROCEDENCIA) y Periodo Pico de Ola: {{fc_wave_rose_idate}} a {{fc_wave_rose_edate}}',
+                                              text:'Dirección (PROCEDENCIA) y Periodo Pico de Ola:<br>{{fc_wave_rose_idate}} a {{fc_wave_rose_edate}}',
                                              font: {
                                                  family: 'Courier New, monospace',
                                                  size: 10,
@@ -755,13 +935,13 @@
 
                 <!-- DOWNLOAD DATA AS CSV (WAVE PERIOD/DIRECTION SERIES) -->
 
-		<div class="grid">
-                        <div class="col-10-12">
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="wave-period-direction-series" />
     </form>
  				</div>
@@ -777,7 +957,7 @@
                 <!-------------------------------------------------------------------------->
 
 
-                <div class="grid"> 
+                <div class="grid desktop"> 
                     <div class="col-1-1">
                         <div class="content">
                             <h2 id="Currents Header"> Corrientes </h2>
@@ -787,13 +967,13 @@
 
                             <p id="ADCP-Profile"> </p>
 
-    	       <div class="grid">
+    	       <div class="grid desktop">
     		<div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
-                                  La estación de monitorización en El Campello (38.43ºN 0.30ºW) cuenta con un
-                                  ADCP que proporciona medidas de la dirección y velocidad de la corriente en
+                               <p class="intro"> 
+					  La estación de monitorización en El Campello (38.43ºN 0.30ºW) cuenta con un
+					  ADCP que proporciona medidas de la dirección y velocidad de la corriente en
                                   la columna de agua, desde la superficie hasta el fondo. Esta figura muestra
                                   el perfil vertical de velocidad de la corriente durante las últimas 24 horas.
                                   Use el botón "Descargar como CSV" para obtener los datos de corriente en un
@@ -802,9 +982,10 @@
                             </div> 
                          </div>
                    </div>
+               </div>
 
 
-      	        <div class="grid">
+      	        <div class="grid desktop">
                      <div class="col-1-1">
                          <div class="content">
           		     <div class="Series" id="DCP"></div>
@@ -834,13 +1015,13 @@
 
                 <!-- DOWNLOAD DATA AS CSV (CURRENT PROFILE) -->
 
-		<div class="grid">
-                        <div class="col-10-12">
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="current-profile" />
     </form>
  				</div>
@@ -849,17 +1030,18 @@
 
                             <p id="ADCP-Roses"> </p>
 
-    	<div class="grid">
+    	<div class="grid desktop">
     		<div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Abajo, a la izquierda, se encuentran las últimas medidas de velocidad y dirección
                                    de la corriente en la superficie en El Campello. Esta información se actualiza cada
                                    diez minutos. El diagrama representa la dirección y velocidad predominantes en las 
                                    últimas 24 horas. Use el botón "Descargar como CSV" para obtener un archivo con las
                                    medidas de dirección y velocidad de la corriente en superficie. <br><br> <b> NOTA </b>:
                                    la dirección de la corriente se refiere a la dirección <b> HACIA </b> la que viajan las corrientes.
+                                   
                                </p>
                             </div> 
                          </div>
@@ -868,7 +1050,7 @@
     		<div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Abajo, a la derecha, se encuentran las últimas medidas de velocidad y dirección
                                    de la corriente en El Campello a una profundidad de 15 metros. Esta información se actualiza cada
                                    diez minutos. El diagrama representa la dirección y velocidad predominantes en las 
@@ -885,7 +1067,7 @@
 
                 <!-- BLUE (HEADER) TEXT BOXES -->
 
-  		<div class="grid">
+  		<div class="grid desktop">
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
   				<input value="Corriente en superficie en El Campello a {{t1}}" type=text id="time-small" size='70' />
@@ -901,7 +1083,7 @@
     		
                 <!-- LATEST RECORDINGS AND FORECASTS -->
 
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
 					 <img src="../static/wind-speed-icon.png" class="icon">
@@ -955,7 +1137,7 @@
                         </div>
 		</div>
 		    		
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-2">
       			<div class="content">
           		     <div class="Series" id="SurfaceCurrentRose"></div>
@@ -965,10 +1147,10 @@
                                      TESTER = document.getElementById('SurfaceCurrentRose')
                                      var polarLayout = {
                                          title: {
-                                             text:'Velocidad y Dirección de la Corriente (superficie): {{DCP_rose_idate_surface}} a {{DCP_rose_edate_surface}}',
+                                             text:'Velocidad y Dirección de la Corriente (superficie):<br>{{DCP_rose_idate_surface}} a {{DCP_rose_edate_surface}}',
                                              font: {
                                                  family: 'Courier New, monospace',
-                                                 size: 9,
+                                                 size: 10,
                                               },
                                          },
                                      };
@@ -990,10 +1172,10 @@
                                      TESTER = document.getElementById('SeabedCurrentRose')
                                      var polarLayout = {
                                          title: {
-						     text:'Velocidad y Dirección de la Corriente a 15 metros: {{DCP_rose_idate_seabed}} a {{DCP_rose_edate_seabed}}',
+                                             text:'Velocidad y Dirección de la Corriente a 15 metros:<br>{{DCP_rose_idate_seabed}} a {{DCP_rose_edate_seabed}}',
                                              font: {
                                                  family: 'Courier New, monospace',
-                                                 size: 9,
+                                                 size: 10,
                                               },
                                          },
                                      };
@@ -1008,14 +1190,14 @@
 
                 <!-- DOWNLOAD DATA AS CSV (CURRENT SPEED/DIRECTION SERIES) -->
 
-		<div class="grid">
-                        <div class="col-10-12">
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
-		    <input type="submit" value="Descargar como CSV" name="current-speed-direction-series" />
+    <form method="POST" action="/El-Campello-in-situ">
+            <input type="submit" value="Descargar como CSV" name="current-speed-direction-series" />
     </form>
  				</div>
  			</div>
@@ -1039,11 +1221,11 @@
 
                 <!-- ADD A DESCRIPTION OF THE WINDS SECTION -->
 
-    	        <div class="grid">
+    	        <div class="grid desktop">
     	       	    <div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Abajo, a la izquierda, se muestran las últimas medidas de velocidad y dirección del viento
                                    en El Campello (38.43ºN, 0.30ºW), obtenidas del sensor Gill-Maximet 200-2. 
                                    Esta información se actualiza cada diez minutos. El diagrama muestra la 
@@ -1056,7 +1238,7 @@
     	       	    <div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                   Abajo, a la derecha, se muestra la predicción de viento a 3 días para El Campello obtenida del
                                   Centro Europeo de Predicción a Medio Plazo (ECMWF). Los datos aquí destacados se corresponden con la velocidad y dirección de los vientos
                                   <b> más rápidos </b> en esta predicción a 3 días. El diagrama
@@ -1068,12 +1250,19 @@
                    </div>
                 </div>
 
-
                             <p id="Winds"> </p>
+
+                <div class="grid mobile">
+                   <div class="col-1-1 mobile-col-1-1">
+                       <div class="content">
+                      	   <input class="mobile-input" value="Viento en El Campello a {{t1}}" type=text />
+                       </div> 
+                   </div>
+                </div>
 
                 <!-- BLUE (HEADER) TEXT BOXES -->
 
-  		<div class="grid">
+  		<div class="grid desktop">
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
   				<input value="Viento en El Campello a {{t1}}" type=text id="time" size='70' />
@@ -1087,10 +1276,61 @@
   			</div>
   		</div>
     		
+            <div class="grid mobile">
+			<div class="col-1-3 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/wind-speed-icon.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-3 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-wind-speed" style="border: 10px"
+					       class="value-box-1"
+					       value="{{L_Wind_Speed}} km/h" />
+				</div>
+                        </div>
+			<div class="col-1-3 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-3 mobile-col-1-6">
+				<div class="content">
+					<input id="latest-wind-direction" style="border: 10px"
+					       class="value-box-1"
+					       value="{{L_Wind_Direction}}º" />
+				</div>
+                        </div>
+           </div>
+
+  		<div class="grid mobile">
+    	       	    <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro" style="text-align: center"> 
+                                   (Dirección de procedencia del viento, en sentido horario desde el norte)
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
+
+  		<div class="grid mobile">
+    	       	    <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Predicción del viento en El Campello a 3 días según el modelo ECMWF. Las flechas señalan la dirección
+                                   <b>HACIA</b> la que soplará el viento.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
 
                 <!-- LATEST RECORDINGS AND FORECASTS -->
 
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
 					 <img src="../static/wind-speed-icon.png" class="icon">
@@ -1148,7 +1388,7 @@
                 </div>
 		    		
 
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-2">
       			<div class="content">
           		     <div class="Series" id="WindRose"></div>
@@ -1160,14 +1400,14 @@
 
                                      var polarLayout = {
                                          title: {
-                                             text: 'Dirección (PROCEDENCIA) y velocidad del viento: {{wave_rose_idate}} a {{wave_rose_edate}}',
+                                             text:'Dirección (PROCEDENCIA) y velocidad del viento:<br>{{wave_rose_idate}} a {{wave_rose_edate}}',
                                              font: {
                                                  family: 'Courier New, monospace',
-                                                 size: 9.5,
+                                                 size: 10,
                                               },
                                          },
                                      };
-                                     Plotly.newPlot(TESTER, graphs, {});
+                                     Plotly.newPlot(TESTER, graphs, {}, config);
                                      Plotly.relayout(TESTER, polarLayout)
 
                                  </script>
@@ -1184,14 +1424,14 @@
                                      TESTER = document.getElementById('WindRoseForecast')
                                      var polarLayout = {
                                          title: {
-                                             text: 'Dirección (PROCEDENCIA) y velocidad del viento: {{fc_wind_rose_idate}} a {{fc_wind_rose_edate}}',
+                                             text:'Dirección (PROCEDENCIA) y velocidad del viento:<br>{{fc_wind_rose_idate}} a {{fc_wind_rose_edate}}',
                                              font: {
                                                  family: 'Courier New, monospace',
-                                                 size: 9.5,
+                                                 size: 10,
                                               },
                                          },
                                      };
-                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.newPlot(TESTER, graphs, {}, config)
                                      Plotly.relayout(TESTER, polarLayout)
 
                                  </script>
@@ -1201,11 +1441,11 @@
                 </div>
 
                
-  		<div class="grid">
+  		<div class="grid desktop">
     	       	    <div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Predicción del viento en El Campello a 3 días según el modelo ECMWF. Las flechas señalan la dirección
                                    <b>HACIA</b> la que soplará el viento.
                                    Use el botón "Descargar como CSV" para obtener las medidas y predicciones de viento en un archivo de valores
@@ -1226,13 +1466,13 @@
 
                 <!-- DOWNLOAD DATA AS CSV (WIND SERIES) -->
 
-		<div class="grid">
-                        <div class="col-10-12">
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="wind" />
     </form>
  				</div>
@@ -1257,11 +1497,11 @@
 
                 <!-- ADD A DESCRIPTION OF THE WATER QUALITY SECTION -->
 
-    	        <div class="grid">
+    	        <div class="grid desktop">
     	            <div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Abajo, a la izquierda, se muestran las últimas medidas de temperatura del agua, 
                                    saturación de oxígeno y turbidez en El Campello, obtenidas del sensor 
                                    YSI EXO3.
@@ -1270,16 +1510,14 @@
                         </div>
                    </div>
 
-
     	            <div class="col-1-2">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    Abajo, a la derecha, se muestra la temperatura máxima, media y mínima
                                    esperada en una predicción a tres días. Las predicciones se obtienen
-                                   del sistema de Análisis y Predicción del Mediterráneo
-                                   <a href="https://doi.org/10.25423/CMCC/MEDSEA_ANALYSISFORECAST_PHY_006_013_EAS7">(DOI: 10.25423/CMCC/MEDSEA_ANALYSISFORECAST_PHY_006_013_EAS7)</a>. 
-                               </p>
+                                   del 
+                                   <a href="https://doi.org/10.25423/CMCC/MEDSEA_ANALYSISFORECAST_PHY_006_013_EAS7">Sistema de Análisis y Predicción del Mediterráneo</a>. 
                                </p>
                            </div>
                         </div>
@@ -1288,21 +1526,21 @@
 
                 <!-- BLUE (HEADER) TEXT BOXES -->
 
-  		<div class="grid">
+  		<div class="grid desktop">
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
-  				<input value="Propiedades del agua en El Campello a {{t1}}" type=text id="time" size='70' />
+  				<input value="Propiedades del agua en El Campello a {{t1}}" type=text id="time-small" size='70' />
   				</div>
   			</div>
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
-  				<input type=text id="time" size='70'
+					<input type=text id="time-small" size='70'
   				value="Temperatura del agua en El Campello. Predicción a 3 días" />
   				</div>
   			</div>
   		</div>
     		
-		<div class="grid">
+		<div class="grid desktop">
 			<div class="col-1-12">
 				<div class="content">
 					 <img src="../static/thermometer.png" class="icon">
@@ -1317,7 +1555,7 @@
 			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label" style="font-size:18px;"> Temperatura actual </p>
+					 <p class="label"> Temperatura actual </p>
                             </div>
                         </div>
 			<div class="col-1-12">
@@ -1334,12 +1572,12 @@
 			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label" style="font-size:18px;"> Máx. temperatura prevista</p>
+					 <p class="label"> Máx. temperatura prevista </p>
                             </div>
                         </div>
 		</div>
 		    		
-  		<div class="grid">
+  		<div class="grid desktop">
   			<div class="col-1-12">
   				<div class="content">
   					 <img src="../static/oxygen.png" class="icon">
@@ -1354,7 +1592,7 @@
   			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label" style="font-size:18px;"> Saturación de oxígeno actual </p>
+					 <p class="label"> Saturación de oxígeno actual </p>
                             </div>
                         </div>
 			<div class="col-1-12">
@@ -1371,12 +1609,12 @@
 			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label" style="font-size:18px;"> Temperatura media prevista</p>
+					 <p class="label"> Temperatura media prevista</p>
                             </div>
                         </div>
   		</div>    	
   			
-  		<div class="grid">
+  		<div class="grid desktop">
                         <div class="col-1-12">
   				<div class="content">
   					 <img src="../static/turbidity.png" class="icon">
@@ -1384,12 +1622,12 @@
   			</div>
   			<div class="col-2-12">
   				<div class="content">
-  					<input class="value-box-2" style="width:90px" value="{{latest_TUR}} FNU" />
+  					<input class="value-box-2" value="{{latest_TUR}} FNU" />
   				</div>
                         </div>    	
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label" style="font-size:18px;"> Turbidez actual </p>
+					 <p class="label"> Turbidez actual </p>
                             </div>
                         </div>
 			<div class="col-1-12">
@@ -1406,29 +1644,165 @@
 			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label" style="font-size:18px;"> Mín. temperatura prevista</p>
+					 <p class="label"> Mín. temperatura prevista </p>
                             </div>
                         </div>
           	</div>
 
                             <p id="Water-Temperature"> </p>
 
-    	        <div class="grid">
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" 
+                            value="El mar en El Campello a {{t1}}" type=text />
+                   </div> 
+                </div>
+            </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/thermometer.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{latest_temperature}} ºC" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Temperatura </p>
+                            </div>
+                        </div>
+                </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/oxygen.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{latest_oxygen}} %" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Oxígeno </p>
+                            </div>
+                        </div>
+                </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/turbidity.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{latest_TUR}} FNU" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Turbidez </p>
+                            </div>
+                        </div>
+                </div>
+
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" value="Temperatura del mar en El Campello a tres días" type=text />
+                   </div> 
+                </div>
+            </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/thermometer-max.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{max_forecast_temperature}} ºC" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Máxima </p>
+                            </div>
+                        </div>
+                </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/thermometer.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{mean_forecast_temperature}} ºC" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Media</p>
+                            </div>
+                        </div>
+                </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/thermometer-min.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{min_forecast_temperature}} ºC" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Mínima</p>
+                            </div>
+                        </div>
+                </div>
+
+    	        <div class="grid desktop">
     	            <div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    <b> Temperatura del mar en El Campello. </b> Aquí se muestra la 
                                    evolución de la temperatura del mar en El Campello en los últimos 
-                                   14 días, junto a una predicción a tres días. 
+                                   siete días, junto a una predicción a tres días. 
                                </p>
                            </div>
                         </div>
                    </div>
                 </div>
 
-  		
-  		<div class="grid">
+  		<div class="grid desktop">
       		    <div class="col-1-1">
       			<div class="content">
           		    <div class="Series" id="temp"></div>
@@ -1436,46 +1810,63 @@
                                     var trace1 = {
                                         x: {{ time|safe }},
                                         y: {{ temp|safe }},
-                                        name: 'medidas',
+                                        name: 'observed',
                                         hoverinfo: 'x+y',
                                     }
                                     var trace2 = {
                                         x: {{ fc_sst_time|safe }},
                                         y: {{ fc_sst|safe }},
-                                        name: 'predicción',
+                                        name: 'forecast',
                                         hoverinfo: 'x+y',
                                     };
-                                    layout1['title'] = 'Temperatura del mar en El Campello'
-                                    layout1.xaxis['autorange'] = false
-                                    layout1.xaxis['range'] = ["{{t0}}", "{{tf}}"]
-                                    layout1.yaxis['title'] = 'ºC'
-                                    layout1.yaxis.tickformat = '.1f'
-
-                <!-- Configuration of Mode Bar and Image download -->
-                 var config_temp = {
-                     'toImageButtonOptions': {
-                         'filename': 'Temperatura-del-Mar-en-El-Campello',
-                         'format': 'png',   
-                         'scale': 10,        
-                     },
-                     modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
-                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines', 'toImage'],
-                 };
-
+                                    layoutDesktop['title'] = 'Temperatura del mar en El Campello'
+                                    layoutDesktop.xaxis['autorange'] = false
+                                    layoutDesktop.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                    layoutDesktop.yaxis['title'] = 'ºC'
+                                    layoutDesktop.yaxis.tickformat = '.1f'
                                     TESTER = document.getElementById('temp');
-                                    Plotly.newPlot( TESTER, [trace1, trace2], layout1, config_temp);
+                                    Plotly.newPlot( TESTER, [trace1, trace2], layoutDesktop, config );
                                 </script>
       			</div>
                      </div>
       	        </div>
 
-		<div class="grid">
-                        <div class="col-10-12">
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="tempMobile"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time|safe }},
+                                        y: {{ temp|safe }},
+                                        name: 'observed',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    var trace2 = {
+                                        x: {{ fc_sst_time|safe }},
+                                        y: {{ fc_sst|safe }},
+                                        name: 'forecast',
+                                        hoverinfo: 'x+y',
+                                    };
+                                    layoutMobile['title'] = 'Temperatura del mar en El Campello'
+                                    layoutMobile.xaxis['autorange'] = false
+                                    layoutMobile.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                    layoutMobile.yaxis['title'] = 'ºC'
+                                    layoutMobile.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('tempMobile');
+                                    Plotly.newPlot( TESTER, [trace1, trace2], layoutMobile, config );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="temp" />
     </form>
  				</div>
@@ -1484,59 +1875,67 @@
     		
                             <p id="Oxygen-Saturation"> </p>
 
-    	        <div class="grid">
+    	        <div class="grid desktop">
     	            <div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    <b> Saturación de oxígeno en El Campello. </b>  
                                    Aquí se muestra la 
                                    evolución de la saturación de oxígeno en disolución en El Campello en los últimos 
-                                   14 días.
+                                   siete días.
                                </p>
                            </div>
                         </div>
                    </div>
                 </div>
 
-      	        <div class="grid">
+      	        <div class="grid desktop">
                      <div class="col-1-1">
                          <div class="content">
           		     <div class="Series" id="O2"></div>
                                  <script language="javascript" type="text/javascript">
-                                     layout1['title'] = 'Saturación de oxígeno en disolución en El Campello'
-                                     layout1.yaxis['title'] = '%'
-                                     layout1.yaxis.tickformat = '.1f'
-                                     layout1.xaxis['autorange'] = true
-
-                <!-- Configuration of Mode Bar and Image download -->
-                 var config_ox = {
-                     'toImageButtonOptions': {
-                         'filename': 'Saturacion-de-Oxigeno-en-El-Campello',
-                         'format': 'png',   
-                         'scale': 10,        
-                     },
-                     modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
-                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines', 'toImage'],
-                 };
-
+                                     layoutDesktop['title'] = 'Saturación de oxígeno en El Campello'
+                                     layoutDesktop.yaxis['title'] = '%'
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
                                      TESTER = document.getElementById('O2');
                                      Plotly.newPlot( TESTER, [{
                                      x: {{ time|safe }},
                                      y: {{ O2|safe }} }], 
-                                     layout1, config_ox );
+                                     layoutDesktop, config );
                                  </script>
       			 </div>
       		     </div>
       	         </div>
       	    		
-		<div class="grid">
-                        <div class="col-10-12">
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="O2Mobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Saturación de oxígeno en El Campello'
+                                     layoutMobile.yaxis['title'] = '%'
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     layoutMobile.showlegend = false
+                                     TESTER = document.getElementById('O2Mobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ O2|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="O2" />
     </form>
  				</div>
@@ -1545,15 +1944,15 @@
     		
                             <p id="Water-Turbidity"> </p>
 
-    	        <div class="grid">
+    	        <div class="grid desktop">
     	            <div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
+                               <p class="intro"> 
                                    <b> Turbidez del agua en El Campello. </b>  
                                    Aquí se muestra la 
                                    evolución de la turbidez del agua en El Campello en los últimos 
-                                   14 días, expresada en FNU (Unidades Nefelométricas de Formacina), 
+                                   siete días, expresada en FNU (Unidades Nefelométricas de Formacina), 
                                    de acuerdo con la norma ISO 7027 para la determinación de la 
                                    turbidez. Esta técnica se utiliza para determinar la concentración
                                    de partículas suspendidas en una muestra de agua midiendo la luz 
@@ -1564,52 +1963,94 @@
                    </div>
                 </div>
 
-      	        <div class="grid">
+
+               <div class="grid desktop">
                      <div class="col-1-1">
                          <div class="content">
           		     <div class="Series" id="TUR"></div>
                                  <script language="javascript" type="text/javascript">
-                                     layout1['title'] = 'Turbidez del agua en El Campello'
-                                     layout1.xaxis['autorange'] = true
-                                     layout1.yaxis['title'] = 'FNU'
-                                     layout1.yaxis.tickformat = '.1f'
-                                     layout1.yaxis['autorange'] = false
-                                     layout1.yaxis['range'] = [0, {{maxTUR}}]
-
-                <!-- Configuration of Mode Bar and Image download -->
-                 var config_tur = {
-                     'toImageButtonOptions': {
-                         'filename': 'Turbidez-del-Agua-en-El-Campello',
-                         'format': 'png',   
-                         'scale': 10,        
-                     },
-                     modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
-                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines', 'toImage'],
-                 };
-
                                      TESTER = document.getElementById('TUR');
                                      Plotly.newPlot( TESTER, [{
                                      x: {{ time|safe }},
                                      y: {{ TUR|safe }} }], 
-                                     layout2, config_tur );
+                                     layoutTurbidityDesktop, config );
                                  </script>
       			 </div>
       		     </div>
       	        </div>
 
-		<div class="grid">
-                        <div class="col-10-12">
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="TURmobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     TESTER = document.getElementById('TURmobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ TUR|safe }} }], 
+                                     layoutTurbidityMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+		<div class="grid desktop">
+                        <div class="col-3-4">
                             <div class="content"></div>
                         </div>
- 			<div class="col-2-12">
+ 			<div class="col-1-4">
  				<div class="content">
-    <form method="POST" action="/es/El-Campello-in-situ">
+    <form method="POST" action="/El-Campello-in-situ">
             <input type="submit" value="Descargar como CSV" name="tur" />
     </form>
  				</div>
  			</div>
     	        </div>
     		
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" alt="EuroSea" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" alt="ICMAN-CSIC" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://www.xylem.com"> <img src="../static/xylem-new.png" alt="Xylem" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://mowi.com"> <img src="../static/Mowi-new.png" alt="Mowi" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://avramar.eu"> <img src="../static/avramar-new.png" alt="AVRAMAR" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+        </div>        
     </body>
 
 </html>

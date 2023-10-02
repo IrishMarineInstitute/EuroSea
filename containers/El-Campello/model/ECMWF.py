@@ -19,7 +19,6 @@ def get_ecmwf_time(grb):
     return time + delta    
 
 def ECMWF(config):
-    ''' Download ECMWF wind data for El Campello '''
     
     outdir = '/data/ECMWF/'
     if not ( os.path.isdir(outdir) ):

@@ -4,7 +4,7 @@
 !                                                                     !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
-! Days back in time to donwload and to show on the portal
+! Days back in time to download and to show on the portal
 N 14
 !
 ! Map boundaries
@@ -15,6 +15,9 @@ n 58
 !
 ! Climatology file
 clim OSTIA-Climatology.nc
+! 
+! Bathymetry file
+bathymetry gebco_2023_n59.0_s45.0_w-26.0_e-4.0.nc
 !
 ! Buoy(s) coordinates
 ! Deenish, M2, M3, M4, M5, M6
@@ -33,3 +36,6 @@ product-id METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2
 !
 ! Coast
 coastfile coastline.pkl
+!
+! Bathymetry contour file
+bathymetry contour-500.pkl

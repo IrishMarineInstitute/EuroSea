@@ -23,20 +23,38 @@
    along with this library.  If not, see <http://www.gnu.org/licenses/>.
    --------------------------------------------------------------------
 
-      This is the main script of the CHL container. This application is set
-   to run hourly to download the latest seawater chlorophyll-a concentration
-   observations in the Southwest of Ireland waters. The chlorophyll-a 
-   concentration is provided by the Atlantic Ocean Colour Bio-Geo-Chemical 
-   L4 Satellite Observations (https://doi.org/10.48670/moi-00288).
-   
-      In addition, chlorophyll-a anomaly is determined as the difference 
-   between the actual chlorophyll-a concentration and a 60-day running median, 
-   ending two weeks before the current image (Tomlinson et al., 2004).
+      This is the main script of the RS container. This application is set
+   to run once a day to download the Remote Sensing products, namely SST and
+   chlorophyll. SST anomalies, Marine Heat Waves and chlorophyll anomalies 
+   are determined. This data is wrapped in an RS.pkl file updated daily and
+   later accessed by the WEBAPP container using a shared volume.
 
-      This application is set to run hourly to make sure that the website
-   updates as soon as a new daily layer is released by the Copernicus
-   Marine Service. This application also creates the figures that are later
-   accessed by the WEBAPP container through the shared volume.
+   The files in this container are:
+
+       config : Plain text file with important configuration options for your
+                application, such as the CMEMS credentials and products to 
+                download as remote-sensing data or the geographical boundaries
+                of your area of interest.
+
+       crontab : A cron file to set this job to run once a day.
+
+       coastline-1.pkl : Coastline file to draw the shoreline in maps. You
+                         should produce a new one for your application
+                         using the same format.
+ 
+       log.py : Logging script. Useful messages are sent to a file /log/app.log
+
+       motu.py : Script using the motuclient to download CMEMS data.
+
+       oceancolour.py : Script downloading chlorophyll data and calculating 
+                        anomalies. 
+
+       output.py : Script that finally wraps all the model data in MODEL.pkl
+                   and in a format that can be understood by the website.
+
+       requirements.txt : Python packages needed to run this container.
+
+       rs.py : This script. It is the main file calling the other methods.
 
 '''
 
@@ -52,7 +70,7 @@ import os
 logger = set_logger()
 
 def configuration():
-    ''' Read configuration file '''
+    ''' Read secrets (configuration) file '''
     config = {}
     with open('config', 'r') as f:
         for line in f:
@@ -74,14 +92,10 @@ def RS():
         except FileNotFoundError:
             raise FileNotFoundError(f'config file not found at root directory {root}')
 
-        # Get buoy locations from configuration file. This is needed
-        # to display the buoy locations (Deenish, IWBN) on the maps. 
+        # Get buoy locations
         x_buoy, y_buoy = json.loads(config['lon']), json.loads(config['lat'])
 
-        # Read coastline. The coastline file is not included in the repository,
-        # but has to be provided to show the coastline on the maps. It should be
-        # a pickle file with a dictionary providing the longitude and the 
-        # latitude of the coastline points. 
+        # Read coastline
         with open(config['coastfile'], 'rb') as f:
             coast = pickle.load(f)
             x_coast, y_coast = coast['longitude'], coast['latitude']
@@ -90,8 +104,7 @@ def RS():
         logger.info(f'{now()} Downloading oceancolour...')
         lon, lat, time, CHL, ANM = oceancolour(config)
 
-        # Fix data type. Chlorophyll-a data is rounded of to one decimal place.
-        # This is to reduce the amount of data sent to the web portal.
+        # Fix data type
         CHL = np.round(CHL.astype(np.float64), 1)
         ANM = np.round(ANM.astype(np.float64), 1)
 
@@ -117,8 +130,7 @@ def RS():
         except Exception as e:
             logging.critical(e, exc_info=True)
 
-        # Export figure to file. This file can be accessed by the web
-        # application through the shared volume. 
+        # Export figure to file
         logger.info(f'{now()} EXPORTING FIGURES TO FILE...')
         with open('/data/pkl/CHL.pkl', 'wb') as f:
             pickle.dump({'CHL': chl, 'CHLANM': anm}, f)

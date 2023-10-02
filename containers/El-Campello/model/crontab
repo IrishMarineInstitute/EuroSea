@@ -1,2 +1,1 @@
-40 * * * * /usr/local/bin/python /root/model.py 
-
+15 * * * * /usr/local/bin/python /root/model.py 

@@ -4,7 +4,7 @@
 
  Copyright notice
    --------------------------------------------------------------------
-   Copyright (C) 2022 Marine Institute, ICMAN-CSIC
+   Copyright (C) 2022 Marine Institute
        Diego Pereiro Rodriguez
 
        diego.pereiro@marine.ie
@@ -23,15 +23,40 @@
    along with this library.  If not, see <http://www.gnu.org/licenses/>.
    --------------------------------------------------------------------
 
-       This is the main script of the WAVES container. This application is set
-   to run hourly to download the latest wave height forecasts for the Balearic
-   Sea. Wave forecasts are provided by the Mediterranean Sea Waves Analysis and 
-   Forecast Service (DOI:10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4).
-   
-      This application is set to run hourly to make sure that the website
-   updates as soon as new forecasts are released by the Copernicus
-   Marine Service. This application also creates the Balearic Sea figure
-   that is later accessed by the WEBAPP container through the shared volume.
+      This is the main script of the RS container. This application is set
+   to run once a day to download the Remote Sensing products, namely SST and
+   chlorophyll. SST anomalies, Marine Heat Waves and chlorophyll anomalies 
+   are determined. This data is wrapped in an RS.pkl file updated daily and
+   later accessed by the WEBAPP container using a shared volume.
+
+   The files in this container are:
+
+       config : Plain text file with important configuration options for your
+                application, such as the CMEMS credentials and products to 
+                download as remote-sensing data or the geographical boundaries
+                of your area of interest.
+
+       crontab : A cron file to set this job to run once a day.
+
+       coastline-2.pkl : Coastline file to draw the shoreline in maps. You
+                         should produce a new one for your application
+                         using the same format.
+ 
+       log.py : Logging script. Useful messages are sent to a file /log/app.log
+
+       mhw.py : Script to detect Marine Heat Wave occurrence in SST data.
+
+       motu.py : Script using the motuclient to download CMEMS data.
+
+       oceancolour.py : Script downloading chlorophyll data and calculating 
+                        anomalies. 
+
+       output.pt : Script that finally wraps all the model data in MODEL.pkl
+                   and in a format that can be understood by the website.
+
+       requirements.txt : Python packages needed to run this container.
+
+       rs.py : This script. It is the main file calling the other methods.
 
 '''
 
@@ -99,7 +124,7 @@ def wave(date=datetime.now()):
         # Get buoy longitude/latitude
         buoy = float(config['lon']), float(config['lat'])
 
-        # Download wave height forecast
+        # Read wave history/forecasts
         logger.info(f'{now()} Starting download of wave forecasts...')
         waves(date, config)
 

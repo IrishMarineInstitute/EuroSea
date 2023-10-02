@@ -6,6 +6,8 @@ from app import app
 import to_csv
 import smtplib
 import shutil
+import glob
+import json
 import os
 import util
 
@@ -18,37 +20,45 @@ def dataload(pkl, dic):
         var = {}
     return {**dic, **var}
 
-@app.route('/Galway-Bay', methods=['GET', 'POST'])
+@app.route('/Galway-Bay/Killeenaran', methods=['GET', 'POST'])
 def galway():
 
     data = dataload('/data/pkl/GALWAY.pkl', {})
-    data = dataload('galway-coastline.pkl', data)
+
+    ''' Set time axis range start both for 
+     mobile phone and desktop versions. '''
+    
+    # Get current time as datetime object
+    now = datetime.strptime(data['ahora'], '%Y-%b-%d %H:%M')
+
+    # Set time axis range start for phone
+    phone_idate = (now - timedelta(days=3)).strftime('%Y-%m-%d %H:%M')
+
+    # Set time axis range start for desktop
+    desktop_idate = (now - timedelta(days=14)).strftime('%Y-%m-%d %H:%M')
+
+    # Update dictionary
+    data['phone_idate'] = phone_idate
+    data['desktop_idate']= desktop_idate
+    data['edate'] = json.loads(data['time_forecast'])[-1]
 
     return render_template('galway.html', **data) 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        if 'Deenish ISO' in request.form:
-            return redirect(url_for('DISO'))
-        elif 'Campello ISO' in request.form:
+        if 'Campello ISO' in request.form:
             return redirect(url_for('CISO'))
-        elif 'Deenish RSO' in request.form:
-            return redirect(url_for('DRSO'))
         elif 'Campello RSO' in request.form:
             return redirect(url_for('CRSO'))
-        elif 'Deenish ISH' in request.form:
-            return redirect(url_for('DISH'))
         elif 'Campello ISH' in request.form:
             return redirect(url_for('CISH'))
-        elif 'Deenish RSH' in request.form:
-            return redirect(url_for('DRSH'))
+        elif 'Deenish RSO' in request.form:
+            return redirect(url_for('DRSO'))
+        elif 'SST' in request.form:
+            return redirect(url_for('SST'))
         elif 'HELPDESK' in request.form:
             return redirect(url_for('helpdesk'))
-        elif 'HELPDESK_ES' in request.form:
-            return redirect(url_for('helpdesk_es'))
-        elif 'Campello ISO ES' in request.form:
-            return redirect(url_for('CISO_es'))
         elif 'QUESTIONNAIRES' in request.form:
             return redirect(url_for('questionnaires'))
         else:
@@ -59,21 +69,17 @@ def home():
 @app.route('/es', methods=['GET', 'POST'])
 def home_es():
     if request.method == 'POST':
-        if 'Deenish ISO' in request.form:
-            return redirect(url_for('DISO'))
-        elif 'Campello ISO ES' in request.form:
+        if 'Campello ISO' in request.form:
             return redirect(url_for('CISO_es'))
         elif 'Deenish RSO' in request.form:
             return redirect(url_for('DRSO'))
         elif 'Campello RSO' in request.form:
             return redirect(url_for('CRSO_es'))
-        elif 'Deenish ISH' in request.form:
-            return redirect(url_for('DISH'))
         elif 'Campello ISH' in request.form:
             return redirect(url_for('CISH_es'))
-        elif 'Deenish RSH' in request.form:
-            return redirect(url_for('DRSH'))
-        elif 'HELPDESK_ES' in request.form:
+        elif 'SST' in request.form:
+            return redirect(url_for('SST'))
+        elif 'HELPDESK' in request.form:
             return redirect(url_for('helpdesk_es'))
         elif 'CUESTIONARIOS' in request.form:
             return redirect(url_for('cuestionarios'))
@@ -152,8 +158,10 @@ def CISO():
     # Load forecasts
     data = dataload('/data/pkl/MODEL-2.pkl', data)
 
-    if os.path.isfile('/data/IMG/ECMWF-FORECAST.png'):
-        shutil.move('/data/IMG/ECMWF-FORECAST.png', '/app/app/static/ECMWF-FORECAST.png')
+    for pic in glob.iglob(os.path.join('/data/IMG/', '*.png')):
+        if os.path.isfile(pic):
+            shutil.copy2(pic, '/app/app/static/')
+            os.remove(pic)
 
     if request.method == 'POST':
 
@@ -186,8 +194,10 @@ def CISO_es():
     # Load forecasts
     data = dataload('/data/pkl/MODEL-2.pkl', data)
 
-    if os.path.isfile('/data/IMG/ECMWF-FORECAST.png'):
-        shutil.move('/data/IMG/ECMWF-FORECAST.png', '/app/app/static/ECMWF-FORECAST.png')
+    for pic in glob.iglob(os.path.join('/data/IMG/', '*.png')):
+        if os.path.isfile(pic):
+            shutil.copy2(pic, '/app/app/static/')
+            os.remove(pic)
 
     if request.method == 'POST':
 
@@ -222,6 +232,22 @@ def DRSO():
     data = dataload('/data/pkl/CHL.pkl', data)
 
     return render_template('DRSO.html', **data) 
+
+@app.route('/SST')
+def SST():
+    # Load remote sensing
+    videos = dataload('/data/pkl/SST-90.pkl', {})
+    # Load IWBN
+    videos = dataload('/data/pkl/IWBN-90.pkl', videos)
+
+    if os.path.isfile(videos['SST']):
+        shutil.copyfile(videos['SST'], '/app/app/static/SST.mp4')
+    if os.path.isfile(videos['ANM']):
+        shutil.copyfile(videos['ANM'], '/app/app/static/ANM.mp4')
+    if os.path.isfile(videos['MHW']):
+        shutil.copyfile(videos['MHW'], '/app/app/static/MHW.mp4')
+
+    return render_template('SST.html', **videos) 
 
 @app.route('/Campello-rs')
 def CRSO():
@@ -418,13 +444,12 @@ def questionnaires():
            email, message = 'QUESTIONNAIRE', mensaje
 
            # Send email to service desk
-           send_email_gmail(email, message, ['eurosea.helpdesk@marine.ie',
-                                             'martha.dunbar@csic.es'] )
+           send_email_gmail(email, message, ['eurosea.helpdesk@marine.ie'] )
 
-           return render_template('questionnaires.html', sent='true') 
+           return render_template('notexist.html', sent='true') 
 
     else:
-        return render_template('questionnaires.html', sent='false') 
+        return render_template('notexist.html', sent='false') 
 
 @app.route('/cuestionarios', methods=['GET', 'POST'])
 def cuestionarios():
@@ -449,13 +474,12 @@ def cuestionarios():
            email, message = 'CUESTIONARIO', mensaje
 
            # Send email to service desk
-           send_email_gmail(email, message, ['eurosea.helpdesk@marine.ie',
-                                             'martha.dunbar@csic.es'] )
+           send_email_gmail(email, message, ['eurosea.helpdesk@marine.ie'] )
 
-           return render_template('cuestionarios.html', sent='true') 
+           return render_template('notexist.html', sent='true') 
 
     else:
-        return render_template('cuestionarios.html', sent='false') 
+        return render_template('notexist.html', sent='false') 
 
 def respuestas_cuestionario(form, date, language):
     ''' This function writes a text message from the 

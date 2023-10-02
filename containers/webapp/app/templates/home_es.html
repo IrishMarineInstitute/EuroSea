@@ -5,175 +5,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" >
     <link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
-    <style type="text/css">
-    p {
-       font-family: Calibri;
-       font-size: 15px;
-       align: justify;
-    }
-    img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-    .landscape {
-        height: 75px;
-        width: 200px;
-    }
-    .footer {
-       width: 100%;
-    }
-    .Deenish {
-       height: 264px;
-       width: 264px;
-       display: inline-block;
-       float: left;
-       background-image: url('/static/Deenish.png');
-       background-repeat: no-repeat;
-    }
-    .Campello {
-       height: 264px;
-       width: 264px;
-       display: inline-block;
-       float: left;
-       background-image: url('/static/El-Campello.png');
-       background-repeat: no-repeat;
-    }
-    .links {
-       height: 264px;
-       width: 264px;
-       display: inline-block;
-       float: right;
-       align-items: center;
-       justify-content: center;
-    }
-    .button {
-       background-color: #123944;
-       width: 250px;
-       border-radius: 5px;
-       padding: 11px 15px;
-       border: none;
-       text-align: center;
-       text-decoration: none;
-       display: block;
-       margin: 20px auto;
-       font-size: 16px;
-       color: #FFFFFF
-    }
-    .button-disabled {
-       background-color: #808080;
-       width: 250px;
-       border-radius: 5px;
-       padding: 11px 15px;
-       border: none;
-       text-align: center;
-       text-decoration: none;
-       display: block;
-       margin: 20px auto;
-       font-size: 16px;
-       color: #FFFFFF
-    }
-    .center {
-       height: 10px;
-       line-height: 10px;
-    }
-    .helpdesk {
-       background-color: #FF0000;
-       width: 135px;
-       border-radius: 5px;
-       padding: 5px 0px;
-       border: none;
-       text-align: center;
-       text-decoration: none;
-       display: block;
-       margin: 10px auto;
-       font-size: 16px;
-       font-weight: bold;
-       color: #FFFFFF
-    }
-    .questionnaires {
-       background-color: #0018F9;
-       width: 175px;
-       border-radius: 5px;
-       padding: 5px 0px;
-       border: none;
-       text-align: center;
-       text-decoration: none;
-       display: block;
-       margin: 10px auto;
-       font-size: 16px;
-       font-weight: bold;
-       color: #FFFFFF
-    }
-    .button:hover { background-color: #05C3DD }
-    .button:hover { background-color: #05C3DD }
-    .helpdesk:hover { background-color: #FFA500 }
-    .questionnaires:hover { background-color: #0080FE }
-    </style>
+    <link rel="icon" href="../static/favicon.png">
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/tiny-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 1px) and (max-device-width: 320px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
 </head>
 
 <body>
-    	<div class="grid">
-    		<div class="col-1-5">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" > </a> </p> </div> </div> </div>			
-    		<div class="col-1-5">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" > </a> </p> </div> </div> </div>			
-    		<div class="col-1-5">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" > </a> </p> </div> </div> </div>		
-    		<div class="col-1-8">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://www.xylem.com"> <img src="../static/xylem-logo.png" > </a> </p> </div> </div> </div>		
-    		<div class="col-1-8">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://mowi.com"> <img src="../static/MOWI-logo.png" > </a> </p> </div> </div> </div>		
-    		<div class="col-1-9">
-    			<div class="content">
-                                <div class="landscape">
-        		            <p> <a href="https://avramar.eu"> <img src="../static/AVRAMAR-logo.png" > </a> </p> </div> </div> </div>			
-    	</div>
-	
-        <div class="grid">
-      	        <div class="col-3-4" >
-			<div class="content">
-     				<p id="funding">
-           Este proyecto ha sido financiado por el programa de investigación
-           e innovación Horizonte 2020 de la UE bajo acuerdo de
-           financiación No. 862626.
-                                </p>
- 			</div>
- 		</div>
-    		<div class="col-1-6" >
-                        <div class="content">
-                          <form method="POST" action="/es">
-                            <div style="width: 25px; float:left; height:28px; margin:10px 0px">
-        		              <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie"> <img src="../static/EN.png" > </a> </p>	
-                            </div>
-                            <div class="center" style="width: 10px; float:left; height:28px; margin:13px 0px">
-        		               <p style="margin:5px 0px;font-size:25px;"> <a style="text-decoration:none;" href="https://eurosea.marine.ie"> EN </a> </p> 		
-                            </div>
-                            <div style="width: 25px; float:left; height:28px; margin:10px 0px 10px 50px">
-        		               <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es"> <img src="../static/ES.png" > </a> </p>
-                            </div>
-                            <div class="center" style="width: 10px; float:left; height:28px; margin:13px 0px">
-        		               <p style="margin:5px 0px;font-size:25px;"> <a style="text-decoration:none;" href="https://eurosea.marine.ie/es"> ES </a> </p> 		
-                            </div>
-                          </div>
-                        </div>
- 		</div>
+        <!-- MOBILE VERSION -->
+        <div class="languages-portrait topcorner">
+
+          <div style="width:12px; float:right; height:0px; margin:5px 20px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:9px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie"> EN </a> </p> 
+          </div>
         </div>
 
+        <div class="languages-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 10px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:17px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie"> EN </a> </p> 
+          </div>
+
+        </div>
+
+        <div class="languages-tiny-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 30px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:21px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie"> EN </a> </p> 
+          </div>
+
+        </div>
+
+        <div class="languages-ipad topcorner">
+          <div style="width:30px; float:right; height:0px; margin:30px 100px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:27px 5px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie"> EN </a> </p> 
+          </div>
+        </div>
 
         <div class="grid">
-            <div class="col-5-8">
+            <div class="col-1-1">
+                <div class="content unpadded">
+                    <h1 class="MarineObservatory"> OBSERVATORIO MARINO PARA LA ACUICULTURA </h1> <hr> </div> </div>
+        </div>
+
+                <div class="grid">
+    		   <div class="col-1-1">
+    			<div class="content unpadded">
+                           <div class="footer">
+                               <p class="intro"> 
+El objetivo de este portal es proporcionar servicios oceanográficos para el sector de la acuicultura. El portal da acceso a datos <i>in-situ</i>, teledetección, alertas y predicciones para <b> Deenish Island </b> (Irlanda) y <b> El Campello </b> (España).  
+                               </p>
+                            </div> 
+                         </div>
+                      </div>
+                </div>
+
+                <div class="grid mobile">
+                   <h3 style="text-align: center"> Deenish Island </h3> 
+                </div>
+                <div class="grid mobile">
+                   <div class="col-1-2 mobile-col-1-2">
+                        <div class="content unpadded">
+                           <img src="../static/Deenish.png" alt="Deenish Island" class="responsive" >
+                        </div>
+                   </div>
+                   <div class="col-1-2 mobile-col-1-2">
+                        <div class="content unpadded">
+                      <form method="POST" action="/es">
+                         <input class="button" type="submit" value="Irish Weather Buoy Network" 
+                            name="SST" />                                           
+                      </form>
+                   </div>
+                        </div>
+                 </div>
+                        
+                <div class="grid mobile">
+                   <h3 style="text-align: center"> El Campello </h3> 
+                </div>
+                <div class="grid mobile">
+                   <div class="col-1-2 mobile-col-1-2">
+                        <div class="content unpadded">
+                           <img src="../static/El-Campello.png" alt="El Campello" class="responsive" >
+                        </div>
+                   </div>
+                   <div class="col-1-2 mobile-col-1-2">
+                        <div class="content unpadded">
+                          <form method="POST" action="/es">
+                         <input class="button" type="submit" value="Alertas y Predicciones" 
+                            name="Campello ISO" />
+                         <input class="button" type="submit" value="Datos Históricos" 
+                            name="Campello ISH" />
+                           </form>
+                       </div>
+                    </div>
+                 </div>
+
+                <!-- DESKTOP VERSION -->
+    		<div class="languages-desktop topcorner">
+                        <div class="content">
+                            <div style="width: 25px; float:left; height:28px; margin:30px 0px 10px 50px">
+               <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie"> <img src="../static/EN.png" > </a> </p>
+                            </div>
+                            <div class="center" style="width: 10px; float:left; height:28px; margin:33px 150px 0px 0px">
+               <p style="margin:5px 0px;"> <a style="text-decoration:none;" href="https://eurosea.marine.ie"> EN </a> </p> 		
+                            </div>
+                        </div>
+ 		</div>
+
+    <div class="grid desktop">
+ 	<div class="col-1-4 mobile-col-1-4">
+        	<div class="content">
+                   <div class="Deenish"></div>
+ 		</div>
+	</div>
+ 	<div class="col-1-4 mobile-col-1-4">
+ 		<div class="content">
+                   <div class="links">
+                      <form method="POST" action="/es">
+                         <h3 style="text-align: center"> 
+                            Deenish Island 
+                         </h3>
+                         <input class="button" type="submit" value="Teledetección" 
+                            name="Deenish RSO" id="Deenish-Remote-Warnings"/>                                           
+                         <input class="button" type="submit" value="Teledetección Históricos" 
+                            name="SST" id="Deenish-Remote-Historical" />                                           
+                      </form>
+                   </div>
+ 		</div>
+	</div>
+ 	<div class="col-1-4 mobile-col-1-4">
+        	<div class="content">
+                   <div class="Campello"></div>
+ 		</div>
+ 	</div>
+ 	<div class="col-1-4 mobile-col-1-4">
+ 		<div class="content">
+                   <div class="links">
+                      <form method="POST" action="/es">
+                         <h3 style="text-align: center"> 
+                             El Campello
+                         </h3>
+                         <input class="button" type="submit" value="Alertas y Predicciones" 
+                            name="Campello ISO" />
+                         <input class="button" type="submit" value="Datos Históricos" 
+                            name="Campello ISH" />
+                         <input class="button" type="submit" value="Predicción de Oleaje"
+                            name="Campello RSO" id="Balearic-Wave-Forecast" /> 
+                       </form>
+                    </div>
+ 		</div>
+	</div>
+    </div>
+
+        <div class="grid">
+            <div class="col-1-1">
                 <div class="content">
-                    <p style="margin-bottom:30px;">
+                    <p class="intro">
+                        <mark><b>NUEVO</b></mark> Canal de Telegram para avisos de oleaje en El Campello
+                        <a href="https://t.me/EuroSea_El_Campello" target="_blank"> aquí</a>.
+                    </p>
+                </div>
+            </div>
+         </div>
+
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <p class="intro">
                         Si tiene alguna
                         sugerencia o ve dificultades en el uso
                         de la página, por favor, consúltenos en nuestro
@@ -181,123 +203,102 @@
                     </p>
                 </div>
             </div>
-            <div class="col-3-8">
-                <div class="content">
-                    <form method="POST" action="/es">
-                         <input class="helpdesk" type="submit" value="Servicio Técnico" 
-				    name="HELPDESK_ES" />
-                    </form>
-                </div>
-            </div>
          </div>
-
-    		
         <div class="grid">
-            <div class="col-5-8">
-                <div class="content">
-                    <p style="margin-bottom:30px;">
-                        ¡Su opinión es muy importante! Agradeceríamos si pudiera
-                        completar nuestros cuestionarios sobre su experiencia 
-                        con el uso del portal:
-                    </p>
-                </div>
-            </div>
-            <div class="col-3-8">
+            <div class="col-1-1">
                 <div class="content">
                     <form method="POST" action="/es">
-                         <input class="questionnaires" type="submit" value="CUESTIONARIOS" 
-                            name="CUESTIONARIOS" />
+                         <input class="helpdesk" type="submit" value="SERVICIO TÉCNICO" 
+                            name="HELPDESK" />
                     </form>
                 </div>
             </div>
          </div>
     		
-    <div class="grid">
- 	<div class="col-1-4">
-        	<div class="content">
-                   <div class="Deenish"></div>
- 		</div>
-	</div>
- 	<div class="col-1-4">
- 		<div class="content">
-                   <div class="links">
-                      <form method="POST" action="/es">
-                         <h4 style="text-align: center"> 
-                            Deenish Island 
-                         </h4>
-                         <input class="button-disabled" type="submit" value="Alertas y Predicciones" 
-                            name="Deenish ISO" disabled/>
-                         <input class="button-disabled" type="submit" value="Datos Históricos" 
-                            name="Deenish ISH" disabled/>
-                         <input class="button" type="submit" value="Teledetección" 
-                            name="Deenish RSO" />                                           
-                         <!--input class="button" type="submit" value="Remote-Sensing Historical Data" -->
-                         <!--   name="Deenish RSH" />-->
-                      </form>
-                   </div>
- 		</div>
-	</div>
- 	<div class="col-1-4">
-        	<div class="content">
-                   <div class="Campello"></div>
- 		</div>
- 	</div>
- 	<div class="col-1-4">
- 		<div class="content">
-                   <div class="links">
-                      <form method="POST" action="/es">
-                         <h4 style="text-align: center"> 
-                             El Campello
-                         </h4>
-                         <input class="button" type="submit" value="Alertas y Predicciones" 
-                            name="Campello ISO ES" />
-                         <input class="button" type="submit" value="Datos Históricos" 
-                            name="Campello ISH" />
-                         <input class="button" type="submit" value="Predicción de Oleaje"
-                            name="Campello RSO" /> 
-                       </form>
-                    </div>
- 		</div>
-	</div>
-    </div>
-    		
+<!--
     	<div class="grid">
     		<div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-       <p align="justify"> 
-           Puede acceder a través de este <a href="https://climate.copernicus.eu/seasonal-forecasts"> enlace </a> a <b> las predicciones estacionales del C3S</b>. 
+       <p class="intro">
+           Herramientas adicionales: <br> <br>
+               &emsp; - Predicciones estacionales del Servicio de Cambio Climático de Copernicus (<a href="https://climate.copernicus.eu/seasonal-forecasts">acceso a los datos</a>). <br> <br>
+               &emsp; - &nbsp; <a href="https://apps.socib.es/subregmed-marine-heatwaves"> Olas de Calor Marinas en el Mediterráneo</a>, desarrollado por el Sistema de Observación y Predicción Costero de las Illes Balears (SOCIB).
        </p>
 
                             </div> </div> </div> </div>
+-->
 
     	<div class="grid">
     		<div class="col-1-1">
     			<div class="content">
                            <div class="footer">
-       <p align="justify">
-          Este portal web es fruto de una colaboración, en el marco del proyecto EuroSea, entre
+       <p class="acknowledgements"> 
+          <b> Agradecimientos </b> Este portal web es fruto de una colaboración, en el marco del proyecto EuroSea, entre
           el Marine Institute, el Consejo Superior de Investigaciones Científicas (CSIC), 
           AVRAMAR, Mowi Ireland (antes Marine Harvest) y Xylem/Aanderaa Data Instruments. Lo  
           desarrolla el WP6 "Ocean Health Demonstrator" del proyecto EuroSea para la "mejora e 
           integración de la Observación Oceánica Europea y los Sistemas de Predicción".  
          
            Este proyecto ha sido financiado por el programa de investigación
-           e innovación Horizonte 2020 de la UE bajo acuerdo de
-           financiación No. 862626.
- 
-       </p>
+           e innovación Horizonte 2020 de la UE <b> bajo acuerdo de
+           financiación No. 862626.</b>
                             </div> 
                            <div class="footer">
-       <p align="justify"> 
-
-           DESCARGO DE RESPONSABILIDAD. Por favor, nótese que este servicio se encuentra actualmente en fase de 
+       <p class="disclaimer"> 
+           <i> DESCARGO DE RESPONSABILIDAD. Por favor, nótese que este servicio se encuentra actualmente en fase de 
            desarrollo. El usuario asume cualquier riesgo derivado del uso de la información contenida en este portal.
-           Los datos se proporcionan "tal cual", sin ninguna garantía expresa o implícita de ningún tipo, incluida, entre otras, la garantía de comerciabilidad o idoneidad para un propósito particular.
-       </p>
+           Los datos se proporcionan "tal cual", sin ninguna garantía expresa o implícita de ningún tipo, incluida, entre otras, la garantía de comerciabilidad o idoneidad para un propósito particular.</i>
                             </div> 
     			</div>
     		</div>
     	</div>
+
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" alt="EuroSea" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" alt="ICMAN-CSIC" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://www.xylem.com"> <img src="../static/xylem-new.png" alt="Xylem" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://mowi.com"> <img src="../static/Mowi-new.png" alt="Mowi" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://avramar.eu"> <img src="../static/avramar-new.png" alt="AVRAMAR" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+        </div>        
+
+
 </body>
 </html>

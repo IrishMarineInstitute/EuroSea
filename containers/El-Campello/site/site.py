@@ -24,13 +24,15 @@
    --------------------------------------------------------------------
 
       This is the main script of the SITE container. This application is set
-   to run every ten minutes to download the in-situ data from the EuroSea 
-   monitoring station at El Campello. In addition, it subsets the latest data
-   for the number of days specified in the configuration file. It reads the
+   to run every ten minutes to download the in-situ data from an EuroSea 
+   monitoring station. In addition, it subsets the latest data for the number
+   of days specified in the configuration file (e.g. 14 days). It reads the
    local SST climatology needed to determine the occurrence of marine heat 
-   waves. All this data is wrapped in a BUOY.pkl file that is updated
-   every ten minutes, and later accessed by the WEBAPP container through
-   the shared volume. 
+   waves. Regardless of whatever has been specified in the configuration file,
+   directional information (e.g. oceanic currents) are subset for the last 24
+   hours only. All this data is wrapped in a BUOY.pkl file that is updated
+   every ten minutes, and later accessed by the WEBAPP container using a shared
+   volume.  
 
    The files in this container are:
 
@@ -41,7 +43,7 @@
 
        crontab : A cron file to set this job to run every ten minutes.
 
-       Campello_Climatology.pkl : Local SST climatology data for MHW warnings.
+       Deenish_Climatology.pkl : Local SST climatology data for MHW warnings.
                                  The name of this file must be set in config.
 
        known_hosts : A known_hosts file with the ECDSA key of the SFTP server
@@ -56,15 +58,15 @@
 
        log.py : Logging script. Useful messages are sent to a file /log/app.log
 
-       output.pt : Script that wraps all the in-situ data in BUOY.pkl
+       output.pt : Script that finally wraps all the in-situ data in BUOY.pkl
                    and in a format that can be understood by the website.
 
        requirements.txt : Python packages needed to run this container.
 
        site.py : This script. It is the main file calling the other methods.
 
-       wind_rose.py : Script producing wind rose figures for directional 
-                      data: waves, currents and winds.
+       vectors.py : Script subsetting directional information for the last 24
+                    hours and calculating water displacements.
 
 '''
 

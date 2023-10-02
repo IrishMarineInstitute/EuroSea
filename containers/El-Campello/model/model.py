@@ -24,9 +24,9 @@
    --------------------------------------------------------------------
 
       This is the main script of the MODEL container. This application is set
-   to run hourly to download the model forecasts from CMEMS and ECMWF. This
-   data is wrapped in a MODEL.pkl file that is updated every hour and later
-   accessed by the WEBAPP container through the shared volume.
+   to run once a day to download the model forecasts and temperature profile
+   from CMEMS. This data is wrapped in a MODEL.pkl file that is updated daily,
+   and later accessed by the WEBAPP container using a shared volume.
 
    The files in this container are:
 
@@ -35,8 +35,6 @@
                 download as forecasts.
 
        crontab : A cron file to set this job to run once a day.
-
-       get_direction.py : Function to get direction from u, v components.
 
        log.py : Logging script. Useful messages are sent to a file /log/app.log
 
@@ -49,19 +47,13 @@
 
        requirements.txt : Python packages needed to run this container.
 
-       wind_rose.py : Script producing wind rose figures for directional 
-                      data: waves and winds.
-
-       windArrow.py : Script producing ECMWF wind arrows image. This is the
-                      only case where matplotlib is used instead of plotly.
-
 '''
 
 from datetime import datetime, timedelta
 from pytz import timezone as tz
 from output import send_output
 from wind_rose import wind_rose
-from windArrow import windArrow
+from windArrow import windArrow, windArrowIcons
 import numpy as np
 from netCDF4 import Dataset, num2date
 from motu import motu
@@ -72,7 +64,7 @@ import os
 logger = set_logger()
 
 def configuration():
-    ''' Read configuration file '''
+    ''' Read secrets (configuration) file '''
     config = {}
     with open('config', 'r') as f:
         for line in f:
@@ -274,7 +266,8 @@ def MODEL(date=datetime.now()):
        
         if not os.path.isdir('/data/IMG'):
             os.mkdir('/data/IMG')
-        windArrow('/data/pkl/MODEL-2.pkl', '/data/IMG/ECMWF-FORECAST.png')
+        windArrow('/data/pkl/MODEL-2.pkl', '/data/IMG/ECMWF-FORECAST.png')
+        windArrowIcons('/data/pkl/MODEL-2.pkl')
                   
         return 0, ''
        

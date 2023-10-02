@@ -1,1 +1,1 @@
-19 * * * * /usr/local/bin/python /root/main.py 
+28 * * * * /usr/local/bin/python /root/main.py 

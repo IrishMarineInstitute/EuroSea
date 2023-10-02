@@ -97,22 +97,16 @@ function init() {
 
    var str = document.getElementById("significant-wave-height-value").content
    wh_strcolor(str, "latest-swh")
+   wh_strcolor(str, "latest-swh-mobile")
 
    var str = document.getElementById("forecast-max-swh-value").content
    wh_strcolor(str, "max-swh-fc")
+   wh_strcolor(str, "max-swh-fc-mobile")
 
    var str = document.getElementById("swell-value").content
    wh_strcolor(str, "latest-swell")
 
    var str = document.getElementById("forecast-max-swell-value").content
    wh_strcolor(str, "max-swell-fc")
-
-   var str = document.getElementById("MHW-1").content
-   mhw_strcolor(str, "Marine-Heat-Wave-1")
-
-   var str = document.getElementById("MHW-2").content
-   mhw_strcolor(str, "Marine-Heat-Wave-2")
-      
-      
 
 }

@@ -1,38 +1,3 @@
-''' 
-    
-(C) Copyright EuroSea H2020 project under Grant No. 862626. All rights reserved.
-
- Copyright notice
-   --------------------------------------------------------------------
-   Copyright (C) 2022 Marine Institute
-       Diego Pereiro Rodriguez
-
-       diego.pereiro@marine.ie
-
-   This library is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this library.  If not, see <http://www.gnu.org/licenses/>.
-   --------------------------------------------------------------------
-
-      This is the main script of the IWBN container. This application is set
-   to run hourly to download the latest seawater temperature observations
-   from the Irish Weather Buoy Network. Data is downloaded from the Marine
-   Institute ERDDAP. This application is set to run hourly to make sure that
-   the website updates as soon as new data is released on the ERDDAP. This 
-   application also creates the figures that are later accessed by the WEBAPP 
-   container through the shared volume.
-
-'''
-
 from datetime import datetime, date, timedelta
 from netCDF4 import Dataset, num2date
 from series import timeSeries

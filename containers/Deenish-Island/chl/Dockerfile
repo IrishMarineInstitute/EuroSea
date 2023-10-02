@@ -29,7 +29,6 @@ RUN apt-get update && apt-get -y install cron vim
 
 # Directory to store logging files
 RUN mkdir /log
-RUN mkdir /data
 
 WORKDIR /root
 

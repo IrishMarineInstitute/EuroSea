@@ -3,7 +3,7 @@ import numpy as np
 import plotly
 import json
 
-def Slider(lon, lat, time, data, coast, buoy, colorscale, tickvals, contours):
+def Slider(lon, lat, time, data, coast, buoy, bathymetry, colorscale, tickvals, contours):
     ''' Create slider figure to display on portal '''
 
     # Coastline coordinates
@@ -11,6 +11,9 @@ def Slider(lon, lat, time, data, coast, buoy, colorscale, tickvals, contours):
 
     # Buoy(s) coordinates
     x_buoy,  y_buoy  = buoy
+
+    # Bathymetry
+    x_bathy, y_bathy = bathymetry
 
     # Initialize 1st trace: the 2-D contour data
     trace1 = []
@@ -39,13 +42,20 @@ def Slider(lon, lat, time, data, coast, buoy, colorscale, tickvals, contours):
     # 3rd trace is the buoys
     trace3 = [ go.Scatter(
         x=np.array(x_buoy), y=np.array(y_buoy), mode='markers+text', text=["Deenish", "M2", "M3", "M4", "M5", "M6"], 
-        textposition=["middle left", "top left", "bottom left", "bottom left", "bottom left", "bottom left"],
+        textposition=["middle left", "bottom center", "bottom right", "top left", "bottom left", "bottom left"],
         marker={'size': 20, 'symbol': 'cross-thin', 'line': {'color': 'black', 'width': 1}}, 
         hoverinfo='none',
     ) ]            
 
+    # Traces 4 is the bathymetry contour 
+    trace4 = [go.Scatter(
+        x=x_bathy, y=y_bathy, 
+        line={'color': 'black', 'width': 1, 'dash': 'dash'}, 
+        hoverinfo='none',
+            )]
+    
     # Create figure
-    fig = go.Figure(data=trace1+trace2+trace3)
+    fig = go.Figure(data=trace1+trace2+trace3+trace4)
 
     # Create and add slider
     steps = []
@@ -61,6 +71,7 @@ def Slider(lon, lat, time, data, coast, buoy, colorscale, tickvals, contours):
         step['args'][1][i] = True
         step['args'][1][-1] = True
         step['args'][1][-2] = True
+        step['args'][1][-3] = True
     
         # Add step to step list
         steps.append(step)
