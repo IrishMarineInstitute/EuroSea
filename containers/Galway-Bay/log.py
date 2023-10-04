@@ -3,7 +3,7 @@ def set_logger():
     logger = logging.getLogger(__name__)
     logging.basicConfig(filename='/log/app.log', 
                         format='%(message)s',
-                        level=logging.DEBUG)
+                        level=logging.INFO)
     return logger
 
 from datetime import datetime
