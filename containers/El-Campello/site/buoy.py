@@ -31,8 +31,7 @@ def Buoy(conf):
 
     # Remove empty (corrupted) files
     files = sorted(glob(localpath + '/*.xml'))
-    for file in files:
-        logger.info(file)
+    for file in files:        
         if is_empty(file):
             os.remove(file)
    
@@ -249,7 +248,8 @@ def read_xml_file(file, var):
             # Read next line
             line = f.readline()
             
-    ''' Add DCPS recordings to in-situ data structure'''
+    ''' Add DCPS recordings to in-situ data structure
+'''
     var['DCP speed'].append(speed)
     var['DCP dir'].append(direction)
                  
