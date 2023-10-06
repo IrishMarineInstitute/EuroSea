@@ -53,7 +53,7 @@ from datetime import datetime, timedelta
 from pytz import timezone as tz
 from output import send_output
 from wind_rose import wind_rose
-from windArrow import windArrow, windArrowIcons
+from windArrow import windArrow
 import numpy as np
 from netCDF4 import Dataset, num2date
 from motu import motu
@@ -267,8 +267,7 @@ def MODEL(date=datetime.now()):
         if not os.path.isdir('/data/IMG'):
             os.mkdir('/data/IMG')
         windArrow('/data/pkl/MODEL-2.pkl', '/data/IMG/ECMWF-FORECAST.png')
-        windArrowIcons('/data/pkl/MODEL-2.pkl')
-                  
+                          
         return 0, ''
        
     except Exception as err:
