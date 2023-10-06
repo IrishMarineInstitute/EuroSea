@@ -288,13 +288,14 @@ def xml_file_download(local, localpath, host, user, pswd, folder):
         for file in sftp.listdir():
             if ( file not in local ) and file[-4:] == '.xml':
                 logger.info(f'{now()}: Downloading {file}'); 
-                while 1:
+                count = 0
+                while count < 3:
                     try: 
                         sftp.get(file, localpath=localpath + '/' + file); 
                         if is_empty(localpath + '/' + file):
-                            continue
+                            count += 1; continue
                         break
-                    except paramiko.SSHException: continue
+                    except paramiko.SSHException: count += 1; continue
 
 def vardict():
     ''' Initialize empty dictionary for buoy data '''
