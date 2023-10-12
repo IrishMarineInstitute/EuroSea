@@ -417,7 +417,7 @@ def main():
     with open(outfile, 'wb') as f:
         dump(GALWAY, f)
 
-    logger.info(f'{now()} FINISIHED...')
+    logger.info(f'{now()} FINISHED...')
         
 if __name__ == '__main__':   
   GALWAY =  main()
