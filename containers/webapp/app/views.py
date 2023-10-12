@@ -25,23 +25,6 @@ def galway():
 
     data = dataload('/data/pkl/GALWAY.pkl', {})
 
-    ''' Set time axis range start both for 
-     mobile phone and desktop versions. '''
-    
-    # Get current time as datetime object
-    now = datetime.strptime(data['ahora'], '%Y-%b-%d %H:%M')
-
-    # Set time axis range start for phone
-    phone_idate = (now - timedelta(days=3)).strftime('%Y-%m-%d %H:%M')
-
-    # Set time axis range start for desktop
-    desktop_idate = (now - timedelta(days=14)).strftime('%Y-%m-%d %H:%M')
-
-    # Update dictionary
-    data['phone_idate'] = phone_idate
-    data['desktop_idate']= desktop_idate
-    data['edate'] = json.loads(data['time_forecast'])[-1]
-
     return render_template('galway.html', **data) 
 
 @app.route('/', methods=['GET', 'POST'])

@@ -1,1 +1,1 @@
-1 * * * * /usr/local/bin/python /root/galway_bay.py 
+*/15 * * * * /usr/local/bin/python /root/galway.py 

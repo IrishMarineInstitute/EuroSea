@@ -47,6 +47,7 @@ RUN /usr/bin/crontab /etc/cron.d/crontab
 
 # Copy required files 
 COPY [ "*.py" , "/root/" ]
+COPY config .
 
 RUN echo $PYTHONPATH
 

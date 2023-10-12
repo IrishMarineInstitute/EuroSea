@@ -1,1066 +1,285 @@
 <!doctype html>
 <html lang="en">
 <html>
-	<head>
-		<title>Killeenaran and Galway Bay Warnings & Forecasts</title>
-		<meta charset="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
-                <link rel="icon" href="../static/MarineInstitute.png">
-		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-		<script src="../static/js/script.js"></script>
-
-                <style>
-               
-
-.galway-value-box {       
-    font-size: 25px;
-    font-weight: bold;       
-    width: 100px;
-    text-align: center;       
-    margin-top: 15px;
-    border: 0px solid black;
-    border-radius: 5px;
-    padding: 15px 15px;     
-}
-
-.unpadded {
-  padding: 0
-}
-
-.responsive {
-  width: 100%;
-  max-width: 800px;
-  height: auto;
-}
-
-.mobile {
-  display: none;
-}
-
-.desktop {
-  display: block;
-}
-
-.footer {
-  width: 100%;
-}
-
-.time-1 {
-    background-color: #123944;
-    width: 330px;
-    border-radius: 5px;
-    line-height: 60px;
-    border: none;
-    text-align: center;     
-    font-size: 18px;
-    color: #FFFFFF
-}
-
-.time-2 {
-    background-color: #123944;
-    width: 330px;
-    border-radius: 5px;
-    line-height: 60px;
-    border: none;
-    text-align: center;     
-    font-size: 18px;
-    color: #FFFFFF
-}
-
-@media screen and (max-width: 800px) {
-  .mobile {
-    display: block;
-  }
-
-  .desktop {
-    display: none;
-  }
-
-  .galway-value-box {       
-    font-size: 14px;
-    font-weight: bold;       
-    width: 50px;
-    text-align: center;       
-    margin-top: 5px;
-    border: 0px solid black;
-    border-radius: 5px;
-    padding: 5px 5px;     
-  }
-
-  .time-1 {
-    background-color: #123944;
-    width: 200px;
-    border-radius: 5px;
-    line-height: 30px;
-    border: none;
-    text-align: center;     
-    font-size: 12px;
-    color: #FFFFFF
-  }
-
-  .time-2 {
-    background-color: #123944;
-    width: 200px;
-    border-radius: 5px;
-    line-height: 30px;
-    border: none;
-    text-align: center;     
-    font-size: 10px;
-    color: #FFFFFF
-  }
-}
-
-                </style>
-		
-	</head>
-
-	<body>
-	
-                <!-- MOBILE PHONE VERSION -->
-    	        <div class="grid mobile">
-    		    <div class="col-1-5 mobile-col-1-2">
-    			<div class="content unpadded">
-                            <div class="landscape">
-        	               <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
-                                   </a> </p> </div> </div> </div>			
-
-    		    <div class="col-1-5 mobile-col-1-2">
-    			<div class="content unpadded">
-                            <div class="landscape">
-        	                <p> <a href="https://cuanbeo.com"> <img src="../static/CuanBeo-logo.png" alt="Cuan Beo" class="responsive" >
-                                    </a> </p> </div> </div> </div>			
-                </div>        
-
-                <div class="grid mobile">
-    		   <div class="col-1-1">
-    			<div class="content unpadded">
-                           <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
-                                   This portal shows the seawater temperature and salinity conditions at Killeenaran (53.198ºN, 8.942ºW) 
-                                   in Galway Bay from a ROMS coastal model developed at the Marine Institute.  
-                               </p>
-                            </div> 
-                         </div>
-                      </div>
-                </div>
-
-  		<div class="grid mobile">
-  			<div class="col-1-1">
-  				<div class="content unpadded">
-                                    <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
-                                        Below, there are the <b> current seawater temperature and salinity </b> conditions at Killeenaran,
-                                        at the surface and the seabed. <b> Time is in UTC </b>. 
-                               </p>
-                                    </div>
-  				</div>
-  			</div>
-                </div>
- 
-  		<div class="grid mobile">
-  			<div class="col-1-1 mobile-col-1-1">
-  				<div class="content">
-  				<input value="Killeenaran on {{ahora}}" type=text class="time-1" size='70'/>
-  				</div>
-  			</div>
-  		</div>
-    		
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-4">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-1-4">
-				<div class="content">
-                                    <p style="font-size:12px; font-family:Calibri">Surface</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{latest_temperature_surface}} ºC" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-4">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-1-4">
-				<div class="content">
-                                    <p style="font-size:12px; font-family:Calibri">Seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{latest_temperature_seabed}} ºC" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-5">
-				<div class="content">
-					 <img src="../static/salt.png" alt="salinity" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-1-4">
-				<div class="content">
-                                    <p style="font-size:12px; margin-left:11px; font-family:Calibri">Surface</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input style="margin-left:7px"; 
-					        class="galway-value-box"
-					        value="{{latest_salinity_surface}}" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-5">
-				<div class="content">
-					 <img src="../static/salt.png" alt="salinity" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-1-4">
-				<div class="content">
-                                    <p style="font-size:12px; margin-left:11px; font-family:Calibri">Seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input style="margin-left:7px"; 
-					        class="galway-value-box"
-					        value="{{latest_salinity_seabed}}" />
-				</div>
-			</div>
-                </div>
-			
-  		<div class="grid mobile">
-  			<div class="col-1-1">
-  				<div class="content unpadded">
-                                    <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
-                                        Below, there are the minimum and maximum seawater <b> temperatures </b>
-                                        at Killeenaran in a 3-day forecast.
-                               </p>
-                                    </div>
-  				</div>
-  			</div>
-                </div>
- 
-  		<div class="grid mobile">
-  			<div class="col-1-1 mobile-col-1-1">
-  				<div class="content">
-  				<input type=text class="time-2" size='70'
-  				value="Killeenaran 3-day Temperature Forecast" />
-  				</div>
-  			</div>
-  		</div>
-    		
-
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-4">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Min. at surface</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{minimum_temperature_forecast_surface}} ºC" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-4">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Max. at surface</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{maximum_temperature_forecast_surface}} ºC" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-4">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Min. at seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{minimum_temperature_forecast_seabed}} ºC" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-4">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" alt="thermometer" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Max. at seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{maximum_temperature_forecast_seabed}} ºC" />
-				</div>
-			</div>
-                </div>
-			
-  		<div class="grid mobile">
-  			<div class="col-1-1">
-  				<div class="content unpadded">
-                                    <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
-                                        Below, there are the minimum and maximum seawater <b> salinities </b> 
-                                        at Killeenaran in a 3-day forecast.
-                               </p>
-                                    </div>
-  				</div>
-  			</div>
-                </div>
- 
-  		<div class="grid mobile">
-  			<div class="col-1-1 mobile-col-1-1">
-  				<div class="content">
-  				<input type=text class="time-2" size='70'
-  				value="Killeenaran 3-day Salinity Forecast" />
-  				</div>
-  			</div>
-  		</div>
-    		
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-5">
-				<div class="content">
-					 <img src="../static/salt.png" alt="salinity" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Min. at surface</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{minimum_salinity_forecast_surface}}" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-5">
-				<div class="content">
-					 <img src="../static/salt.png" alt="salinity" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Max. at surface</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{maximum_salinity_forecast_surface}}" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-5">
-				<div class="content">
-					 <img src="../static/salt.png" alt="salinity" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Min. at seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{minimum_salinity_forecast_seabed}}" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-6 mobile-col-1-5">
-				<div class="content">
-					 <img src="../static/salt.png" alt="salinity" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12 mobile-col-2-5">
-				<div class="content">
-                                    <p style="font-size:10px; font-family:Calibri">Max. at seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12 mobile-col-1-4">
-				<div class="content">
-					 <input  
-					        class="galway-value-box"
-					        value="{{maximum_salinity_forecast_seabed}}" />
-				</div>
-			</div>
-                </div>
-			
-		<div class="grid mobile">
-			<div class="col-1-1">
-				<div class="content unpadded">
-                                   <hr> </div> </div> </div>
-  			
-                <div class="grid mobile">
-    		   <div class="col-1-1">
-    			<div class="content unpadded">
-                           <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:12px;"> 
-                                   The charts below show the time series of seawater temperature and salinity at Killeenaran.
-                                   The Galway Bay model "prediction" before present is referred to as "hindcast" (blue), whereas
-                                   the forecast is shown as an orange line. 
-                               </p>
-                            </div> 
-                         </div>
-                      </div>
-                </div>
-  			
-  		<script language="javascript" type="text/javascript">
-
-                    <!-- Time series layout -->
-                    var layout = {
-                       width: 250,
-                       height: 200,
-                       margin: {
-                           l: 40, r: 10, b: 30, t: 30, pad: 4, 
-                       },
-                       showlegend: false,
-                       texttemplate: '%{value:.1f}',
-                       title: '',
-                       xaxis: {
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickangle: 90,
-                           automargin: true,
-                           fixedrange: true,
-                           range: ["{{phone_idate}}", "{{edate}}"],
-                       },
-                       yaxis: {
-                           title: '',
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickformat: '.1f',
-                           fixedrange: true,
-                       },
-                       font: {
-                           family: 'Sans-Serif',
-                           size: 8,            
-                       },
-                       };
-                    
-                </script>
-  		
-  		<div class="grid mobile">
-      		    <div class="col-1-1">
-      			<div class="content unpadded">
-          		    <div class="Series" id="surface-temperature"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace1 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sstK|safe }},
-                                        name: 'surface',
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    }
-                                    var trace3 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sstK_FC|safe }},
-                                        showlegend: false,
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    }
-                                    layout['title'] = 'Surface temperature at Killeenaran'
-                                    layout.yaxis['title'] = 'ºC'
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('surface-temperature');
-                                    Plotly.newPlot( TESTER, [trace1, trace3], layout, {displayModeBar: false} );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+<head>
+    <title>Killeenaran</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+    <link rel="icon" href="../static/MarineInstitute.png">
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/tiny-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 1px) and (max-device-width: 320px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
 
 
-  		<div class="grid mobile">
-      		    <div class="col-1-1">
-      			<div class="content unpadded">
-          		    <div class="Series" id="seabed-temperature"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace2 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sbtK|safe }},
-                                        name: 'seabed',
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    };
-                                    var trace4 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sbtK_FC|safe }},
-                                        showlegend: false,
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    };
-                                    layout['title'] = 'Seabed temperature at Killeenaran'
-                                    layout.yaxis['title'] = 'ºC'
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('seabed-temperature');
-                                    Plotly.newPlot( TESTER, [trace2, trace4], layout, {displayModeBar: false} );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+		<script src="../static/js/galway.js"></script>
+                <meta id="tidal-status" content="{{STATUS}}" >	
+		<meta id="tide-now" content="{{tidewet}}" >
+		<meta id="tide-extreme-1" content="{{tide1extremeValue}}" >
+		<meta id="tide-extreme-2" content="{{tide2extremeValue}}" >
 
-  		
-  		<div class="grid mobile">
-      		    <div class="col-1-1">
-      			<div class="content unpadded">
-          		    <div class="Series" id="surface-salinity"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace1 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sssK|safe }},
-                                        name: 'surface',
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    }
-                                    var trace3 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sssK_FC|safe }},
-                                        name: 'surface forecast',
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    }
-                                    layout['title'] = 'Surface salinity at Killeenaran'
-                                    layout.yaxis['title'] = ''
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('surface-salinity');
-                                    Plotly.newPlot( TESTER, [trace1, trace3], layout, {displayModeBar: false} );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+                <meta id="surface-temperature-trend" content="{{surface_heat}}" >	
+		<meta id="surface-temperature-now" content="{{STwet}}" >
+		<meta id="minimum-surface-temperature-forecast" content="{{minSTF}}" >
+		<meta id="maximum-surface-temperature-forecast" content="{{maxSTF}}" >
 
-  		<div class="grid mobile">
-      		    <div class="col-1-1">
-      			<div class="content unpadded">
-          		    <div class="Series" id="seabed-salinity"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace2 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sbsK|safe }},
-                                        name: 'seabed',
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    };
-                                    var trace4 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sbsK_FC|safe }},
-                                        name: 'seabed forecast',
-                                        hoverinfo: 'x+y',
-                                        line: {width: 1},
-                                    };
-                                    layout['title'] = 'Seabed salinity at Killeenaran'
-                                    layout.yaxis['title'] = ''
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('seabed-salinity');
-                                    Plotly.newPlot( TESTER, [trace2, trace4], layout, {displayModeBar: false} );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+                <meta id="seabed-temperature-trend" content="{{bottom_heat}}" >	
+		<meta id="seabed-temperature-now" content="{{BTwet}}" >
+		<meta id="minimum-seabed-temperature-forecast" content="{{minBTF}}" >
+		<meta id="maximum-seabed-temperature-forecast" content="{{maxBTF}}" >
 
-                <!-- DESKTOP VERSION -->
-    	        <div class="grid desktop">
-                    <div class="col-11-12"> <div class="content unpadded"> </div> </div>
-                    <div class="col-1-12"> 
-                       <div class="content unpadded">
-                           <img src="../static/QR-Killeenaran.png" class="responsive"> 
-                       </div>
-                    </div>
-                </div>
+                <meta id="surface-salinity-trend" content="{{surface_saltrend}}" >	
+		<meta id="surface-salinity-now" content="{{SSwet}}" >
+		<meta id="minimum-surface-salinity-forecast" content="{{minSSF}}" >
+		<meta id="maximum-surface-salinity-forecast" content="{{maxSSF}}" >
 
-    	        <div class="grid desktop">
-    		    <div class="col-1-4">
-    			<div class="content"></div> </div> 
-    		    <div class="col-1-4">
-    			<div class="content">
-                            <div class="landscape">
-        	               <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
-                                   </a> </p> </div> </div> </div>			
+                <meta id="seabed-salinity-trend" content="{{bottom_saltrend}}" >	
+		<meta id="seabed-salinity-now" content="{{BSwet}}" >
+		<meta id="minimum-seabed-salinity-forecast" content="{{minBSF}}" >
+		<meta id="maximum-seabed-salinity-forecast" content="{{maxBSF}}" >
 
-    		    <div class="col-1-4">
-    			<div class="content">
-                            <div class="landscape">
-        	                <p> <a href="https://cuanbeo.com"> <img src="../static/CuanBeo-logo.png" alt=Cuan Beo" class="responsive" >
-                                    </a> </p> </div> </div> </div>			
-    		    <div class="col-1-4">
-    			<div class="content"></div> </div> 
-                </div>        
+</head>
 
-                <div class="grid desktop">
-    		   <div class="col-1-1">
-    			<div class="content">
-                           <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
-                                   This portal shows the seawater temperature and salinity conditions at Killeenaran (53.198ºN, 8.942ºW) 
-                                   in Galway Bay from a ROMS hydrodynamic coastal model developed at the Marine Institute. Please use 
-                                   the QR code on the top right for ease of access from your phone.  
-                               </p>
-                            </div> 
-                         </div>
-                      </div>
-                </div>
+<body onload="init()">
+	    <div class="galway-databox"> 
+		    <input class="galway-context"
+			   value="{{names}} {{lat}}N {{lon}}W" readonly/>
 
-  		<div class="grid desktop">
-  			<div class="col-1-3">
-  				<div class="content">
-                                    <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:14px;"> 
-                                        Below, there are the <b> current seawater temperature and salinity </b> conditions at Killeenaran,
-                                        at the surface and the seabed. <b> Time is in UTC. </b>
-                               </p>
-                                    </div>
-  				</div>
-  			</div>
-  			<div class="col-1-3">
-  				<div class="content">
-                                    <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:14px;"> 
-                                        Below, there are the minimum and maximum seawater <b> temperatures </b>
-                                        at Killeenaran in a 3-day forecast.
-                               </p>
-                                    </div>
-  				</div>
-  			</div>
-  			<div class="col-1-3">
-  				<div class="content">
-                                    <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:14px;"> 
-                                        Below, there are the minimum and maximum seawater <b> salinities </b>
-                                        at Killeenaran in a 3-day forecast.
-                               </p>
-                                    </div>
-  				</div>
-  			</div>
-  		</div>
-    		
-  		<div class="grid desktop">
-  			<div class="col-1-3">
-  				<div class="content">
-  				<input value="Killeenaran on {{ahora}}" type=text class="time-1" size='70'/>
-  				</div>
-  			</div>
-  			<div class="col-1-3">
-  				<div class="content">
-  				<input type=text class="time-2" size='70'
-  				value="Killeenaran 3-day Temperature Forecast" />
-  				</div>
-  			</div>
-  			<div class="col-1-3">
-  				<div class="content">
-  				<input type=text class="time-2" size='70'
-  				value="Killeenaran 3-day Salinity Forecast" />
-  				</div>
-  			</div>
-  		</div>
-    		
-		<div class="grid desktop">
-			<div class="col-1-12">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12">
-				<div class="content">
-                                    <p style="font-size:28px; font-family:Calibri">Surface</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{latest_temperature_surface}} ºC" />
-				</div>
-			</div>
-			
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface min.</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{minimum_temperature_forecast_surface}} ºC" />
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface min.</p>
-				</div>
-			</div>
-			<div class="col-1-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{minimum_salinity_forecast_surface}}" />
-				</div>
-			</div>
-		</div>
+		    <hr>
 
+		    <div class="galway-cols-container">
+			    <div class="galway-headers">
+				    <p class="galway-label"> Tide </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{time}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> Status </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{tide1extreme}} at {{tide1extremeTime[-5::]}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{tide2extreme}} at {{tide2extremeTime[-5::]}} </p>
+			    </div>
+		    </div>
 
-		<div class="grid desktop">
-			<div class="col-1-12">
-				<div class="content">
-					 <img src="../static/seawater-temperature.png" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12">
-				<div class="content">
-                                    <p style="font-size:28px; font-family:Calibri">Seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{latest_temperature_seabed}} ºC" />
-				</div>
-			</div>
-			
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface max.</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{maximum_temperature_forecast_surface}} ºC" />
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Surface max.</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{maximum_salinity_forecast_surface}}" />
-				</div>
-			</div>
-		</div>
+		    <div class="galway-cols-container">
+			    <div class="galway-cols">
+				    <img src="../static/gauge.png" class="icon">
+			    </div>
+			    <div class="galway-cols">
+				    <input class="galway-circle" id="current-tide" 
+					 value="{{tidewet}} m" readonly />
+			    </div>
+			    <div class="galway-cols">
+				    <img id="galway-tidal-status" class="icon">
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="next-tide-value-1"
+				          value="{{tide1extremeValue}} m" readonly/>
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="next-tide-value-2"
+				          value="{{tide2extremeValue}} m" readonly/>
+			    </div>
+		    </div>
 
+		    <hr>
 
+		    <div class="galway-cols-container">
+			    <div class="galway-headers">
+				    <p class="galway-label"> &emsp; </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> &emsp; </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> &emsp; </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> <b> Min. 3 days </b> </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> <b> Max. 3 days </b> </p>
+			    </div>
+		    </div>
 
-		<div class="grid desktop">
-			<div class="col-1-12">
-				<div class="content">
-					 <img src="../static/salt.png" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12">
-				<div class="content">
-                                    <p style="font-size:28px; font-family:Calibri">Surface</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{latest_salinity_surface}}" />
-				</div>
-			</div>
-			
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed min.</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{minimum_temperature_forecast_seabed}} ºC" />
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed min.</p>
-				</div>
-			</div>
-			<div class="col-1-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{minimum_salinity_forecast_seabed}}" />
-				</div>
-			</div>
-		</div>
+		    <div class="galway-cols-container">
+			    <div class="galway-headers">
+				    <p class="galway-label"> Surface temperature </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{time}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> Status </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{minSTFt}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{maxSTFt}} </p>
+			    </div>
+		    </div>
 
+		    <div class="galway-cols-container">
+			    <div class="galway-cols">
+				    <img src="../static/seawater-temperature.png" class="icon">
+			    </div>
+			    <div class="galway-cols">
+				    <input class="galway-circle" id="current-surface-temperature" 
+					 value="{{STwet}} ºC" readonly />
+			    </div>
+			    <div class="galway-cols">
+				    <img id="galway-surface-temperature-trend" class="icon">
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="min-surface-temperature-forecast"
+				          value="{{minSTF}} ºC" readonly/>
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="max-surface-temperature-forecast"
+				          value="{{maxSTF}} ºC" readonly/>
+			    </div>
+		    </div>
 
-		<div class="grid desktop">
-			<div class="col-1-12">
-				<div class="content">
-					 <img src="../static/salt.png" class="responsive">
-				</div>
-			</div>
-			<div class="col-1-12">
-				<div class="content">
-                                    <p style="font-size:28px; font-family:Calibri">Seabed</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{latest_salinity_seabed}}" />
-				</div>
-			</div>
-			
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed max.</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{maximum_temperature_forecast_seabed}} ºC" />
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-                                    <p style="font-size:28px; text-align:center; font-family:Calibri">Seabed max.</p>
-				</div>
-			</div>
-			<div class="col-2-12">
-				<div class="content">
-					 <input id="Marine-Heat-Wave-1" 
-					        class="galway-value-box"
-					        value="{{maximum_salinity_forecast_seabed}}" />
-				</div>
-			</div>
-		</div>
+		    <hr>
 
-                
-		<div class="grid desktop">
-			<div class="col-1-1">
-				<div class="content">
-                                   <hr> </div> </div> </div>
-		    		
-                <div class="grid desktop">
-    		   <div class="col-1-1">
-    			<div class="content">
-                           <div class="footer">
-                               <p align="justify" style="font-family:Arial;font-size:16px;"> 
-                                   The charts below show the time series of seawater temperature and salinity at Killeenaran.
-                                   The Galway Bay model "prediction" before present is referred to as "hindcast" (blue), whereas
-                                   the forecast is shown as an orange line. 
-                               </p>
-                            </div> 
-                         </div>
-                      </div>
-                </div>
-  			
-  		<script language="javascript" type="text/javascript">
-                    <!-- Time series layout -->
-                    var layout = {
-                       texttemplate: '%{value:.1f}',
-                       title: '',
-                       xaxis: {
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickangle: 90,
-                           automargin: true,
-                           range: ["{{desktop_idate}}", "{{edate}}"],
-                       },
-                       yaxis: {
-                           title: '',
-                           mirror: true,
-                           showline: true,
-                           ticks: 'outside',
-                           tickformat: '.1f',
-                       },
-                       font: {
-                           family: 'Sans-Serif',
-                           size: 18,            
-                       },
-                       };
-                    
-                </script>
-  		
-  		<div class="grid desktop">
-      		    <div class="col-1-1">
-      			<div class="content">
-          		    <div class="Series" id="surface-temperature-desktop"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace1 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sstK|safe }},
-                                        name: 'Hindcast',
-                                        hoverinfo: 'x+y',
-                                    }
-                                    var trace3 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sstK_FC|safe }},
-                                        name: 'Forecast',
-                                        hoverinfo: 'x+y',
-                                    }
-                                    layout['title'] = 'Surface temperature at Killenaran'
-                                    layout.yaxis['title'] = 'ºC'
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('surface-temperature-desktop');
-                                    Plotly.newPlot( TESTER, [trace1, trace3], layout );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+		    <div class="galway-cols-container">
+			    <div class="galway-headers">
+				    <p class="galway-label"> Surface salinity </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{time}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> Status </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{minSSFt}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{maxSSFt}} </p>
+			    </div>
+		    </div>
 
-  		<div class="grid desktop">
-      		    <div class="col-1-1">
-      			<div class="content">
-          		    <div class="Series" id="seabed-temperature-desktop"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace2 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sbtK|safe }},
-                                        name: 'Hindcast',
-                                        hoverinfo: 'x+y',
-                                    };
-                                    var trace4 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sbtK_FC|safe }},
-                                        name: 'Forecast',
-                                        hoverinfo: 'x+y',
-                                    };
-                                    layout['title'] = 'Seabed temperature at Killenaran'
-                                    layout.yaxis['title'] = 'ºC'
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('seabed-temperature-desktop');
-                                    Plotly.newPlot( TESTER, [trace2, trace4], layout );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+		    <div class="galway-cols-container">
+			    <div class="galway-cols">
+				    <img src="../static/salt.png" class="icon">
+			    </div>
+			    <div class="galway-cols">
+				    <input class="galway-circle" id="current-surface-salinity" 
+					 value="{{SSwet}}" readonly />
+			    </div>
+			    <div class="galway-cols">
+				    <img id="galway-surface-salinity-trend" class="icon">
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="min-surface-salinity-forecast"
+				          value="{{minSSF}}" readonly/>
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="max-surface-salinity-forecast"
+				          value="{{maxSSF}}" readonly/>
+			    </div>
+		    </div>
 
-  		<div class="grid desktop">
-      		    <div class="col-1-1">
-      			<div class="content">
-          		    <div class="Series" id="surface-salinity-desktop"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace1 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sssK|safe }},
-                                        name: 'Hindcast',
-                                        hoverinfo: 'x+y',
-                                    }
-                                    var trace3 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sssK_FC|safe }},
-                                        name: 'Forecast',
-                                        hoverinfo: 'x+y',
-                                    }
-                                    layout['title'] = 'Surface salinity at Killenaran'
-                                    layout.yaxis['title'] = ''
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('surface-salinity-desktop');
-                                    Plotly.newPlot( TESTER, [trace1, trace3], layout );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+		    <hr>
 
-  		<div class="grid desktop">
-      		    <div class="col-1-1">
-      			<div class="content">
-          		    <div class="Series" id="seabed-salinity-desktop"></div>
-                                <script language="javascript" type="text/javascript">
-                                    var trace2 = {
-                                        x: {{ time_hindcast|safe }},
-                                        y: {{ sbsK|safe }},
-                                        name: 'Hindcast',
-                                        hoverinfo: 'x+y',
-                                    };
-                                    var trace4 = {
-                                        x: {{ time_forecast|safe }},
-                                        y: {{ sbsK_FC|safe }},
-                                        name: 'Forecast',
-                                        hoverinfo: 'x+y',
-                                    };
-                                    layout['title'] = 'Seabed salinity at Killenaran'
-                                    layout.yaxis['title'] = ''
-                                    layout.yaxis.tickformat = '.1f'
-                                    TESTER = document.getElementById('seabed-salinity-desktop');
-                                    Plotly.newPlot( TESTER, [trace2, trace4], layout );
-                                </script>
-      			</div>
-                     </div>
-      	        </div>
+		    <div class="galway-cols-container">
+			    <div class="galway-headers">
+				    <p class="galway-label"> Seabed temperature </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{time}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> Status </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{minBTFt}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{maxBTFt}} </p>
+			    </div>
+		    </div>
 
-    </body>
+		    <div class="galway-cols-container">
+			    <div class="galway-cols">
+				    <img src="../static/seawater-temperature.png" class="icon">
+			    </div>
+			    <div class="galway-cols">
+				    <input class="galway-circle" id="current-seabed-temperature" 
+					 value="{{BTwet}} ºC" readonly />
+			    </div>
+			    <div class="galway-cols">
+				    <img id="galway-seabed-temperature-trend" class="icon">
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="min-seabed-temperature-forecast"
+				          value="{{minBTF}} ºC" readonly/>
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="max-seabed-temperature-forecast"
+				          value="{{maxBTF}} ºC" readonly/>
+			    </div>
+		    </div>
+
+		    <hr>
+
+		    <div class="galway-cols-container">
+			    <div class="galway-headers">
+				    <p class="galway-label"> Seabed salinity </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{time}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> Status </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{minBSFt}} </p>
+			    </div>
+			    <div class="galway-headers">
+				    <p class="galway-label"> {{maxBSFt}} </p>
+			    </div>
+		    </div>
+
+		    <div class="galway-cols-container">
+			    <div class="galway-cols">
+				    <img src="../static/salt.png" class="icon">
+			    </div>
+			    <div class="galway-cols">
+				    <input class="galway-circle" id="current-seabed-salinity" 
+					 value="{{BSwet}}" readonly />
+			    </div>
+			    <div class="galway-cols">
+				    <img id="galway-seabed-salinity-trend" class="icon">
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="min-seabed-salinity-forecast"
+				          value="{{minBSF}}" readonly/>
+			    </div>
+			    <div class="galway-cols">
+		                <input class="galway-circle" id="max-seabed-salinity-forecast"
+     				          value="{{maxBSF}}" readonly/>
+			    </div>
+		    </div>
+
+	    </div>
+
+	    <a href="https://www.flaticon.com/free-icons/tide" title="tide icon"
+		    style="font-size:8px;">Tide icon from Good Ware - Flaticon</a>
+	    <a href="https://play.google.com/store/apps/details?id=fgs.tempmare&hl=en_US&pli=1" title="temperature icon"
+		    style="font-size:8px;">Temperature icon from Sea Temperature - Apps on Google Play</a>
+	    <a href="https://pikbest.com/free-png-images/people-icon.html" title="salinity icon"
+		    style="font-size:8px;">Salinity icon from pikbest.com</a>
+</body>
 
 </html>
