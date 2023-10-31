@@ -358,7 +358,7 @@ def main():
         # Find nearest indexes at sea. Get seea level series
         logger.info(f'{now()} Finding nearest indexes at sea...')
         idxS, idyS, D, tideS = find_nearest_indexes_at_sea(x, y, lon, lat, areas, zeta)
-    elif tipo == 1.0: # Point is at land
+    elif tipo == 1.0: # Point is at sea
         tideS = tide
         
     ''' Interpolate to minute frequency. This is to determine the next high (or
