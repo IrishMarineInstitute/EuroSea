@@ -22,7 +22,7 @@ The next step is to initialize each container. ``` crontab ``` is used to schedu
 
 ## Deenish Island - SITE container
 
-This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at El Campello. In addition, it subsets the latest data
+This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at Deenish Island. In addition, it subsets the latest data
 for the number of days specified in the configuration file. All this data is wrapped in a BUOY.pkl file that is updated every ten minutes, and later accessed by the WEBAPP container through the shared volume. Historical data starting from the time the buoy started data transmission is compiled to address any request from the Historical Data Portal.
    
 Navigate to the Deenish Island - SITE container
