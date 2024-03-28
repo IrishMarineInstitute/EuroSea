@@ -25,19 +25,19 @@ The next step is to initialize each container. ``` crontab ``` is used to schedu
 This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at El Campello. In addition, it subsets the latest data
 for the number of days specified in the configuration file. All this data is wrapped in a BUOY.pkl file that is updated every ten minutes, and later accessed by the WEBAPP container through the shared volume. Historical data starting from the time the buoy started data transmission is compiled to address any request from the Historical Data Portal.
    
-Navigate to the El Campello - SITE container
+Navigate to the Deenish Island - SITE container
 ```
-cd EuroSea/containers/El-Campello/site
+cd EuroSea/containers/Deenish-Island/site
 ```
 
 Build image
 ```
-docker build -t eurosea-site:latest .
+docker build -t deenish-site:latest .
 ```
 
 Start container with data sharing to communicate with other containers.
 ```
-docker run -d -v shared-data:/data --name eurosea-site eurosea-site:latest
+docker run -d -v shared-data:/data --name deenish-site deenish-site:latest
 ```
  
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
@@ -46,19 +46,19 @@ The task will run hourly at the time specified in the ```crontab``` file. Once i
 
 This container is set to run hourly to download the model forecasts from CMEMS and ECMWF. This data is wrapped in a MODEL.pkl file that is updated every hour and later accessed by the WEBAPP container through the shared volume.
    
-Navigate to the El Campello - MODEL container
+Navigate to the Deenish Island - MODEL container
 ```
-cd EuroSea/containers/El-Campello/model
+cd EuroSea/containers/Deenish-Island/model
 ```
 
 Build image
 ```
-docker build -t eurosea-model:latest .
+docker build -t deenish-model:latest .
 ```
 
 Start container with data sharing to communicate with other containers.
 ```
-docker run -d -v shared-data:/data --name eurosea-model eurosea-model:latest
+docker run -d -v shared-data:/data --name deenish-model deenish-model:latest
 ```
  
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
@@ -79,12 +79,12 @@ cd EuroSea/containers/Deenish-Island/chl
 
 Build image
 ```
-docker build -t eurosea-chl:latest .
+docker build -t chlorophyll:latest .
 ```
 
 Start container with data sharing to communicate with other containers.
 ```
-docker run -d -v shared-data:/data --name eurosea-chl eurosea-chl:latest
+docker run -d -v shared-data:/data --name chlorophyll chlorophyll:latest
 ```
 
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, chlorophyll-a NetCDF files are downloaded to the ```/data/CHL``` folder, and CHL figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/CHL.pkl```. The website will read the CHL figures from this file. 
@@ -102,12 +102,12 @@ cd EuroSea/containers/Deenish-Island/waves
 
 Build image
 ```
-docker build -t eurosea-waves:latest .
+docker build -t waves:latest .
 ```
 
 Start container with data sharing to communicate with other containers.
 ```
-docker run -d -v shared-data:/data --name eurosea-waves eurosea-waves:latest
+docker run -d -v shared-data:/data --name waves waves:latest
 ```
  
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, wave forecasts are exported to a pickle file ```/data/pkl/WAVES.pkl```. The website will take the wave forecast figure (exported as a Plotly JSON string) from this file. 
