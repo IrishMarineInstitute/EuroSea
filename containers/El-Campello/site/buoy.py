@@ -6,7 +6,8 @@ from get_uv import get_uv
 from glob import glob
 import paramiko
 import pysftp
-from numpy import nan as NaN
+import pandas as pd
+import numpy as np
 from pytz import timezone
 import os
 from log import set_logger, now
@@ -25,9 +26,6 @@ def Buoy(conf):
     # Retrieve names of *.xml files already downloaded and save to list
     local = update_local_directory(localpath, '.xml')
     logger.info(f'{now()} Local directory inspected. Number of files is {len(local)}')
-
-    # Get number of levels for Doppler Current Profiler
-    N = len(json.loads(conf['DCPS']))
 
     # Remove empty (corrupted) files
     files = sorted(glob(localpath + '/*.xml'))
@@ -53,92 +51,26 @@ def Buoy(conf):
     # Initialize dictionary of output variables    
     var = vardict() 
 
-    ''' This section is meant to guarantee that:
+    logger.info(f'{now()} Reading files...')
+    for f in local:
+        read_xml_file(localpath + '/' + f, var)
 
-        1 - A constant time step (10 minutes) exists
-
-        2 - Files are processed in the right order '''
-
-    # Start reading from the first file. Take date from first file.
-
-    idate = timezone('UTC').localize(datetime.strptime(local[0][0:12] + '0', '%Y%m%dT%H%M'))
-
-    logger.info(f'{now()} Start time is {idate.strftime("%Y-%b-%d %H:%M")}')
-
-
-     # Next, determine the end time, matching the latest downloaded file
-
-    edate = timezone('UTC').localize(datetime.strptime(local[-1][0:12] + '0', '%Y%m%dT%H%M'))
-
-    logger.info(f'{now()} End time is {edate.strftime("%Y-%b-%d %H:%M")}')
-
-
-     # Now, create time list from "idate" to "edate" with 10-minute intervals
-
-    tiempo = []
-    
-    while idate <= edate:
-    
-         # Add a new time to the list of times to be processed
-         tiempo.append(idate)
-    
-         # Update (add +10 minutes)
-         idate += timedelta(minutes=10)
-     
-    
-    for i in tiempo: 
-    
-        if not i.hour and not i.minute:
-            logger.info(f'{now()}: Reading ' + i.strftime('%d-%b-%Y %H:%M'))        
-    
-        file = ''
-    
-        # Convert time to string. The time string defines the XML file name 
-    
-        dateString = i.strftime('%Y%m%dT%H%M')         
-    
-        # Search for file names containing the above date string.
-    
-        for f in local:
-    
-            if dateString in f:
-    
-                file = f; break
-    
-        if file:
-    
-            read_xml_file(localpath + '/' + file, var)
-    
-        else:
-    
-            # There is a missing file, not transmitted by the buoy
-    
-            logger.info(f'{now()}: WARNING! Missing file for {dateString}. Appending NaN...')
-    
-            for key in var.keys(): 
-                var[key].append(NaN) # Append NaN to all the variables in the data structure.
-
-            # For time, append the i-th time
-            var['time'][-1] = i
-
-            # For Doppler Current Profile variables (speed and direction) a list of NaN's 
-            # must be appended. The length must be "N" number of levels in the DCP sensor.
-            var['DCP speed'][-1] = [NaN for k in range(N)]
-            var['DCP dir'][-1] = [NaN for k in range(N)]
+    # Find u- and v- components of wind from wind speed and direction
+    var['u-wind'], var['v-wind'] = get_uv(var['s-wind'], var['d-wind'], 'FROM') 
 
     # Apply a quality control (mask missing data)
     var = quality_control(var)    
-  
-    ''' Calculation of derived variables '''
-    # Find u- and v- components of wind from wind speed and direction
-    var['u-wind'], var['v-wind'] = get_uv(var['Wind Speed'], var['Wind Direction'], 'FROM') 
 
-    outdir = '/data/HISTORY/El-Campello-in-situ'
+    var = pd.DataFrame(var)
+    # Resample at 10 minutes to ensure continuous time series
+    var = var.resample('10T', on='time').mean()
+
+    outdir = '/data/his/El-Campello/'
     if not ( os.path.isdir(outdir) ):
         os.makedirs(outdir)
 
     logger.info(f'{now()}: Saving historical records...')        
-    with open('%s/El-Campello-in-situ.pkl' % outdir, 'wb') as f:
+    with open(f'{outdir}El-Campello.pkl', 'wb') as f:
         dump(var, f)
 
     logger.info(f'{now()}: Quitting BUOY')  
@@ -156,18 +88,30 @@ def is_empty(file):
 def quality_control(var):
 
     for key in var.keys():
-        var[key] = [i if ( i != 68. and i != 81. ) else NaN for i in var[key]]
+        var[key] = [i if ( i != 68. and i != 81. ) else np.nan for i in var[key]]
 
     return var
 
 def read_xml_file(file, var):
     ''' Read an *.xml file and update the fields of interest '''
 
-    # Prepare DCPS lists. For "El Campello", these lists should have
-    # 28 values for each time step: 8 (C1) + 20 (C2).  
+    # DCPS speed [cm/s] and direction [Deg.M]
+    speed, direction = [], []    
 
-    speed = []     # DCPS speed [cm/s]
-    direction = [] # DCPS direction Deg.M
+    # Dictionary of new values
+    new = {'time': 0, 'temp': 0, 'tur': 0, 'O2': 0,
+        's-wind': 0, 'd-wind': 0, 
+        'wave-height': 0, 'swell-height': 0,
+        's-wave': 0, 'd-wave': 0,
+        's-surface': 0, 'd-surface': 0,
+        's-15m': 0, 'd-15m': 0}
+
+    # Add some tests (check all variables are read in each file)
+    checklist = {'time': False, 'temp': False, 'tur': False, 'O2': False,
+            's-wind': False, 'd-wind': False,
+            'wave-height': False, 'swell-height': False,
+            'wave-period' : False, 'wave-direction': False,
+            'speed': False, 'direction': False } 
     
     with open(file, 'r') as f:
 
@@ -179,84 +123,78 @@ def read_xml_file(file, var):
 
             if '<Time>' in line:
                                      
-                var['time'].append(find_time(line))
+                new['time'] = find_time(line); checklist['time'] = True
 
             elif 'Descr="Water Temperature"' in line:
                  
-                var['Temperature'].append(find_value(f.readline()))
+                new['temp'] = find_value(f.readline()); checklist['temp'] = True
 
             elif 'Descr="Dissolved Oxygen"' in line:
 
-                var['Oxygen Saturation'].append(find_value(f.readline()))
+                new['O2'] = find_value(f.readline()); checklist['O2'] = True
 
             elif 'Descr="Turbidity"' in line:       
 
-                var['TUR'].append(find_value(f.readline()))
+                new['tur'] = find_value(f.readline()); checklist['tur'] = True
 
             elif '<Point ID="2">' in line:                             
 
-                speed.append(find_value(f.readline()))
+                speed.append(find_value(f.readline(), f=f)); checklist['speed'] = True
 
             elif '<Point ID="3">' in line:
 
-                direction.append(find_value(f.readline()))
+                direction.append(find_value(f.readline(), f=f)); checklist['direction'] = True
 
             elif 'Average Corrected Wind Diretion' in line:
 
-                var['Wind Direction'].append(find_value(f.readline()))
+                new['d-wind'] = find_value(f.readline()); checklist['d-wind'] = True
 
             elif 'Average Corrected Wind Speed' in line:
 
-                var['Wind Speed'].append(3.6*find_value(f.readline()))
+                new['s-wind'] = 3.6*find_value(f.readline()); checklist['s-wind'] = True
 
             elif 'Descr="Significant Wave Height Hm0"' in line: 
-                var['Significant Wave Height Hm0'].append(find_value(f.readline()))
+
+                new['wave-height'] = find_value(f.readline()); checklist['wave-height'] = True
 
             elif 'Descr="Wave Peak Direction"' in line:
-                var['Wave Peak Direction'].append(find_value(f.readline()))
                             
+                new['d-wave'] = find_value(f.readline()); checklist['wave-direction'] = True
+
             elif 'Descr="Wave Peak Period"' in line:
-                var['Wave Peak Period'].append(find_value(f.readline()))
                             
-            elif 'Descr="Wave Height Wind Hm0"' in line:
-                var['Wave Height Wind Hm0'].append(find_value(f.readline()))
-                            
+                new['s-wave'] = find_value(f.readline()); checklist['wave-period'] = True
+
             elif 'Descr="Wave Height Swell Hm0"' in line:
-                var['Wave Height Swell Hm0'].append(find_value(f.readline()))
                             
-            elif 'Descr="Wave Peak Period Wind"' in line:
-                var['Wave Peak Period Wind'].append(find_value(f.readline()))
-                            
-            elif 'Descr="Wave Peak Period Swell"' in line:
-                var['Wave Peak Period Swell'].append(find_value(f.readline()))
-                            
-            elif 'Descr="Wave Peak Direction Wind"' in line:
-                var['Wave Peak Direction Wind'].append(find_value(f.readline()))
-                            
-            elif 'Descr="Wave Peak Direction Swell"' in line:
-                var['Wave Peak Direction Swell'].append(find_value(f.readline()))
-                            
-            elif 'Descr="Wave Mean Direction"' in line:
-                var['Wave Mean Direction'].append(find_value(f.readline()))
-                            
-            elif 'Descr="Wave Height Hmax"' in line:
-                var['Wave Height Hmax'].append(find_value(f.readline()))
-                            
-            elif 'Descr="Wave Mean Period T1/3"' in line:
-                var['Wave Mean Period T1/3'].append(find_value(f.readline()))
-                            
+                new['swell-height'] = find_value(f.readline()); checklist['swell-height'] = True
+
             # Read next line
             line = f.readline()
             
-    ''' Add DCPS recordings to in-situ data structure
-'''
-    var['DCP speed'].append(speed)
-    var['DCP dir'].append(direction)
+    # Check all required variables were successfully found in file
+    for key, value in checklist.items():
+        if not value:
+            logger.debug(f'Variable {key} not found in file {file}'); return
+
+    # Subset surface and 15-meter depth velocities from DCPS
+    new['s-surface'], new['d-surface'] = speed[0], direction[0]
+    new['s-15m'],     new['d-15m']   = speed[11], direction[11]
+
+    # Append new values to historical structure
+    for key, value in new.items():
+        var[key].append(value)
+    return
                  
-def find_value(line):
+def find_value(line, f=None):
     ''' Get numeric value from line of text '''
     if '<Value>' not in line:
-        return NaN
+        if f:
+            line = f.readline()
+            if '<Value>' not in line:
+                return np.nan 
+        else:
+            return np.nan 
     i = line.find('e>') + 2
     e = line.find('</') 
     return float(line[i:e])    
@@ -300,34 +238,14 @@ def xml_file_download(local, localpath, host, user, pswd, folder):
 def vardict():
     ''' Initialize empty dictionary for buoy data '''
     return {
-        'time':  [], 
+            'time':  [], 'temp': [], 'tur': [], 'O2': [],
 
-        # YSI EXO3  
-        'Temperature': [],
-        'TUR':    [],
-        'Oxygen Saturation':  [], 
+        's-wind': [], 'd-wind': [],
 
-        # Gill MaxiMet 200-2
-        'Wind Speed': [],
-        'Wind Direction': [],
-        'u-wind': [], 
-        'v-wind': [],
+        'wave-height': [], 'swell-height': [],
 
-        # Motus Wave Sensor
-        'Significant Wave Height Hm0': [],
-        'Wave Peak Direction': [],
-        'Wave Peak Period': [],
-        'Wave Height Wind Hm0': [],
-        'Wave Height Swell Hm0': [],
-        'Wave Peak Period Wind': [],
-        'Wave Peak Period Swell': [],
-        'Wave Peak Direction Wind': [],
-        'Wave Peak Direction Swell': [],
-        'Wave Mean Direction': [],
-        'Wave Height Hmax': [],
-        'Wave Mean Period T1/3': [],
+        's-wave': [], 'd-wave': [],
 
-        # Doppler Current Profiler Sensor
-        'DCP speed': [],
-        'DCP dir': []
+        's-surface': [], 'd-surface': [], 's-15m': [], 'd-15m': []
+
            }       

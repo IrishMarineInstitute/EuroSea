@@ -1,5 +1,8 @@
-from numpy import nanmax, array
+from datetime import datetime
+import numpy as np
 from json import dumps
+import pandas as pd
+import pytz
 
 def jsonize(data):
     for k, v in data.items():
@@ -17,34 +20,47 @@ def jsonize(data):
                 data[k] = dumps(v.tolist())
     return data
 
-def send_output(sub):
+def utc_to_local(time, tz):
+    ''' Convert UTC time to local time '''
+
+    time = datetime(time.year, time.month, time.day, time.hour, time.minute, 0, 0, pytz.UTC)
+    return time.astimezone(pytz.timezone(tz))
+
+def send_output(sub, boya):
     ''' Produce output PICKLE file to be sent to web app '''
 
-    # Get time ranges
-    t0 = sub['time'][0]
-    t1 = sub['time'][-1]
+    if boya == 'Campello':
+        timezone = 'Europe/Madrid'
+    elif boya == 'Deenish':
+        timezone = 'Europe/Dublin'
+
+    # Convert UTC time to local time 
+    time = [utc_to_local(i, timezone) for i in sub.index]
+
+    # Get time range
+    t0, t1 = time[0], time[-1]
 
     # Determine first x-axis tick
-    for i in sub['time']:
+    for i in time:
         if not i.hour and not i.minute:
             break
     tick0 = i.strftime('%Y-%m-%d')
 
     BUOY = {
         # Buoy time
-        'time': sub['time'],
+        'time': time,
         'tick0': tick0,
         't0': t0.strftime('%Y-%m-%d %H:%M'),
         'tf': t1.strftime('%Y-%m-%d %H:%M'),
-
-        'maxTUR': nanmax(array(sub['TUR'])) + 1,
         }
 
-    for i in sub.keys():
-        if ' ' in i:
-            new_key = i.replace(' ', '_')
-        else:
-            new_key = i
-        BUOY[new_key] = sub[i]
+    if boya == 'Campello':
+        BUOY['maxTUR'] = np.nanmax(np.array(sub['tur'])) + 1
+
+    for key, val in sub.items():
+        key = key.replace(' ', '_').replace('-', '_')
+        if isinstance(val, pd.Series):
+            val = np.array(val)
+        BUOY[key] = val
 
     return jsonize(BUOY)

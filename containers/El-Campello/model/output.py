@@ -69,7 +69,6 @@ def send_output(FC, wave_rose_figure, wave_rose_series, wind_rose_figure, wind_r
 
     # Convert forecast times from UTC to local time
     wind_time_fc = [utc_to_local(i, timezone) for i in FC['wind_time_fc']]
-    fc_sst_time       = [utc_to_local(i, timezone) for i in FC['sst'][0]]
     fc_wav_time     = [utc_to_local(i, timezone) for i in FC['Hs_fc'][0]]
     wave_rose_figure_idate = utc_to_local(wave_rose_figure['idate'], timezone).strftime('%Y-%b-%d %H:%M')
     wave_rose_figure_edate = utc_to_local(wave_rose_figure['edate'], timezone).strftime('%Y-%b-%d %H:%M')
@@ -86,11 +85,6 @@ def send_output(FC, wave_rose_figure, wave_rose_series, wind_rose_figure, wind_r
         'wind_time_fc': wind_time_fc,
         'wind_speed_fc': FC['wind_speed_fc'],
         
-        # Temperature time
-        'fc_sst_time': fc_sst_time,
-        # Seawater temperature
-        'fc_sst': FC['sst'][1],
- 
         # Waves time     
         'fc_wav_time': fc_wav_time,
         # Significant Wave Height
@@ -100,15 +94,7 @@ def send_output(FC, wave_rose_figure, wave_rose_series, wind_rose_figure, wind_r
         
         # End time for waves
         'tw': FC['Hs_fc'][0][-1].strftime('%Y-%m-%d %H:%M'),
-        # End time for temperature
-        'tf': FC['sst'][0][-1].strftime('%Y-%m-%d %H:%M'),
 
-        # Mean forecasted seawater temperature
-        'mean_forecast_temperature': round(sum(FC['sst'][1])/len(FC['sst'][1]), 1),
-        # Minimum forecasted seawater temperature
-        'min_forecast_temperature': round(min(FC['sst'][1]), 1),
-        # Maximum forecasted seawater temperature
-        'max_forecast_temperature': round(max(FC['sst'][1]), 1),
         # Maximum forecasted significant wave height
         'forecast_max_swh': round(max(FC['Hs_fc'][1]), 2),
         # Maximum forecast secondary swell significant wave height

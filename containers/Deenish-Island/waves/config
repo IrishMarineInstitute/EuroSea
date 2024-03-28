@@ -1,0 +1,12 @@
+timezone Europe/Dublin
+lon -10.2122                            
+lat 51.7431   
+coastfile coastline.pkl
+west -13.8
+east -8.8 
+south 50.0
+north 53.5  
+USERNAME ********                      
+PASSWORD ********                     
+wave-dataset cmems_mod_nws_wav_anfc_0.05deg_PT1H-i
+wave-version 202309

@@ -4,7 +4,7 @@ from json import loads
 from glob import glob
 import os
 
-def csvname(data, timevar, param):
+def csvname(param, start, end):
     ''' Create name of CSV file '''
 
     if not os.path.isdir('/data/CSV'):
@@ -16,77 +16,34 @@ def csvname(data, timevar, param):
         for file in lista:
             os.remove(file)
 
-    # Get time from data
-    time = loads(data[timevar])
-    
-    # Get start and end dates
-    idate, edate = time[0], time[-1]
+    return '/data/CSV/csv-' + param + '-' + start.replace('-', '') + '-' + end.replace('-', '') + '.csv'
 
-    inp, out = '%Y-%m-%d %H:%M', '%Y%m%d'
-    # Convert strings to datetimes
-    idate, edate = datetime.strptime(idate, inp), datetime.strptime(edate, inp) - timedelta(hours=1) 
-    # Convert back to strings, but without blank spaces
-    idate, edate = idate.strftime(out), edate.strftime(out)
-
-    return '/data/CSV/csv-' + param + '-' + idate + '-' + edate + '.csv'
-
-def to_csv_current_profile(data, language):
-    ''' Write current profile to CSV file '''
-
-    f = csvname(data, 'DCP_time', 'ADCP')
-
-    # Get DCPS depths [m]
-    z = loads(data['DCPS'])
-
-    # Set header
-    if language == 'en':
-        header = 'Date\t'
-    elif language == 'es':
-        header = 'Fecha\t'
-
-    for i in z:
-        header += f'{i} m\t'
-
-    header += '(cm/s)\n'
-
-    time, V = loads(data['DCP_time']), np.array(loads(data['DCP_speed'])).T
-
-    with open(f, 'w') as csvfile:
-
-        csvfile.write(header)
-
-        for t, v in zip(time, V):
-
-            line = t + '\t'
-
-            for k in v:
-
-                line += '%.1f' %  float(k) + '\t'
-
-
-            line += '\n'
-
-            csvfile.write(line)
-
-    return f  
-
-def to_csv_currents_rose(data, language):
+def to_csv_currents_rose(data, startstr, endstr, language, buoy):
     ''' Write Current Speed and Direction series to CSV file '''
 
-    f = csvname(data, 'DCP_rose_time_surface', 'currents')
+    f = csvname('currents', startstr, endstr)
  
     # Set header
     if language == 'en':
-        header = 'Date\tSurface speed (cm/s)\tSurface direction (º)\t15-meter depth speed (cm/s)\t15-meter depth direction (º)\n'
+        if buoy == 'Campello':
+            header = 'Date\tSurface speed (cm/s)\tSurface direction (º)\t15-meter depth speed (cm/s)\t15-meter depth direction (º)\n'
+        elif buoy == 'Deenish':
+            header = 'Date\tSurface speed (cm/s)\tSurface direction (º)\tSeabed speed (cm/s)\tSeabed direction (º)\n'
+
     elif language == 'es':
-        header = 'Fecha\tVelocidad superficie (cm/s)\tDirección superficie (º)\tVelocidad a 15 metros de profundidad (cm/s)\tDirección a 15 metros de profundidad (º)\n'
+        if buoy == 'Campello':
+            header = 'Fecha\tVelocidad superficie (cm/s)\tDirección superficie (º)\tVelocidad a 15 metros de profundidad (cm/s)\tDirección a 15 metros de profundidad (º)\n'
+        elif buoy == 'Deenish':
+            header = 'Fecha\tVelocidad superficie (cm/s)\tDirección superficie (º)\tVelocidad fondo (cm/s)\tDirección fondo (º)\n'
 
-    time = loads(data['DCP_rose_time_surface'])
+    time = data.index
 
-    surface_speed, surface_direction = loads(data['DCP_rose_speed_surface']), loads(data['DCP_rose_direction_surface'])
+    surface_speed, surface_direction = data['s-surface'], data['d-surface']
 
-    seabed_speed,  seabed_direction =  loads(data['DCP_rose_speed_seabed']),  loads(data['DCP_rose_direction_seabed'])
-
+    if buoy == 'Campello':
+        seabed_speed,  seabed_direction =  data['s-15m'],  data['d-15m']
+    elif buoy == 'Deenish':
+        seabed_speed,  seabed_direction =  data['s-seabed'],  data['d-seabed']
 
     with open(f, 'w') as csvfile:
 
@@ -96,14 +53,14 @@ def to_csv_currents_rose(data, language):
 
             t, v1, v2, v3, v4     =  t, '%.1f' % float(a), '%.1f' % float(b), '%.1f' % float(c), '%.1f' % float(d)
 
-            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\n')
+            csvfile.write(t.strftime('%Y-%m-%d %H:%M') + '\t' + v1 + '\t' + v2 + '\t' + v3 + '\t' + v4 + '\n')
 
     return f  
 
-def to_csv_wind(data, language, write_forecast=True):
+def to_csv_wind(data, startstr, endstr, language, write_forecast=True):
     ''' Write wind speed and direction series to CSV file '''
 
-    f = csvname(data, 'time', 'wind')
+    f = csvname('wind', startstr, endstr,)
  
     # Set header
     if language == 'en':
@@ -115,11 +72,11 @@ def to_csv_wind(data, language, write_forecast=True):
         forecast = '\n*** Predicción ***\n\n'
         header = 'Fecha\tDirección del viento (º)\tVelocidad del viento (km/h)\n' 
 
-    time, speed, direction = data['time'], data['wind_speed_csv_export'], data['wind_direction_csv_export']
-    time, direction, speed = loads(time), loads(direction), loads(speed)
+    time, speed, direction = data.index, data['s-wind'], data['d-wind']
+    #time, direction, speed = loads(time), loads(direction), loads(speed)
 
     if write_forecast:
-        fc_time, fc_speed, fc_direction = data['fc_wind_rose_time'], data['fc_wind_rose_period'], data['fc_wind_rose_direction']
+        fc_time, fc_speed, fc_direction = data['fc_wind_rose_time'], data['fc_wind_rose_period'], data['fc_d_wind']
         fc_time, fc_direction, fc_speed = loads(fc_time), loads(fc_direction), loads(fc_speed)
 
     with open(f, 'w') as csvfile:
@@ -132,7 +89,7 @@ def to_csv_wind(data, language, write_forecast=True):
 
             t, v1, v2     =  t, '%.1f' % float(D), '%.1f' % float(T)
 
-            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+            csvfile.write(t.strftime('%Y-%m-%d %H:%M') + '\t' + v1 + '\t' + v2 + '\n')
 
         if write_forecast:
 
@@ -148,10 +105,10 @@ def to_csv_wind(data, language, write_forecast=True):
 
     return f
 
-def to_csv_wave_rose(data, language, write_forecast=True):
+def to_csv_wave_rose(data, startstr, endstr, language, write_forecast=True):
     ''' Write Wave Period and Direction series to CSV file '''
 
-    f = csvname(data, 'wave_rose_time', 'wave')
+    f = csvname('wave', startstr, endstr)
  
     # Set header
     if language == 'en':
@@ -163,11 +120,10 @@ def to_csv_wave_rose(data, language, write_forecast=True):
         forecast = '\n*** Predicción ***\n\n'
         header = 'Fecha\tDirección Pico del Oleaje (º)\tPeriodo Pico del Oleaje (s)\n' 
 
-    time, direction, period = data['wave_rose_time'], data['wave_rose_direction'], data['wave_rose_period']
-    time, direction, period = loads(time), loads(direction), loads(period)
+    time, direction, period = data.index, data['d-wave'], data['s-wave']
 
     if write_forecast:
-        fc_time, fc_direction, fc_period = data['fc_wave_rose_time'], data['fc_wave_rose_direction'], data['fc_wave_rose_period']
+        fc_time, fc_direction, fc_period = data['fc_time'], data['fc_d_wave'], data['fc_s_wave']
         fc_time, fc_direction, fc_period = loads(fc_time), loads(fc_direction), loads(fc_period)
 
     with open(f, 'w') as csvfile:
@@ -180,7 +136,7 @@ def to_csv_wave_rose(data, language, write_forecast=True):
 
             t, v1, v2     =  t, '%.1f' % float(D), '%.1f' % float(T)
 
-            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+            csvfile.write(t.strftime('%Y-%m-%d %H:%M') + '\t' + v1 + '\t' + v2 + '\n')
 
         if write_forecast:
             csvfile.write(forecast)
@@ -196,10 +152,10 @@ def to_csv_wave_rose(data, language, write_forecast=True):
     return f
 
 
-def to_csv_swh(data, language, write_forecast=True):
+def to_csv_swh(data, startstr, endstr, language, write_forecast=True):
     ''' Write Significant Wave Height series to CSV file '''
 
-    f = csvname(data, 'time', 'swh')
+    f = csvname('swh', startstr, endstr)
  
     # Set header
     if language == 'en':
@@ -211,8 +167,7 @@ def to_csv_swh(data, language, write_forecast=True):
         forecast = '\n*** Predicción ***\n\n'
         header = 'Fecha\tAltura de Ola Significante (m)\tAltura de Mar de Fondo (m)\n' 
 
-    time, SWH, SW = data['time'], data['Significant_Wave_Height_Hm0'], data['Wave_Height_Swell_Hm0']
-    time, SWH, SW = loads(time), loads(SWH), loads(SW)
+    time, SWH, SW = data.index, data['wave-height'], data['swell-height']
 
     if write_forecast:
         fc_time, fc_SWH, fc_SW = data['fc_wav_time'], data['fc_wav'], data['fc_wav_sw2']
@@ -228,7 +183,7 @@ def to_csv_swh(data, language, write_forecast=True):
 
             t, v1, v2     =  t, '%.1f' % float(swh), '%.1f' % float(sw)
 
-            csvfile.write(t + '\t' + v1 + '\t' + v2 + '\n')
+            csvfile.write(t.strftime('%Y-%m-%d %H:%M') + '\t' + v1 + '\t' + v2 + '\n')
 
         if write_forecast:
             csvfile.write(forecast)
@@ -243,10 +198,10 @@ def to_csv_swh(data, language, write_forecast=True):
 
     return f
 
-def to_csv(sub, variable, language='es', write_forecast=True):
+def to_csv(sub, startstr, endstr, variable, language='es', write_forecast=True):
     ''' Write data into CSV file for download '''
     
-    f = csvname(sub, 'time', variable)
+    f = csvname(variable, startstr, endstr)
     
     with open(f, 'w') as csvfile:    
     
@@ -265,13 +220,31 @@ def to_csv(sub, variable, language='es', write_forecast=True):
                 time2, varname2 = 'fc_sst_time', 'fc_sst'
             else:
                 time2, varname2 = '', ''
+
+        elif variable == 'salt':
+            if language=='es':
+                header = 'Fecha\tSalinidad\n'
+            elif language=='en':
+                header = 'Date\tSalinity\n'
+            time1, varname1 = 'time', 'salt'
+            time2, varname2 = '', ''
+
         elif variable == 'tur':
             if language=='es':
                 header = 'Fecha\tTurbidez (FNU)\n'
             elif language=='en':
                 header = 'Date\tTurbidity (FNU)\n'
-            time1, varname1 = 'time', 'TUR'
+            time1, varname1 = 'time', 'tur'
             time2, varname2 = '', ''
+
+        elif variable == 'pH':
+            if language=='es':
+                header = 'Fecha\tpH\n'
+            elif language=='en':
+                header = 'Date\tpH\n'
+            time1, varname1 = 'time', 'pH'
+            time2, varname2 = '', ''
+
         elif variable == 'O2':
             if language=='es':
                 header = 'Fecha\tSaturación de Oxígeno en Disolución (%)\n'
@@ -281,15 +254,15 @@ def to_csv(sub, variable, language='es', write_forecast=True):
             time2, varname2 = '', ''
 
         # Get variables
-        time1 = sub[time1][1:-1].split(', ')
-        var1  = sub[varname1][1:-1].split(', ')
+        time1 = sub.index
+        var1  = sub[varname1]
         if varname2:
             time2 = sub[time2][1:-1].split(', ')
-            var2  = sub[varname2][1:-1].split(', ')
+            var2  = sub[varname2][1:-1] #.split(', ')
 
         csvfile.write(header)
         for t, value in zip(time1, var1):
-            t, value = t[1:-1], '%.2f' % float(value)
+            t, value = t.strftime('%Y-%m-%d %H:%M'), '%.2f' % float(value)
             csvfile.write(t + '\t' + value + '\n')
         
         if varname2: # Forecast available    

@@ -1,9 +1,0 @@
-token ********
-chat  ********
-!
-forecast /data/pkl/MODEL-2.pkl
-time fc_wav_time
-SWH fc_wav
-!
-orange 2 
-red 3 

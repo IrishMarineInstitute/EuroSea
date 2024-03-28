@@ -1,0 +1,1767 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>El Campello In-situ Warnings & Forecasts</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css?version=1" />
+                <link rel="icon" href="../static/favicon.png">
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/tiny-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 1px) and (max-device-width: 320px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="../static/js/script-2.js"></script>
+
+                <meta id="latest-temperature-value" content="{{latest_temperature}}" >
+
+		<meta id="latest-oxygen-value" content="{{latest_oxygen}}" >
+
+		<meta id="mean-forecast-temperature-value" content="{{mean_forecast_temperature}}" >
+		<meta id="min-forecast-temperature-value" content="{{min_forecast_temperature}}" >
+		<meta id="max-forecast-temperature-value" content="{{max_forecast_temperature}}" >
+
+		<meta id="significant-wave-height-value" content="{{latest_swh}}" >
+		<meta id="forecast-max-swh-value" content="{{forecast_max_swh}}" >
+
+		<meta id="swell-value" content="{{latest_swell}}" >
+		<meta id="forecast-max-swell-value" content="{{forecast_max_swh_sw2}}" >
+
+		<meta id="significant-wave-height-mobile" content="{{latest_swh}}" >
+		<meta id="forecast-max-swh-mobile" content="{{forecast_max_swh}}" >
+
+		<meta id="swell-mobile" content={{latest_swell}} >
+		<meta id="forecast-max-swell-mobile" content="{{forecast_max_swh_sw2}}" >
+
+
+    <style>
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 0px solid #ddd;
+        }
+          
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+  
+
+        ::-webkit-scrollbar {
+            height: 20px;            
+            width: 4px;             
+            border: 1px solid #d5d5d5;
+        }
+  
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+  
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+  
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+          
+        .scroll {
+            display: block;
+            border: 0px solid red;
+            padding: 5px;
+            margin-top: 5px;
+            width: 100%;
+            height: 100px;
+            overflow-x: auto;
+        }
+    </style>
+
+	</head>
+
+	<body onload="init()">
+	
+	<div class="languages-desktop topcorner">
+
+         <div style="width: 25px; float:right; height:28px; margin:13px 150px 10px 10px">
+               <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/El-Campello"> <img src="../static/ES.png" > </a> </p>
+         </div>
+
+         <div class="center" style="width: 10px; float:right; height:28px; margin:15px 0px 0px 0px; border-width: 0px;">
+               <p style="margin:5px 0px;"> <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/El-Campello"> ES </a> </p> 		
+         </div>
+
+          <div style="width:100px; float:right; height:30px; margin:16px 30px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+ 	</div>
+
+        <div class="languages-tiny topcorner">
+
+          <div style="width:12px; float:right; height:0px; margin:12px 20px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/El-Campello"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:16px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/El-Campello"> ES </a> </p> 
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-portrait topcorner">
+
+          <div style="width:8px; float:right; height:0px; margin:13.5px 10px 0px 0px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/El-Campello"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:20px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/El-Campello"> ES </a> </p> 
+          </div>
+
+          <div style="width:8px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 30px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/El-Campello"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:17px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/El-Campello"> ES </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:22px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-tiny-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 30px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:21px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es"> ES </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:22px 0px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+        </div>
+
+        <div class="languages-ipad topcorner">
+          <div style="width:30px; float:right; height:0px; margin:30px 30px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/El-Campello"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:27px 5px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/El-Campello"> ES </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:33px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE </h1> 
+                    <hr>
+                </div> 
+            </div>
+        </div>
+	
+
+         <!-------------------------------------------------------------------------->
+         <!--                                                                      -->
+         <!--                       HYPERLINKS TO SECTIONS                         -->
+         <!--                                                                      -->
+         <!-------------------------------------------------------------------------->
+
+
+    	<div class="grid">
+    		<div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro" > 
+                                   Use the links below to jump to the different sections in this page:
+                                   
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+           </div>
+
+         <div class="grid desktop-ipad">
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro" style="margin-left:10px">
+                     <a href="#Waves Header"> Waves </a> </div> </div>
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
+                     <a href="#Currents Header"> Currents </a> </div> </div>
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
+                     <a href="#Winds Header"> Winds </a> </div> </div>
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
+                     <a href="#Water Quality Header"> Water Quality </a> </div> </div>
+         </div>
+    		
+         <div class="grid mobile">
+             <div class="col-1-3 mobile-col-1-3">
+                 <div class="content intro" style="margin-left:10px">
+                     <a href="#Waves Header"> Waves </a> </div> </div>
+             <div class="col-1-3 mobile-col-1-3">
+                 <div class="content intro">
+                     <a href="#Winds Header"> Winds </a> </div> </div>
+             <div class="col-1-3 mobile-col-1-3">
+                 <div class="content intro">
+                     <a href="#Water Quality Header"> Water </a> </div> </div>
+         </div>
+    		
+
+                <!-------------------------------------------------------------------------->
+                <!--                                                                      -->
+                <!--                             WAVES SECTION                            -->
+                <!--                                                                      -->
+                <!-------------------------------------------------------------------------->
+
+                <div class="grid"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Waves Header"> Waves </h2>
+                        </div>
+                    </div>
+                </div>
+
+    	<div class="grid desktop-ipad">
+    		<div class="col-1-2 mobile-col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there is the latest Significant Wave Height measurement derived from the  
+                                   Aanderaa MOTUS Wave Sensor at El Campello. In addition, an 
+                                   estimation of the swell wave height is provided. This information is   
+                                   updated every 10 minutes. 
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+
+    		<div class="col-1-2 mobile-col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, the <b> highest </b> expected Significant Wave Height in a 5-day forecast at El Campello
+                                   (38.43ºN 0.30ºW) is provided.
+                                   Forecasts are obtained from the
+                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">Mediterranean
+                                   Sea Waves Analysis and Forecast Service</a>. Forecasts are updated daily.
+                                   
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+           </div>
+
+  		<div class="grid desktop">
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input value="Wave Height at El Campello on {{t1}}" type=text id="time" size='70' />
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input type=text id="time" size='70'
+  				value="El Campello 5-day HIGHEST Wave Height Forecast" />
+  				</div>
+  			</div>
+  		</div>
+
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" value="Wave Height at El Campello on {{t1}}" type=text />
+                   </div> 
+                </div>
+            </div>
+
+         <div class="grid mobile">
+			<div class="col-1-3 mobile-col-2-3">
+				<div class="content">
+					 <p class="label-value"> Significant Wave Height</p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-swh-mobile" 
+					       class="value-box-1"
+					       value="{{latest_swh}} m" />
+				</div>
+                        </div>
+           </div>
+
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" value="El Campello 5-day HIGHEST Wave Height Forecast" type=text />
+                   </div> 
+                </div>
+            </div>
+
+         <div class="grid mobile">
+			<div class="col-1-3 mobile-col-2-3">
+				<div class="content">
+					 <p class="label-value"> Significant Wave Height</p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-3">
+				<div class="content">
+					<input id="max-swh-fc-mobile" 
+					       class="value-box-1"
+					       value="{{forecast_max_swh}} m" />
+				</div>
+                        </div>
+           </div>
+
+<div class="grid mobile">
+    <div class="col-1-1 mobile-col-1-1">
+        <div class="content">
+<div class="scroll" id="wave-table">
+
+<table>
+<caption>Significant Wave Height (SWH) 5-day forecast</caption>
+<tbody>
+<TR>
+<th>Date</th>
+{% for item in wave_forecast_dates %}
+   <TD colspan={{item.counter}}>{{item.dates}}</TD>
+{% endfor %}
+</TR>
+<TR>
+<th>Time</th>
+{% for item in wave_forecast_table %}
+   <TD>{{item.time}}</TD>
+{% endfor %}
+</TR>
+<TR>
+<th>SWH (m)</th>
+{% for item in wave_forecast_table %}
+   <TD style="background-color:{{item.color}}">{{item.swh}}</TD>
+{% endfor %}
+</TR>
+</tbody>
+</table>
+
+</div> </div> </div> </div>
+
+		<div class="grid desktop">
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+					 <p class="label"> Significant Wave Height (SWH)</p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-6">
+				<div class="content">
+					<input id="latest-swh" 
+					       class="value-box-1"
+					       value="{{latest_swh}} m" />
+				</div>
+                        </div>
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+					 <p class="label"> Significant Wave Height (SWH)</p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-6">
+				<div class="content">
+					<input id="max-swh-fc" 
+					       class="value-box-1"
+					       value="{{forecast_max_swh}} m" />
+				</div>
+                        </div>
+                </div>
+
+		<div class="grid desktop">
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+					 <p class="label"> Swell Waves SWH </p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-6">
+				<div class="content">
+					<input id="latest-swell" 
+					       class="value-box-1"
+					       value="{{latest_swell}} m" />
+				</div>
+                        </div>
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+					 <p class="label"> Swell Waves SWH </p>
+				</div>
+			</div>
+			<div class="col-1-6 mobile-col-1-6">
+				<div class="content">
+					<input id="max-swell-fc" 
+					       class="value-box-1"
+					       value="{{forecast_max_swh_sw2}} m" />
+				</div>
+                        </div>
+                </div>
+
+  		<script language="javascript" type="text/javascript">
+
+                <!-- Configuration of Mode Bar and Image download -->
+                    
+                 var config = {
+                     'toImageButtonOptions': {
+                         'format': 'png',    // Download figure as PNG
+                         'scale': 10,        // High resolution figure, suitable for journal publications
+                     },
+                     'displaylogo': false,
+                     // Remove the buttons in the list below, as they are not needed
+                     modeBarButtonsToRemove: ['toImage', 'zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
+                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines'],
+                 };
+
+                    <!-- Wave height series layout -->
+                    var layoutWavesDesktop = {
+                       texttemplate: '%{value:.1f}',
+                       title: 'Significant Wave Height at El Campello',
+                       xaxis: {
+                           mirror: true, showline: true, ticks: 'outside', tick0: "{{tick0}}",
+                           dtick: 86400000, tickformat: '%d %b %y', tickangle: 90, fixedrange: true,
+                           automargin: true, autorange: false, range: ["{{t0}}", "{{tw}}"]
+                       },
+                       yaxis: {
+                           title: 'm', mirror: true, showline: true, ticks:
+                           'outside', tickformat: '.2f', fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 18,            
+                       },
+                       };
+
+                    var layoutWavesMobile = {
+                       margin: {    l: 30,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', showlegend: false,
+                       title: 'Significant Wave Height at El Campello',
+                       xaxis: {
+                           mirror: true, showline: true, ticks: 'outside', tick0: "{{tick0}}",
+                           dtick: 86400000, tickformat: '%d %b %y', tickangle: 90, fixedrange: true,
+                           automargin: true, autorange: false, range: ["{{t0}}", "{{tw}}"]
+                       },
+                       yaxis: {
+                           title: 'm', mirror: true, showline: true, ticks:
+                           'outside', tickformat: '.2f', fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 10,            
+                       },};
+
+                    <!-- Time series layout -->
+                    var layoutDesktop = {
+                       texttemplate: '%{value:.1f}', title: '',
+                       xaxis: {
+                           mirror: true,showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y', 
+                           tickangle: 90, automargin: true, fixedrange: true,
+                       },
+                       yaxis: {
+                           title: '', mirror: true, showline: true,
+                           ticks: 'outside', tickformat: '.1f', fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 18,            
+                       },};
+
+                    var layoutMobile = {
+                       height: 300,
+                       margin: {    l: 40,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', title: '',showlegend: true,
+                       legend:{xanchor:"center", yanchor:"top", y:-0.3, x:0.5, orientation: 'h'},
+                       xaxis: {
+                           mirror: true,showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y', 
+                           tickangle: 90, automargin: true, fixedrange: true,
+                       },
+                       yaxis: {
+                           title: '', mirror: true, showline: true,
+                           ticks: 'outside', tickformat: '.1f', fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 10,            
+                       },};
+
+                    <!-- Turbidity (log-y) series layout -->
+                    var layoutTurbidityDesktop = {
+                       texttemplate: '%{value:.1f}', title: 'Seawater turbidity at El Campello',
+                       xaxis: {
+                           mirror: true, showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y',     
+                           tickangle: 90, automargin: true, fixedrange: true,
+                       },
+                       yaxis: {
+                           title: 'FNU', mirror: true, showline: true, fixedrange: true,
+                           ticks: 'outside', tickformat: '.1f', type: 'log',
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 18,            
+                       },};
+
+                    var layoutTurbidityMobile = {
+                       height: 300,
+                       margin: {    l: 40,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', title: 'Seawater turbidity at El Campello',
+                       xaxis: {
+                           mirror: true, showline: true, ticks: 'outside',
+                           tick0: "{{tick0}}", dtick: 86400000, tickformat: '%d %b %y',     
+                           tickangle: 90, automargin: true, fixedrange: true,
+                       },
+                       yaxis: {
+                           title: 'FNU', mirror: true, showline: true, fixedrange: true,
+                           ticks: 'outside', tickformat: '.1f', type: 'log',
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 10,            
+                       },};
+
+                </script>
+
+  		<script language="javascript" type="text/javascript">
+
+                    <!-- Wind Rose layout -->
+
+                    var polarLayout = {
+                    };
+
+                </script>
+    		
+  		<script language="javascript" type="text/javascript">
+
+                    <!-- DCPS heatmap layout -->
+
+                    var DCPSLayout = {
+                       title: 'Current Speed Profile at El Campello',
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           autorange: true,
+                           fixedrange: true,
+                       },
+                       yaxis: {
+                           autorange: 'reversed',
+                           title: 'depth (m)',
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                       };
+
+                </script>
+
+                <script language="javascript" type="text/javascript">
+
+                    <!-- Draw red (safety for work) line in wave height series --> 
+
+                    var shapes = [];
+
+                    orangeWarning =  {
+                                   type: 'line',
+                                   xref: 'paper',
+                                   x0: 0,
+                                   y0: 2.0,
+                                   x1: 1,
+                                   y1: 2.0,
+                                   line:{
+                                         color: '#FFA500',
+                                         width: 4,
+                                         dash:'dot',
+                                        },
+                                   };
+
+                    shapes.push(orangeWarning);
+
+                    redWarning =  {
+                                   type: 'line',
+                                   xref: 'paper',
+                                   x0: 0,
+                                   y0: 3.0,
+                                   x1: 1,
+                                   y1: 3.0,
+                                   line:{
+                                         color: '#FF0000',
+                                         width: 4,
+                                         dash:'dot',
+                                        },
+                                   };
+
+                    shapes.push(redWarning);
+
+                </script>
+
+                            <p id="Wave-Height-Series"> </p>
+
+    	       <div class="grid desktop">
+    		<div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                  The figure below shows, in solid lines, the Aanderaa MOTUS Wave Sensor recordings
+                                  at El Campello (38.43ºN 0.30ºW) for the last seven days, showing the total (blue) and
+                                  swell (green) signals. In dashed lines, the 5-day forecasts from the aforementioned wave 
+                                  model are shown. Orange warnings are activated when the Significant Wave Height exceeds 2
+                                  meters, whereas red warnings are activated when the Significant Wave Height exceeds 3 meters.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
+
+  		<div class="grid desktop">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="Hs"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time | safe }},
+                                        y: {{ swh | safe }},
+                                        name: 'SWH sensor',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#1F77B4', 
+                                        }
+                                    };
+                                    var trace2 = {
+                                        x: {{ fc_wav_time | safe }},
+                                        y: {{ fc_wav | safe }},
+                                        name: 'Forecast SWH',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#1F77B4', 
+                                            dash: 'dot',
+                                        }
+                                    };
+                                    var trace4 = {
+                                        x: {{ time | safe }},
+                                        y: {{ swell |safe }},
+                                        name: 'Swell SWH sensor',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#2CA02C', 
+                                        }
+                                    };
+                                    var trace6 = {
+                                        x: {{ fc_wav_time | safe }},
+                                        y: {{ fc_wav_sw2 | safe }},
+                                        name: 'Forecast Swell SWH',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#2CA02C', 
+                                            dash: 'dot',
+                                        }
+                                    };
+
+
+                                    layoutWavesDesktop['shapes'] = shapes
+                                    // Set image file name
+                                    config['toImageButtonOptions']['filename'] = 'Significant-Wave-Height-at-El-Campello'
+                                    TESTER = document.getElementById('Hs');
+                                    Plotly.newPlot( TESTER, [trace1, trace2, trace4, trace6], layoutWavesDesktop, config);
+
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="HsMobile"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time | safe }},
+                                        y: {{ swh | safe }},
+                                        name: 'SWH sensor',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#1F77B4', 
+                                        }
+                                    };
+                                    var trace2 = {
+                                        x: {{ fc_wav_time | safe }},
+                                        y: {{ fc_wav | safe }},
+                                        name: 'Forecast SWH',
+                                        hoverinfo: 'x+y',
+                                        line: {
+                                            color: '#1F77B4', 
+                                            dash: 'dot',
+                                        }
+                                    };
+
+                                    layoutWavesMobile['shapes'] = shapes
+                                    // Set image file name
+                                    config['toImageButtonOptions']['filename'] = 'Significant-Wave-Height-at-El-Campello'
+                                    TESTER = document.getElementById('HsMobile');
+                                    Plotly.newPlot( TESTER, [trace1, trace2], layoutWavesMobile, config);
+
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+                            <p id="Wave-Wind-Roses"> </p>
+
+    	<div class="grid desktop">
+    		<div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there are the latest wave peak direction and peak period from the  
+                                   Aanderaa MOTUS Wave Sensor at El Campello. 
+                                   This information is updated every 10 minutes. The wind rose diagram below shows
+                                   the predominant wave direction and
+                                   period for the last 24 hours. 
+                                   <b> NOTE</b>: wave direction
+                                   measurements relate to the direction they are coming FROM.
+                                   
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+
+    		<div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, the <b> shortest </b> expected wave peak period and associated wave peak direction in a 24-hour forecast at El Campello
+                                   (38.43ºN 0.30ºW) is provided.
+                                   Forecasts are obtained from the
+                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">Mediterranean Sea Waves Analysis and Forecast Service</a>. 
+                                   Forecasts are updated hourly.   
+                                   <b>NOTE</b>: wave direction forecasts relate to the direction they are coming FROM.
+                                   
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+           </div>
+
+
+
+                <!-- BLUE (HEADER) TEXT BOXES -->
+
+  		<div class="grid desktop">
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input value="Wave Peak Direction and Period at El Campello at {{t1}}" type=text id="time-small" size='70' />
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input type=text id="time-small" size='70'
+  				value="El Campello 1-day Wave Peak Direction and Period Forecast" />
+  				</div>
+  			</div>
+  		</div>
+    		
+                <!-- LATEST RECORDINGS AND FORECASTS -->
+		<div class="grid desktop">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-wind-speed" 
+					       class="value-box-2"
+					       value="{{latest_wave_direction}}º" />
+				</div>
+			</div>
+
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/wave-period-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-wind-direction" 
+					       class="value-box-2"
+					       value="{{latest_wave_period}} s" />
+				</div>
+                        </div>
+		    		
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-wind-speed" 
+					       class="value-box-2"
+					       value="{{associated_direction}}º" />
+				</div>
+			</div>
+
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/wave-period-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-wind-direction" 
+					       class="value-box-2"
+					       value="{{shortest_period}} s" />
+				</div>
+                        </div>
+		</div>
+		    		
+
+  		<div class="grid desktop">
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="WaveRose"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{wave_rose | safe}};
+                                     TESTER = document.getElementById('WaveRose')
+                                     var polarLayout = {
+                                         xaxis: {fixedrange: true, }, yaxis: {fixedrange: true,},
+                                         title: {
+                                             text:'Wave Peak Direction (FROM) & Peak Period:<br>{{wave_rose_idate}} to {{wave_rose_edate}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="WaveRoseForecast"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{fc_wave_rose | safe }};
+                                     TESTER = document.getElementById('WaveRoseForecast')
+                                     var polarLayout = {
+                                         xaxis: {fixedrange: true, }, yaxis: {fixedrange: true,},
+                                         title: {
+                                             text:'Wave Peak Direction (FROM) & Peak Period:<br>{{fc_wave_rose_idate}} to {{fc_wave_rose_edate}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------------------------------------->
+                <!--                                                                      -->
+                <!--                           CURRENTS SECTION                           -->
+                <!--                                                                      -->
+                <!-------------------------------------------------------------------------->
+
+
+                <div class="grid desktop"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Currents Header"> Currents </h2>
+                        </div>
+                    </div>
+                </div>
+
+                            <p id="ADCP-Roses"> </p>
+
+    	<div class="grid desktop">
+    		<div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there are the latest surface current speed and direction recorded by the  
+                                   Doppler Current Profiler Sensor at El Campello. 
+                                   This information is updated every 10 minutes. The wind rose diagram below shows
+                                   the frequency distribution of surface current speed and direction for the 
+                                   latest 24 hours.
+                                   <b> NOTE</b>: current direction
+                                   measurements relate to the direction they are going TO.
+                                   
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+
+    		<div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there are the latest 15-meter depth current speed and direction recorded by the  
+                                   Doppler Current Profiler Sensor at El Campello. 
+                                   This information is updated every 10 minutes. The wind rose diagram below shows
+                                   the frequency distribution of 15-meter depth current speed and direction for the 
+                                   latest 24 hours.
+                                   <b> NOTE</b>: current direction
+                                   measurements relate to the direction they are going TO.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+           </div>
+
+
+
+                <!-- BLUE (HEADER) TEXT BOXES -->
+
+  		<div class="grid desktop">
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input value="Surface Current Speed and Direction at El Campello on {{t1}}" type=text id="time-small" size='70' />
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input type=text id="time-small" size='70'
+  				value="15-meter depth currents at El Campello on {{t1}}" />
+  				</div>
+  			</div>
+  		</div>
+    		
+                <!-- LATEST RECORDINGS AND FORECASTS -->
+
+		<div class="grid desktop">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/wind-speed-icon.png" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-surface-speed" 
+					       class="value-box-2"
+					       value="{{latest_surface_speed}} cm/s" />
+				</div>
+			</div>
+
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-surface-direction" 
+					       class="value-box-2"
+					       value="{{latest_surface_direction}}º" />
+				</div>
+                        </div>
+		    		
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/wind-speed-icon.png" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-seabed-speed" 
+					       class="value-box-2"
+					       value="{{latest_15m_speed}} cm/s" />
+				</div>
+			</div>
+
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-seabed-direction" 
+     					       class="value-box-2"
+					       value="{{latest_15m_direction}}º" />
+				</div>
+                        </div>
+		</div>
+		    		
+  		<div class="grid desktop">
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="SurfaceCurrentRose"></div>
+
+                                 <script language="javascript" type="text/javascript">
+                                     var graphs = {{DCP_rose_surface | safe}};
+                                     TESTER = document.getElementById('SurfaceCurrentRose')
+                                     var polarLayout = {
+                                         xaxis: {fixedrange: true, }, yaxis: {fixedrange: true,},
+                                         title: {
+                                             text:'Surface Current Speed and Direction (TO):<br> {{DCP_rose_idate_surface}} to {{DCP_rose_edate_surface}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {});
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="SeabedCurrentRose"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{DCP_rose_seabed | safe }};
+                                     TESTER = document.getElementById('SeabedCurrentRose')
+                                     var polarLayout = {
+                                         xaxis: {fixedrange: true, }, yaxis: {fixedrange: true,},
+                                         title: {
+                                             text:'15-m depth current speed and direction (TO):<br> {{DCP_rose_idate_seabed}} to {{DCP_rose_edate_seabed}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {});
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------------------------------------->
+                <!--                                                                      -->
+                <!--                             WINDS SECTION                            -->
+                <!--                                                                      -->
+                <!-------------------------------------------------------------------------->
+
+                <!-- Header -->
+                <div class="grid"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Winds Header"> Winds </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADD A DESCRIPTION OF THE WINDS SECTION -->
+
+    	        <div class="grid desktop">
+    	       	    <div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there are the latest wind speed and direction from the  
+                                   Gill-Maximet 200-2 sensor at El Campello. 
+                                   This information is updated every 10 minutes. The wind rose diagram below shows
+                                   the frequency distribution of wind speed and direction for the 
+                                   latest 24 hours. 
+                                   <b> NOTE</b>: wind direction
+                                   measurements relate to the direction they are coming FROM.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+    	       	    <div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, 3-day wind forecasts from the European Centre for Medium-Range Weather
+                                   Forecasts (ECMWF) are shown.  
+                                   The speed
+                                   and direction of the fastest winds in this 3-day forecast are highlighted below. 
+                                   <b> NOTE</b>: wind direction
+                                   measurements relate to the direction they are coming FROM.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
+
+                            <p id="Winds"> </p>
+
+                <div class="grid mobile">
+                   <div class="col-1-1 mobile-col-1-1">
+                       <div class="content">
+                      	   <input class="mobile-input" value="Wind at El Campello on {{t1}}" type=text />
+                       </div> 
+                   </div>
+                </div>
+
+                <!-- BLUE (HEADER) TEXT BOXES -->
+
+  		<div class="grid desktop">
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input value="Wind at El Campello on {{t1}}" type=text id="time" size='70' />
+  				</div>
+  			</div>
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input type=text id="time" size='70'
+  				value="El Campello 3-day Wind Forecast" />
+  				</div>
+  			</div>
+  		</div>
+    		
+            <div class="grid mobile">
+			<div class="col-1-3 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/wind-speed-icon.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-3 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-wind-speed" style="border: 10px"
+					       class="value-box-1"
+					       value="{{latest_wind_speed}} km/h" />
+				</div>
+                        </div>
+			<div class="col-1-3 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="responsive">
+				</div>
+			</div>
+			<div class="col-1-3 mobile-col-1-6">
+				<div class="content">
+					<input id="latest-wind-direction" style="border: 10px"
+					       class="value-box-1"
+					       value="{{latest_wind_direction}}º" />
+				</div>
+                        </div>
+           </div>
+
+  		<div class="grid mobile">
+    	       	    <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro" style="text-align: center"> 
+                                   (Wind direction (FROM) clockwise from North)
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
+
+  		<div class="grid mobile">
+    	       	    <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   ECMWF 3-day wind forecast for El Campello. The arrows point to the
+                                   direction the wind is blowing <b> TOWARDS</b>.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
+
+                <!-- LATEST RECORDINGS AND FORECASTS -->
+
+		<div class="grid desktop">
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/wind-speed-icon.png" class="icon">
+				</div>
+			</div>
+			<div class="col-1-7">
+				<div class="content">
+					<input id="latest-wind-speed" 
+					       class="value-box-2"
+					       value="{{latest_wind_speed}} km/h" />
+				</div>
+			</div>
+
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-12">
+				<div class="content">
+					<input id="latest-wind-direction" 
+					       class="value-box-2"
+					       value="{{latest_wind_direction}}º" />
+				</div>
+		        </div>
+			<div class="col-1-8">
+				<div class="content">
+				</div>
+                        </div>
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/wind-speed-icon.png" class="icon">
+				</div>
+			</div>
+			<div class="col-1-7">
+				<div class="content">
+					<input id="maximum_wind_speed_forecast" 
+					       class="value-box-2"
+					       value="{{fc_maximum_wind_speed}} km/h" />
+				</div>
+			</div>
+
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/compass-icon.jpg" class="icon">
+				</div>
+			</div>
+			<div class="col-1-12">
+				<div class="content">
+					<input id="maximum_wind_direction_forecast" 
+					       class="value-box-2"
+					       value="{{associated_direction_wind}}º" />
+				</div>
+		        </div>
+                </div>
+		    		
+
+  		<div class="grid desktop">
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="WindRose"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{wind_rose | safe}};
+                                     TESTER = document.getElementById('WindRose')
+
+                                     var polarLayout = {
+                                         xaxis: {fixedrange: true, }, yaxis: {fixedrange: true,},
+                                         title: {
+                                             text:'Wind Speed and Direction (FROM):<br>{{wave_rose_idate}} to {{wave_rose_edate}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {}, config);
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                             </div>
+                         </div>
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="WindRoseForecast"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{fc_wind_rose | safe }};
+                                     TESTER = document.getElementById('WindRoseForecast')
+                                     var polarLayout = {
+                                         xaxis: {fixedrange: true, }, yaxis: {fixedrange: true,},
+                                         title: {
+                                             text:'Wind speed and direction (FROM):<br>{{fc_wind_rose_idate}} to {{fc_wind_rose_edate}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {}, config)
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+                </div>
+
+               
+  		<div class="grid desktop">
+    	       	    <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   ECMWF 3-day wind forecast for El Campello. The arrows point to the
+                                   direction the wind is blowing <b> TOWARDS</b>.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+                </div>
+
+  		<div class="grid">
+    	       	    <div class="col-1-1">
+    			<div class="content">
+        		    <img src="../static/ECMWF-FORECAST.png" > 		
+                        </div>
+                     </div>
+                </div>
+
+                <!-------------------------------------------------------------------------->
+                <!--                                                                      -->
+                <!--                          WATER QUALITY                               -->
+                <!--                                                                      -->
+                <!-------------------------------------------------------------------------->
+
+                <div class="grid"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Water Quality Header"> Water Quality </h2>
+                        </div>
+                    </div>
+                </div>
+
+                            <p id="Water-Quality"> </p>
+
+                <!-- ADD A DESCRIPTION OF THE WATER QUALITY SECTION -->
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below there are the latest measurements of seawater temperature, oxygen 
+                                   saturation and turbidity at El Campello, as recorded by the YSI EXO3
+                                   sensor.  
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- BLUE (HEADER) TEXT BOXES -->
+
+  		<div class="grid desktop">
+  			<div class="col-1-4 mobile-col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+
+  			<div class="col-1-2 mobile-col-1-2">
+  				<div class="content">
+  				<input value="Water Quality at El Campello on {{t1}}" type=text id="time" size='70' />
+  				</div>
+  			</div>
+    		
+  			<div class="col-1-4 mobile-col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+  		</div>
+
+		<div class="grid desktop">
+  			<div class="col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+			<div class="col-1-12">
+				<div class="content">
+					 <img src="../static/thermometer.png" class="icon">
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input id="latest-temperature" 
+					       class="value-box-1"
+					       value="{{latest_temperature}} ºC" />
+				</div>
+			</div>
+			<div class="col-1-4">
+                            <div class="content">
+					 <p class="label"> Current temperature </p>
+                            </div>
+                        </div>
+  			<div class="col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+		</div>
+		    		
+  		<div class="grid desktop">
+  			<div class="col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+  			<div class="col-1-12">
+  				<div class="content">
+  					 <img src="../static/oxygen.png" class="icon">
+  				</div>
+  			</div>
+  			<div class="col-1-6">
+  				<div class="content">
+  					<input id="latest-oxygen"
+  					       class="value-box-1"
+  					       value="{{latest_oxygen}}%" />
+  				</div>
+  			</div>
+			<div class="col-1-4">
+                            <div class="content">
+					 <p class="label"> Current oxygen saturation </p>
+                            </div>
+                        </div>
+  			<div class="col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+  		</div>    	
+  			
+  		<div class="grid desktop">
+  			<div class="col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+                        <div class="col-1-12">
+  				<div class="content">
+  					 <img src="../static/turbidity.png" class="icon">
+  				</div>
+  			</div>
+  			<div class="col-1-6">
+  				<div class="content">
+  					<input class="value-box-2" value="{{latest_turbidity}} FNU" />
+  				</div>
+                        </div>    	
+			<div class="col-1-4">
+                            <div class="content">
+					 <p class="label"> Current turbidity </p>
+                            </div>
+                        </div>
+  			<div class="col-1-4">
+  				<div class="content">
+  				</div>
+  			</div>
+          	</div>
+
+                            <p id="Water-Temperature"> </p>
+
+           <div class="grid mobile">
+               <div class="col-1-1 mobile-col-1-1">
+                   <div class="content">
+                	<input class="mobile-input" value="Water Quality at El Campello on {{t1}}" type=text />
+                   </div> 
+                </div>
+            </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/thermometer.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{latest_temperature}} ºC" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Temperature </p>
+                            </div>
+                        </div>
+                </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/oxygen.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{latest_oxygen}} %" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Oxygen </p>
+                            </div>
+                        </div>
+                </div>
+
+		<div class="grid mobile">
+			<div class="col-1-12 mobile-col-1-6">
+				<div class="content">
+					 <img src="../static/turbidity.png" class="responsive">
+				</div>
+			</div>
+			<div class="col-2-12 mobile-col-1-3">
+				<div class="content">
+					<input id="latest-temperature" style="border: 0px"
+					       class="value-box-1"
+					       value="{{latest_turbidity}} FNU" />
+				</div>
+			</div>
+			<div class="col-3-12 mobile-col-1-2">
+                            <div class="content">
+					 <p class="label" style="margin-top:5px"> Turbidity </p>
+                            </div>
+                        </div>
+                </div>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Seawater temperature at El Campello. </b> The seawater temperature
+                                   at El Campello for the last seven days as recorded by the YSI EXO3
+                                   sensor is shown. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+  		<div class="grid desktop">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="temp"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time|safe }},
+                                        y: {{ temp|safe }},
+                                        hoverinfo: 'x+y',
+                                    }
+                                    layoutDesktop['title'] = 'Seawater temperature at El Campello'
+                                    layoutDesktop.xaxis['autorange'] = true
+                                    layoutDesktop.yaxis['title'] = 'ºC'
+                                    layoutDesktop.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('temp');
+                                    Plotly.newPlot( TESTER, [trace1], layoutDesktop, config );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="tempMobile"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time|safe }},
+                                        y: {{ temp|safe }},
+                                        hoverinfo: 'x+y',
+                                    }
+                                    layoutMobile['title'] = 'Seawater temperature at El Campello'
+                                    layoutMobile.xaxis['autorange'] = true
+                                    layoutMobile.yaxis['title'] = 'ºC'
+                                    layoutMobile.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('tempMobile');
+                                    Plotly.newPlot( TESTER, [trace1], layoutMobile, config );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+                            <p id="Oxygen-Saturation"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Oxygen saturation at El Campello. </b> The oxygen 
+                                   saturation at El Campello for the last seven days as recorded by the YSI EXO3
+                                   sensor is shown below. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="O2"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['title'] = 'Dissolved Oxygen Saturation at El Campello'
+                                     layoutDesktop.yaxis['title'] = '%'
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('O2');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ O2|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="O2Mobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Oxygen Saturation at El Campello'
+                                     layoutMobile.yaxis['title'] = '%'
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     layoutMobile.showlegend = false
+                                     TESTER = document.getElementById('O2Mobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ O2|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+                            <p id="Water-Turbidity"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Seawater turbidity at El Campello. </b> The seawater 
+                                   turbidity at El Campello for the last seven days as recorded by the YSI EXO3
+                                   sensor is shown below. The ISO 7027 technique is used to determine the concentration of suspended particles in a sample of water by measuring the incident light scattered at right angles from the sample. The scattered light is captured by a photodiode, which produces an electronic signal that is converted to a turbidity in FNU (Formazin Nephelometric Units).
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+
+               <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="TUR"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     TESTER = document.getElementById('TUR');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ tur|safe }} }], 
+                                     layoutTurbidityDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="TURmobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     TESTER = document.getElementById('TURmobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ tur|safe }} }], 
+                                     layoutTurbidityMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" alt="EuroSea" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" alt="ICMAN-CSIC" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://www.xylem.com"> <img src="../static/xylem-new.png" alt="Xylem" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://mowi.com"> <img src="../static/Mowi-new.png" alt="Mowi" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://avramar.eu"> <img src="../static/avramar-new.png" alt="AVRAMAR" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+        </div>        
+    </body>
+
+</html>

@@ -13,16 +13,36 @@ def prepare_wind_rose(r, D):
 
     return np.vstack((r, D)).T
 
-def address_request(start, end, uv, language='en'):
+def windrose(sub, level='surface', vartype='currents'):
+    ''' Create wind rose figure and associated time series '''
+    series = dict(time=sub.index,
+            speed=sub.get(f's-{level}'),
+            direction=sub.get(f'd-{level}'))
+
+    # Subset for the last 24 hours
+    time, r, D = sub.index, sub.get(f's-{level}'), sub.get(f'd-{level}')
+    # Create figure
+    idate, edate, wind_rose_fig = wind_rose(time, prepare_wind_rose(r, D), vartype)
+    # Fix legend
+    if 'wave' in level:
+        wind_rose_fig = wind_rose_fig.replace("strength", "period")
+    else:
+        wind_rose_fig = wind_rose_fig.replace("strength", "speed")
+    # Wrap 
+    fig = {'idate': idate, 'edate': edate, 'fig': wind_rose_fig}
+
+    return series, fig
+
+def address_request(start, end, uv, boya, language='en'):
     ''' Subset in-situ data for the requested dates '''
 
     config = configuration()
 
-    # DCPS depths (m)
-    DCPS = config['DCPS']
-
     # Load historical buoy data
-    f = '/data/HISTORY/El-Campello-in-situ/El-Campello-in-situ.pkl'
+    if boya == 'Campello':
+        f = '/data/his/El-Campello/El-Campello.pkl'
+    elif boya == 'Deenish':
+        f = '/data/his/Deenish-Island/Deenish-Island.pkl'
     with open(f, 'rb') as f:
         var = load(f)
 
@@ -35,84 +55,64 @@ def address_request(start, end, uv, language='en'):
     t1 += timedelta(days=1)
     
     sub = subset(var, t0, t1)
-    #quiverfig = quiver(sub)
 
-    ''' Apparently, we need to transpose ADCP speed to get a proper visualization in the historical portal. '''
-    # Convert speed to NumPy array to prepare matrix transposition
-    DCP = sub['DCP speed']
-    DCP = np.array(DCP)
-    # Convert direction to NumPy array 
-    DCPdir = sub['DCP dir']
-    DCPdir = np.array(DCPdir)
-
-    # Subset surface current speed and direction for wind rose histogram
-    surface_r = DCP[:, 0]
-    surface_D = DCPdir[:, 0]
-
-    # Subset 15-meter depth current speed and direction for wind rose histogram
-    seabed_r = DCP[:, 11]
-    seabed_D = DCPdir[:, 11]
-
-    # Transpose ADCP speed array (for proper visualization in the historical portal)
-    DCP = DCP.T
-    # Convert to list
-    DCP = DCP.tolist()
-    # Add to historical dictionary
-    sub['DCP speed'] = DCP
-
-    # Surface currents rose
-    r, D = surface_r, surface_D
-    idate_surf_rose, edate_surf_rose, surf_rose_fig = wind_rose(sub['time'], prepare_wind_rose(r, D), 'currents')
-    surf_rose_fig = surf_rose_fig.replace("strength", "speed")
-
-    # Seabed currents rose
-    r, D = seabed_r, seabed_D
-    idate_seab_rose, edate_seab_rose, seab_rose_fig = wind_rose(sub['time'], prepare_wind_rose(r, D), 'currents')
-    seab_rose_fig = seab_rose_fig.replace("strength", "speed")
-
-    # Wave wind rose
-    r, D = sub['Wave Peak Period'], sub['Wave Peak Direction']
-    idate_wave_rose, edate_wave_rose, wave_rose_fig = wind_rose(sub['time'], prepare_wind_rose(r, D), 'wave')
-    wave_rose_fig = wave_rose_fig.replace("strength", "period")
-
-    # Wind rose
-    r, D = sub['Wind Speed'], sub['Wind Direction']
-    idate_wind_rose, edate_wind_rose, wind_rose_fig = wind_rose(sub['time'], prepare_wind_rose(r, D), 'wind')
-    wind_rose_fig = wind_rose_fig.replace("strength", "speed")
+    # Surface currents
+    surface_series, surface_fig = windrose(sub)
+    # Seabed currents
+    if boya == 'Campello':
+        seabed_series, seabed_fig = windrose(sub, level='15m')
+        # Winds 
+        wind_series, wind_fig = windrose(sub, level='wind', vartype='wind')
+        # Wave period
+        wave_series, wave_fig = windrose(sub, level='wave', vartype='wave')
+    elif boya == 'Deenish':
+        seabed_series, seabed_fig = windrose(sub, level='seabed')
 
     ''' Output dictionary '''
-    data = send_output(sub)        
+    data = send_output(sub, boya)        
 
     ''' Generate CSV files '''
     # Adapt HISTORY data to the shape expected by the CSV functions
-    csvdata = csvformat(data, surface_r, surface_D, seabed_r, seabed_D, DCP, DCPS)
-    # Make CSV's for water quality variables
-    for i in ('temp', 'tur', 'O2'):
-        to_csv.to_csv(csvdata, i, language, write_forecast=False)
-    # Make CSV for Significant Wave Height
-    to_csv.to_csv_swh(csvdata, language, write_forecast=False)
-    # Make CSV for wave period and direction
-    to_csv.to_csv_wave_rose(csvdata, language, write_forecast=False)
-    # Make CSV for wind
-    to_csv.to_csv_wind(csvdata, language, write_forecast=False)
-    # Make CSV for surface and seabed currents
-    to_csv.to_csv_currents_rose(csvdata, language)
-    # Make CSV for ADCP 
-    to_csv.to_csv_current_profile(csvdata, language)
+    csvdata = sub ; #csvdata = csvformat(data, boya)
+    # Make CSV's 
+    if boya == 'Campello':
+        buoyvars = ('temp', 'tur', 'O2')
+    elif boya == 'Deenish':
+        buoyvars = ('temp', 'salt', 'pH', 'O2')
 
-    data['DCPS'] = DCPS
-    data['idate_surf_rose']=idate_surf_rose.strftime('%Y-%b-%d')
-    data['edate_surf_rose']=edate_surf_rose.strftime('%Y-%b-%d')
-    data['idate_seab_rose']=idate_seab_rose.strftime('%Y-%b-%d')
-    data['edate_seab_rose']=edate_seab_rose.strftime('%Y-%b-%d')
-    data['surf_rose_fig']=surf_rose_fig
-    data['seab_rose_fig']=seab_rose_fig
-    data['idate_wave_rose']=idate_wave_rose.strftime('%Y-%b-%d')
-    data['edate_wave_rose']=edate_wave_rose.strftime('%Y-%b-%d')
-    data['idate_wind_rose']=idate_wind_rose.strftime('%Y-%b-%d')
-    data['edate_wind_rose']=edate_wind_rose.strftime('%Y-%b-%d')
-    data['wave_rose_fig']=wave_rose_fig
-    data['wind_rose_fig']=wind_rose_fig
+    for i in buoyvars:
+        to_csv.to_csv(csvdata, start, end, i, language, write_forecast=False)
+
+    if boya == 'Campello':
+        # Make CSV for Significant Wave Height
+        to_csv.to_csv_swh(csvdata, start, end, language, write_forecast=False)
+        # Make CSV for wave period and direction
+        to_csv.to_csv_wave_rose(csvdata, start, end, language, write_forecast=False)
+        # Make CSV for wind
+        to_csv.to_csv_wind(csvdata, start, end, language, write_forecast=False)
+    # Make CSV for surface and seabed currents
+    to_csv.to_csv_currents_rose(csvdata, start, end, language, boya)
+
+    # Add surface currents figure
+    data['surf_rose_fig']=surface_fig.get('fig')
+    data['idate_surf_rose']=surface_fig.get('idate').strftime('%Y-%b-%d')
+    data['edate_surf_rose']=surface_fig.get('edate').strftime('%Y-%b-%d')
+
+    # Add seabed currents figure
+    data['seab_rose_fig']=seabed_fig.get('fig')
+    data['idate_seab_rose']=seabed_fig.get('idate').strftime('%Y-%b-%d')
+    data['edate_seab_rose']=seabed_fig.get('edate').strftime('%Y-%b-%d')
+
+    if boya == 'Campello':
+        # Add wave figure
+        data['wave_rose_fig']=wave_fig.get('fig')
+        data['idate_wave_rose']=wave_fig.get('idate').strftime('%Y-%b-%d')
+        data['edate_wave_rose']=wave_fig.get('edate').strftime('%Y-%b-%d')
+
+        # Add wind figure
+        data['wind_rose_fig']=wind_fig.get('fig')
+        data['idate_wind_rose']=wind_fig.get('idate').strftime('%Y-%b-%d')
+        data['edate_wind_rose']=wind_fig.get('edate').strftime('%Y-%b-%d')
 
     return data 
 
@@ -127,7 +127,7 @@ def configuration():
             config[key] = val
     return config
 
-def csvformat(data, surface_r, surface_D, seabed_r, seabed_D, DCP, DCPS):
+def csvformat(data, boya):
     ''' The CSV generating functions are not prepared to handle
         the historical data, since different variable names have
         been used. This function adapts the historical dataset
@@ -135,23 +135,17 @@ def csvformat(data, surface_r, surface_D, seabed_r, seabed_D, DCP, DCPS):
 
     new = dict(data)
 
-    # Temperature
-    new['temp'] = new.pop('Temperature')
-
-    # Oxygen saturation
-    new['O2'] = new.pop('Oxygen_Saturation')
-
     # Wind speed
-    new['wind_speed_csv_export'] = new.pop('Wind_Speed')
+    new['wind_rose_speed'] = new.pop('s_wind')
 
     # Wind direction
-    new['wind_direction_csv_export'] = new.pop('Wind_Direction')
+    new['wind_rose_direction'] = new.pop('d_wind')
 
     # Wave period
-    new['wave_rose_period'] = new.pop('Wave_Peak_Period')
+    new['wave_rose_period'] = new.pop('s_wave')
 
     # Wave direction
-    new['wave_rose_direction'] = new.pop('Wave_Peak_Direction')
+    new['wave_rose_direction'] = new.pop('d_wave')
 
     # Wave time
     new['wave_rose_time'] = new['time'] 
@@ -160,21 +154,19 @@ def csvformat(data, surface_r, surface_D, seabed_r, seabed_D, DCP, DCPS):
     new['DCP_rose_time_surface'] = new['time']
 
     # Surface currents
-    new['DCP_rose_speed_surface']     = json.dumps(surface_r.tolist())
-    new['DCP_rose_direction_surface'] = json.dumps(surface_D.tolist())
+    new['DCP_rose_speed_surface']     = new.pop('s_surface') 
+    new['DCP_rose_direction_surface'] = new.pop('d_surface') 
 
     # Seabed currents
-    new['DCP_rose_speed_seabed']     = json.dumps(seabed_r.tolist())
-    new['DCP_rose_direction_seabed'] = json.dumps(seabed_D.tolist())
+    if boya == 'Campello':
+        new['DCP_rose_speed_seabed']     = new.pop('s_15m') 
+        new['DCP_rose_direction_seabed'] = new.pop('d_15m') 
+    elif boya == 'Deenish':
+        new['DCP_rose_speed_seabed']     = new.pop('s_seabed') 
+        new['DCP_rose_direction_seabed'] = new.pop('d_seabed') 
 
     # ADCP time
     new['DCP_time'] = new['time']
-
-    # ADCP speed
-    new['DCP_speed'] = json.dumps(DCP) 
-
-    # ADCP depths
-    new['DCPS'] = DCPS
 
     return new
 
@@ -182,14 +174,11 @@ def subset(buoy, t0, t1):
     ''' Subset buoy data for the requested time period '''
     
     # List of available times in the buoy dataset
-    time = np.array(buoy['time'])
+    time = buoy.index
     
     # Find appropriate time indexes
     i0, i1 = np.argmin(abs(time - t0)), np.argmin(abs(time - t1)) + 1
     
-    sub = {'time': buoy['time'][i0 : i1]}
-    for i in buoy.keys():        
-        # Subset each parameter for the requested time period
-        sub[i] = buoy[i][i0 : i1]
+    sub = buoy[i0 : i1]
         
     return sub

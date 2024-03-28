@@ -198,6 +198,8 @@ textarea {
     color: #FFFFFF;
  }
 
+ .helpdesk:hover { background-color: #FFA500 }
+
  .questionnaires {
     background-color: #0018F9;
     width: 175px;
@@ -358,7 +360,6 @@ textarea {
 
 .galway-databox {
   width: 100%;
-  height: 475px;
   border-radius: 5px;
   border: solid thin black;
   display: block;

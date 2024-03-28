@@ -18,13 +18,13 @@ def waveSlider(lon, lat, time, waves, coast, buoy):
             hoverinfo='z', line_width=0, line_smoothing=0.85,
             colorbar=dict(
                 title=dict(text='m', font=dict(size=24)),
-                tickvals=[0, .5, 1, 1.5, 2],
-                ticktext=['0.0', '0.5', '1.0', '1.5', '2.0'],
+                tickvals=[0, .5, 1, 1.5, 2, 2.5, 3],
+                ticktext=['0.0', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0'],
                 tickfont=dict(size=24),
             ),
             contours=dict(
                 start=0,
-                end=2,
+                end=3,
                 size=0.05,
             ),
          ))
@@ -36,7 +36,7 @@ def waveSlider(lon, lat, time, waves, coast, buoy):
     ) ]            
 
     trace3 = [ go.Scatter(
-        x=(x_buoy,), y=(y_buoy,), mode='markers', text=['Deenish', 'M2', 'M3', 'M4', 'M5', 'M6'], textposition='top left',
+        x=(x_buoy,), y=(y_buoy,), mode='markers', text='El Campello', textposition='middle right',
         marker={'size': 20, 'symbol': 'cross-thin', 'line': {'color': 'black', 'width': 1}}, 
         hoverinfo='none',
     ) ]            

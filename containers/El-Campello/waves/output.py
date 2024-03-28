@@ -20,7 +20,7 @@ def send_output(coast, tz, buoy):
     ''' Produce output PICKLE file to be sent to web app '''
 
     ''' Read wave forecast ''' 
-    with Dataset('/netcdf/waves/FORECAST/wave-forecast.nc', 'r') as nc:
+    with Dataset('/data/netcdf/waves/Campello-wave-forecast.nc', 'r') as nc:
 
         # Read time
         time = num2date(nc.variables['time'][:], nc.variables['time'].units)    
@@ -62,6 +62,6 @@ def send_output(coast, tz, buoy):
         'figure': fig,
         }
 
-    outfile = '/data/pkl/WAVES.pkl'
+    outfile = '/data/pkl/CAMPELLO-WAVES.pkl'
     with open(outfile, 'wb') as f:
         dump(RS, f)

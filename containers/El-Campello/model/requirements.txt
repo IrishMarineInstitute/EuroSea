@@ -1,7 +1,7 @@
-ecmwf-opendata
-netCDF4==1.5.7
+ecmwf-opendata==0.3.3
+copernicusmarine
+netCDF4
 matplotlib
-motuclient==1.8.4
 numpy
 pygrib
 pandas

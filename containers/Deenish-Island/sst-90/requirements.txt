@@ -1,6 +1,0 @@
-netCDF4==1.5.7
-numpy
-kaleido
-motuclient==1.8.4
-plotly
-pytz

@@ -1,9 +1,11 @@
+import copernicusmarine as cm
 from netCDF4 import Dataset, num2date
 from datetime import date, datetime, timedelta
 from log import set_logger, now
 import numpy as np
-from motu import motu
 from math import nan
+import json
+import glob
 import os
 
 logger = set_logger()
@@ -41,25 +43,34 @@ def oceancolour(config):
 
     hoy = date.today()
     
-    localpath = '/data/CHL'   
+    localpath = '/data/CHL/'   
     if not os.path.isdir(localpath):
         os.makedirs(localpath)
+    # Clean directory
+    files = glob.glob(f'{localpath}*.nc')
+    for f in files:
+        os.remove(f)
     
     # Username and password
     username, password = config['USERNAME'], config['PASSWORD']
     
     # Get geographical boundaries from configuration file
     xmin, xmax, ymin, ymax = get_boundaries(config)    
+
+    version = config.get('version')
     
     ''' Near-Real-Time '''
     # CMEMS SERVICE and PRODUCT
-    service, product = config['OCEANCOLOUR_NRT_SERVICE'], config['OCEANCOLOUR_NRT_PRODUCT']
-    nrt = download_chlorophyll(service, product, username, password, localpath,
-        'CHL.nc', xmin, xmax, ymin, ymax, hoy)
+    service = config['dataset_nrt']
+    logger.info(f'{now()} Downloading {service}...')
+    Copernicus_Marine_Service_Download(username, password, service, version,
+            localpath, 'CHL.nc', xmin, xmax, ymin, ymax, 
+        (hoy-timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%S'),
+                            hoy.strftime('%Y-%m-%dT%H:%M:%S'), 'CHL')
    
-    with Dataset(nrt, 'r') as nc:
+    with Dataset(localpath + 'CHL.nc', 'r') as nc:
         # Read coordinates
-        lon, lat = nc.variables['lon'][:], nc.variables['lat'][:]        
+        lon, lat = nc.variables['longitude'][:], nc.variables['latitude'][:]        
         # Read time
         time = num2date(nc.variables['time'][:], nc.variables['time'].units)
         # Read chlorophyll
@@ -70,11 +81,14 @@ def oceancolour(config):
 
     ''' Multi-Year (ANOMALY CALCULATION FOLLOWING TOMLINSON ET. AL (2004) '''
     # CMEMS SERVICE and PRODUCT
-    service, product = config['OCEANCOLOUR_MY_SERVICE'], config['OCEANCOLOUR_MY_PRODUCT']
-    my = download_chlorophyll(service, product, username, password, localpath,
-        'CHL-MY.nc', xmin, xmax, ymin, ymax, hoy)
+    service = config['dataset_my']
+    logger.info(f'{now()} Downloading {service}...')
+    Copernicus_Marine_Service_Download(username, password, service, version, 
+            localpath, 'CHL_MY.nc', xmin, xmax, ymin, ymax,
+        (hoy-timedelta(days=90)).strftime('%Y-%m-%dT%H:%M:%S'),
+                             hoy.strftime('%Y-%m-%dT%H:%M:%S'), 'CHL')
 
-    with Dataset(my, 'r') as nc:
+    with Dataset(localpath + 'CHL_MY.nc', 'r') as nc:
         # Read time
         mytime = num2date(nc.variables['time'][:], nc.variables['time'].units)
         # Read chlorophyll
@@ -118,17 +132,47 @@ def oceancolour(config):
 
     return lon, lat, time, data, anomalies
 
-def download_chlorophyll(service, product, username, password, localpath,
-                         file, xmin, xmax, ymin, ymax, date):
-    ''' Download chlorophyll data from Copernicus using motu client '''
+def Copernicus_Marine_Service_Download(user, pswd, dataset, version,
+        localpath, filename, lonmin, lonmax, latmin, latmax, idate, edate, var):
     
-    # Set product type, either Multi-Year or Near-Real-Time
-    mode = 'my' if 'my' in service else 'nrt'
-    while 1:
-        # Send request to motu client
-        f = motu(username, password, product, service, localpath, file, 
-             xmin, xmax, ymin, ymax, date - timedelta(days=90), date,
-             'CHL', mode)
-        # Exit only if download has been successful
-        if os.path.isfile(f): break
-    return f 
+    '''
+            This function downloads, as a NetCDF file, the variable from the
+            specified dataset. 
+    '''
+
+    f = localpath + filename;
+        
+    for i in range(5): # Try up to 5 times to download from Copernicus Marine Service
+    
+        logger.info(f'{now()} Trial {i} to download chlorophyll data')
+
+        cm.subset(
+                username=user,
+                password=pswd,
+                dataset_id=dataset,
+                dataset_version=version,
+                output_directory=localpath,
+                output_filename=filename,
+                variables=[var],
+                minimum_longitude=lonmin,
+                maximum_longitude=lonmax,
+                minimum_latitude=latmin,
+                maximum_latitude=latmax,
+                start_datetime=idate,
+                end_datetime=edate,
+                force_download=True
+                )
+
+        if os.path.isfile(f): # File downloaded successfully. Leave loop...
+            logger.info(f'{now()}   Successfully downloaded file {f}'); break
+        else: # Download failed. Retry...
+            logger.info(f'{now()}   Download failed!'); continue
+        
+    if os.path.isfile(f):
+        
+        logger.info(f'{now()} Reading local NetCDF file...') 
+        
+    else: # If, after trying 5 times, file is still unavailable, return NaN
+        
+        logger.info(f'{now()} Unable to download Copernicus Marine Service file')
+

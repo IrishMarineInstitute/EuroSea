@@ -159,41 +159,9 @@ textarea {
     line-height: 10px;
  }
 
- .helpdesk {
-    background-color: #FF0000;
-    width: 200px;
-    border-radius: 5px;
-    padding: 5px 0px;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin: 10px auto;
-    font-size: 16px;
-    font-weight: bold;
-    color: #FFFFFF
- }
-
- .questionnaires {
-    background-color: #0018F9;
-    width: 175px;
-    border-radius: 5px;
-    padding: 5px 0px;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin: 10px auto;
-    font-size: 16px;
-    font-weight: bold;
-    color: #FFFFFF
- }
-
  .button:hover { background-color: #05C3DD }
 
  .helpdesk:hover { background-color: #FFA500 }
-
- .questionnaires:hover { background-color: #0080FE }
 
  .question-heading {
     display: inline-block;
@@ -225,6 +193,11 @@ textarea {
  .label {
     font-family: Arial;
     font-size: 20px;
+    margin-top: 30px;
+        }
+
+ .icon {
+    margin-top: 10px;
         }
 
  h2 {
@@ -274,36 +247,53 @@ textarea {
     padding: 15px 15px;     
 }
 
+.helpdesk {
+   background-color: #FF0000;
+   width: 200px;
+   border-radius: 5px;
+   padding: 5px 0px;
+   border: none;
+   text-align: center;
+   text-decoration: none;
+   display: block;
+   margin: 10px auto;
+   font-size: 16px;
+   font-weight: bold;
+   color: #FFFFFF
+}
+
 #start {
-  width: 100px;
+  width: 200px;
   padding: 0px;
   margin: 0px;    
-  font-size: 14px;
+  font-size: 24px;
 }
 
 #end {
-  width: 100px;
+  width: 200px;
   padding: 0px;
   margin: 0px;    
-  font-size: 14px;
+  font-size: 24px;
 }
 
 #start-label {
   text-align: justify;
-  font-size: 14px;
+  font-size: 24px;
+  font-family: Calibri;
   padding: 0px;
   margin: 0px;    
 }
 
 #end-label {
   text-align: left;
-  font-size: 14px;
+  font-size: 24px;
+  font-family: Calibri;
   padding: 0px;
 }
 
 #submit-historical {
     width: 125px;
-    font-size: 15px;
+    font-size: 24px;
     margin-top: 20px;
     margin-left: 60px;
     text-align: center;
@@ -332,10 +322,9 @@ textarea {
 }
 
 .galway-databox {
-  width: 100%;
-  height: 620px;
+  width: 65%;
   border-radius: 5px;
-  border: solid thin black;
+  #border: solid thin black;
   display: block;
 }
 
@@ -355,7 +344,7 @@ textarea {
 
 .galway-cols {
   width: 19%;
-  height: 55px;
+  height: 65px;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -383,6 +372,19 @@ textarea {
   display: block;
   margin: 10px auto;
   margin-top: 0px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
+
+.proyect-video {
+  width: 100%;
+  height: 500px;
+}
+
+.sensor-name {
+	font-size: 25px;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+}
+  

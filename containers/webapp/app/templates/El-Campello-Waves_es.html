@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<html>
+	<head>
+		<title>Predicción Mar Balear</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 1px) and (max-device-width: 320px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+	</head>
+
+	<body>
+
+	<div class="languages-desktop topcorner">
+
+         <div style="width: 25px; float:right; height:28px; margin:13px 150px 10px 10px">
+               <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-Waves"> <img src="../static/EN.png" > </a> </p>
+         </div>
+
+         <div class="center" style="width: 10px; float:right; height:28px; margin:15px 0px 0px 0px; border-width: 0px;">
+               <p style="margin:5px 0px;"> <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-Waves"> EN </a> </p> 		
+         </div>
+
+          <div style="width:100px; float:right; height:30px; margin:16px 30px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+ 	</div>
+
+        <div class="languages-portrait topcorner">
+
+          <div style="width:12px; float:right; height:0px; margin:12px 20px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-Waves"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:16px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-Waves"> EN </a> </p> 
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 30px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-Waves"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:17px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/El-Campello-Waves"> EN </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:22px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-ipad topcorner">
+          <div style="width:30px; float:right; height:0px; margin:30px 30px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/El-Campello-Waves"> <img src="../static/EN.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:27px 5px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/El-Campello-Waves"> EN </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:33px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie/es"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> OBSERVATORIO MARINO PARA LA ACUICULTURA </h1> 
+                    <hr>
+                </div> 
+            </div>
+        </div>
+	
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p class="intro" style="font-size:22px;"> 
+             Aquí encontrará una predicción a cinco días de la altura significante de ola en el mar Balear. Por favor, 
+             sea paciente: la predicción tarda unos 30 segundos en cargar.
+                                   Las predicciones provienen del Sistema de Análisis
+                                   y Predicción del Oleaje en el Mediterráneo 
+                                   <a href="https://doi.org/10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4">(DOI:10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4)</a>. 
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+        <script language="javascript" type="text/javascript">
+
+                   let LayoutDesktop = {
+                       width: 1000, height: 815, showlegend: false,
+                       title: {text: '', font: {size: 16,},},
+                       xaxis: {
+                           zeroline: false, mirror: true, showline: true,
+                           ticks: 'outside', tickvals: [0, 1, 2, 3, 4], ticktext: ['0º', '1ºE', '2ºE', '3ºE', '4ºE'],
+                           automargin: true, range: [-0.91, 4.51],
+                           fixedrange: true,
+                       },
+                       yaxis: {
+                           mirror: true, showline: true,
+                           ticks: 'outside', tickvals: [38, 39, 40, 41],
+                           ticktext: ['38ºN', '39ºN', '40ºN', '41ºN'],
+                           range: [37.59, 41.01],
+                           fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 16,            
+                       },
+                       coloraxis: {
+                           colorbar: {
+                               tickvals: [0, 0.5, 1, 1.5, 2],
+                               ticktext: ['0.0', '0.5', '1.0', '1.5', '2.0'],
+                           },
+                       },
+                   };
+
+                   let LayoutMobile = {
+                       margin: {    l: 30,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       width: 500, height: 815, showlegend: false,
+                       title: {text: '', font: {size: 16,},},
+                       xaxis: {
+                           zeroline: false, mirror: true, showline: true,
+                           ticks: 'outside', tickvals: [0, 1, 2, 3, 4], ticktext: ['0º', '1ºE', '2ºE', '3ºE', '4ºE'],
+                           automargin: true, range: [-0.91, 1.80],
+                           fixedrange: true,
+                       },
+                       yaxis: {
+                           mirror: true, showline: true,
+                           ticks: 'outside', tickvals: [38, 39, 40, 41],
+                           ticktext: ['38ºN', '39ºN', '40ºN', '41ºN'],
+                           range: [37.59, 41.01],
+                           fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 16,            
+                       },
+                       coloraxis: {
+                           colorbar: {
+                               tickvals: [0, 0.5, 1, 1.5, 2],
+                               ticktext: ['0.0', '0.5', '1.0', '1.5', '2.0'],
+                           },
+                       },
+                   };
+
+
+        </script>
+
+  		<div class="grid desktop">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		     <div class="Series" id="Desktop"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{figure | safe}};
+                                     TESTER = document.getElementById('Desktop')
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, LayoutDesktop)
+                        
+
+                                 </script>
+
+                        </div>
+                    </div>
+               </div>
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		     <div class="Series" id="Mobile"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{figure | safe}};
+                                     TESTER = document.getElementById('Mobile')
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, LayoutMobile)
+                        
+
+                                 </script>
+
+                        </div>
+                    </div>
+               </div>
+
+                            <p id="Wave-Height-Forecast-Balearic-Sea"> </p>
+
+        <div class="grid">
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" alt="EuroSea" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" alt="ICMAN-CSIC" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://www.xylem.com"> <img src="../static/xylem-new.png" alt="Xylem" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://mowi.com"> <img src="../static/Mowi-new.png" alt="Mowi" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://avramar.eu"> <img src="../static/avramar-new.png" alt="AVRAMAR" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+        </div>        
+
+    </body>
+
+</html>

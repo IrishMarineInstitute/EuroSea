@@ -4,17 +4,15 @@
     <title>EuroSea Helpdesk</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" >
-    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/marineObservatoryHeader.css" />
+    <link rel="icon" href="../static/favicon.png">
     <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
     <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
     <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
     <link rel="stylesheet" type="text/css" media='(min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
-    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-width: 700px) and (max-height: 575.98px) and (orientation: landscape)' href="../static/css/tiny-landscape.css?ref=v1" />
     <link rel="stylesheet" type="text/css" media='(min-device-width: 1px) and (max-device-width: 320px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
-    <link rel="icon" href="../static/favicon.png">
-
 </head>
 
 <body>
@@ -36,13 +34,31 @@
 
  	</div>
 
+        <div class="languages-tiny topcorner">
+
+          <div style="width:12px; float:right; height:0px; margin:12px 20px 0px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/helpdesk"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:16px 0px 0px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/helpdesk"> ES </a> </p> 
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
         <div class="languages-portrait topcorner">
 
           <div style="width:8px; float:right; height:0px; margin:13.5px 10px 0px 0px;">
   	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/helpdesk"> <img src="../static/ES.png"> </a> </p>
           </div>
 
-          <div style="width:12px; float:right; height:0px; margin:20px 0px 0px 0px;">
+          <div style="width:12px; float:right; height:0px; margin:20px 0px 0px 5px;">
               <p class="languageLabel"> 
                   <a style="text-decoration:none;" href="https://eurosea.marine.ie/es/helpdesk"> ES </a> </p> 
           </div>
@@ -72,6 +88,23 @@
 
         </div>
 
+        <div class="languages-tiny-landscape topcorner">
+
+          <div style="width:30px; float:right; height:0px; margin:20px 30px 10px 5px;">
+  	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es"> <img src="../static/ES.png"> </a> </p>
+          </div>
+
+          <div style="width:12px; float:right; height:0px; margin:21px 8px 10px 5px;">
+              <p class="languageLabel"> 
+                  <a style="text-decoration:none;" href="https://eurosea.marine.ie/es"> ES </a> </p> 
+          </div>
+
+          <div style="width:120px; float:right; height:0px; margin:22px 0px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+        </div>
+
         <div class="languages-ipad topcorner">
           <div style="width:30px; float:right; height:0px; margin:30px 30px 0px 5px;">
   	      <p style="margin:5px 0px;"> <a href="https://eurosea.marine.ie/es/helpdesk"> <img src="../static/ES.png"> </a> </p>
@@ -91,67 +124,42 @@
 
         <div class="grid">
             <div class="col-1-1">
-                <div class="content">
-                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE</h1> 
-                    <hr>
-                </div> 
-            </div>
+                <div class="content unpadded">
+                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE </h1> <hr> </div> </div>
         </div>
-	
-        <div class="grid">
-            <div class="col-5-8">
-                <div class="content">
-                    <p class="intro">
-                        We'd love to hear from you! Please, enter
-                        your questions, comments and suggestions below 
-                        and click 'Submit'. Our team will receive your
-                        query and reply as soon as possible. 
-                    </p>
-                </div>
-            </div>
-         </div>
-                    <form method="POST" action="/helpdesk">
-    		
-         <div class="grid">
-             <div class="1-1">
-                 <div class="content">
-                     <label for="email" class="email-label">Enter your email:</label>
-                         <input class="email-input" type="text" name="email">
-                 </div>
-              </div>
-
-             <div class="1-1">
-                 <div class="content">
-                     <textarea name="query" rows="4">
-Enter your query here...
-                     </textarea>
-                 </div>
-             </div>
-         </div>
 
         <div class="grid">
-            
-            <div class="col-5-12">
-                <div class="content"></div>
-            </div>
+		<div class="col-1-1 mobile-col-1-1">
+			<div class="content">
+				<p class="intro">
+				    If you experience any trouble or have any suggestions, please
+				    contact our helpdesk service here: <b> eurosea.helpdesk@marine.ie </b>
+				</p>
+			</div>
+		</div>
+	</div>
 
-            <div class="col-1-6">
-                <div class="content">
-                       	<input class="submit" type="submit" value="Submit" name="submit" style="margin-left: 25px" />
-{% if csv == 'true' %}
-                        <p> Your message has been sent successfully </p>
-{% endif %}
-                </div>
-            </div>
-
-            <div class="col-5-12">
-                <div class="content"></div>
-            </div>
-
-         </div>
-
-
-                    </form>
+    	<div class="grid">
+    		<div class="col-1-1 mobile-col-1-1">
+    			<div class="content">
+                           <div class="footer">
+       <p class="acknowledgements"> 
+          <b> Acknowledgements. </b> 
+	  This work benefited from services and resources provided by
+	  the EuroSea project (receiving funding from the European 
+	  Union's Horizon 2020 research and innovation programme 
+	  <b> under grant agreement No. 862626</b>), with the 
+	  dedicated support of WALTON-CLOUD. 
+                            </div> 
+                           <div class="footer">
+       <p class="disclaimer"> 
+           <i> DISCLAIMER. 
+The user assumes the entire risk related to use of information contained in the Irish EuroSea Ocean Observation and Forecasting System. The data is provided "as is," and disclaims any and all warranties, whether expressed or implied, including (without limitation) any implied warranties of merchantability or fitness for a particular purpose. </i>
+       </p>
+                            </div> 
+    			</div>
+    		</div>
+    	</div>
 
         <div class="grid">
             <div class="col-1-1 mobile-col-1-1">
@@ -197,6 +205,7 @@ Enter your query here...
                            </a> </p> </div> </div> </div>			
 
         </div>        
+
 
 </body>
 </html>

@@ -61,7 +61,7 @@ def wind_rose(time, wind_rose_data, vartype):
     ''' Distance between the centre of the bin and its edge '''
     step = 11.25
     
-    ''' converting data between 348.75 and 360 to negative '''
+    ''' Converting data between 348.75 and 360 to negative '''
     for i in range(len(wind_rose_data)):
         if directions_deg[-1] + step <= wind_rose_data[i,1] and wind_rose_data[i,1] < 360:
             wind_rose_data[i,1] = wind_rose_data[i,1] - 360

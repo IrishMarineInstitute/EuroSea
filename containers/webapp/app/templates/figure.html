@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>SST & MHW's</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+                <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.ico">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	</head>
+
+	<body>
+	
+	<div>
+          		     <div id="OSTIA"></div>
+
+                                 <script language="javascript" type="text/javascript">
+
+                   let layout = {
+                       width: 1800,
+                       height: 974,
+                       showlegend: true,
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 16,            
+                       },
+		    };
+                                     var graphs = {{fig | safe}};
+                                     TESTER = document.getElementById('OSTIA')
+			             Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, layout)
+
+                                 </script>
+         </div>
+
+    <form method="POST" action="/Deenish-Island-Remote-Sensing/Historical">
+		<div class="grid">
+ 			<div class="col-1-3">
+ 				<div class="content">
+					{% if insitu %}
+					<input class="csv-download" type="submit" value="Download in-situ data" name="{{csvinsitu}}" />
+					{% else %}
+					<input class="csv-download" type="submit" value="Download in-situ data" name="{{csvinsitu}}" disabled/>
+					{% endif %}
+ 				</div>
+ 			</div>
+ 			<div class="col-1-3">
+ 				<div class="content">
+					<input class="csv-download" type="submit" value="Download SST" name="{{csvsst}}" />
+ 				</div>
+ 			</div>
+ 			<div class="col-1-3">
+ 				<div class="content">
+					<input class="csv-download" type="submit" value="Download Climatology" name="{{csvclim}}" />
+ 				</div>
+ 			</div>
+			<!--
+ 			<div class="col-1-5">
+ 				<div class="content">
+					{% if MHW %}
+					<input class="csv-download" type="submit" value="Download MHWs" name="{{csvmhw}}" />
+					{% else %}
+					<input class="csv-download" type="submit" value="Download MHW" name="{{csvmhw}}" disabled/>
+					{% endif %}
+ 				</div>
+ 			</div>
+ 			<div class="col-1-5">
+ 				<div class="content">
+					{% if CS %}
+					<input class="csv-download" type="submit" value="Download Cold Spells" name="{{csvcs}}" />
+					{% else %}
+					<input class="csv-download" type="submit" value="Download Cold Spells" name="{{csvcs}}" disabled />
+					{% endif %}
+ 				</div>
+ 			</div>
+			-->
+    	        </div>
+    </form>
+
+    </body>
+
+</html>

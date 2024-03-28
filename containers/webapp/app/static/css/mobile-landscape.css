@@ -182,38 +182,6 @@ textarea {
     line-height: 10px;
  }
 
- .helpdesk {
-    background-color: #FF0000;
-    width: 175px;
-    border-radius: 5px;
-    padding: 5px 0px;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin: 10px auto;
-    margin-left: 275px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #FFFFFF;
- }
-
- .questionnaires {
-    background-color: #0018F9;
-    width: 175px;
-    border-radius: 5px;
-    padding: 5px 0px;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin: 10px auto;
-    margin-left: 250px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #FFFFFF
- }
-
  .question-heading {
     display: inline-block;
     font-size: 20px;
@@ -229,6 +197,24 @@ textarea {
     font-size: 30px;
     margin-top: 10px;
  }
+
+.helpdesk {
+   background-color: #FF0000;
+   width: 175px;
+   border-radius: 5px;
+   padding: 5px 0px;
+   border: none;
+   text-align: center;
+   text-decoration: none;
+   display: block;
+   margin: 10px auto;
+   margin-left: 275px;
+   font-size: 16px;
+   font-weight: bold;
+   color: #FFFFFF
+}
+
+ .helpdesk:hover { background-color: #FFA500 }
 
  .answers {
     text-align: center;
@@ -358,7 +344,6 @@ textarea {
 
 .galway-databox {
   width: 100%;
-  height: 580px;
   border-radius: 5px;
   border: solid thin black;
   display: block;
@@ -379,7 +364,7 @@ textarea {
 }
 
 .galway-cols {
-  width: 19%;
+  width: 23%;
   height: 55px;
   display: inline-block;
   text-align: center;
@@ -387,7 +372,7 @@ textarea {
 }
 
 .galway-headers {
-  width: 19%;
+  width: 23%;
   height: 30px;
   display: inline-block;
   text-align: center;
@@ -399,7 +384,7 @@ textarea {
 }
 
 .galway-circle {
-  width: 33%;
+  width: 28%;
   height: 50px;
   border-radius: 30px;
   border: solid thin black;

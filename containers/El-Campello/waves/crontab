@@ -1,1 +1,1 @@
-30 * * * * /usr/local/bin/python /root/rs.py 
+40 1-23/2 * * * /usr/local/bin/python /root/main.py 

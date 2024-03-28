@@ -23,32 +23,9 @@
    along with this library.  If not, see <http://www.gnu.org/licenses/>.
    --------------------------------------------------------------------
 
-      This is the main script of the MODEL container. This application is set
-   to run once a day to download the model forecasts and temperature profile
-   from CMEMS. This data is wrapped in a MODEL.pkl file that is updated daily,
-   and later accessed by the WEBAPP container using a shared volume.
-
-   The files in this container are:
-
-       config : Plain text file with important configuration options for your
-                application, such as the CMEMS credentials and products to 
-                download as forecasts.
-
-       crontab : A cron file to set this job to run once a day.
-
-       log.py : Logging script. Useful messages are sent to a file /log/app.log
-
-       model.py : This script. It is the main file calling the other methods.
-
-       motu.py : Script using the motuclient to download CMEMS data.
-
-       output.pt : Script that finally wraps all the model data in MODEL.pkl
-                   and in a format that can be understood by the website.
-
-       requirements.txt : Python packages needed to run this container.
-
 '''
 
+import copernicusmarine as cm
 from datetime import datetime, timedelta
 from pytz import timezone as tz
 from output import send_output
@@ -56,7 +33,6 @@ from wind_rose import wind_rose
 from windArrow import windArrow
 import numpy as np
 from netCDF4 import Dataset, num2date
-from motu import motu
 from log import set_logger, now
 from ECMWF import ECMWF
 import os
@@ -83,54 +59,83 @@ def read_cmems(f, variable):
     time = [datetime(i.year, i.month, i.day, i.hour) for i in time]
     return time, fc
 
+def find_shortest_wave_period_in_forecast(period, direction):
+    ''' 
+        This function identifies the shortest wave period
+        and its associated direction, to be displayed in the portal
+    '''
+
+    shortest_period = np.min(period)
+
+    index_of_shortest_period = np.argmin(period)
+
+    associated_direction = direction[index_of_shortest_period]
+
+    return shortest_period, associated_direction
+
+def find_maximum_wind_speed_in_forecast(speed, direction):
+    ''' 
+        This function identifies the maximum wind speed
+        and its associated direction, to be displayed in the portal
+    '''
+
+    maximum_speed = np.max(speed)
+
+    index_of_maximum_speed = np.argmax(speed)
+
+    associated_direction = direction[index_of_maximum_speed]
+
+    return maximum_speed, associated_direction
+
 def prepare_wind_rose(r, D):
     
     r, D = np.array(r), np.array(D)
 
     return np.vstack((r, D)).T
 
-def Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE, 
-    localpath, filename, lon, lat, idate, edate, var, mode,
-    zmin=None, zmax=None):
+def Copernicus_Marine_Service_Download(user, pswd, dataset, version, 
+        localpath, filename, lonmin, lonmax, latmin, latmax, idate, edate, var,
+        minimum_depth=None, maximum_depth=None):
     
     '''
             This function downloads, as a NetCDF file, the variable from the
-            specified product and service. It uses motu-client
+            specified dataset. 
     '''
 
-    logger.info(f'{now()} Download from {PRODUCT} {SERVICE}')
-    
-    if not os.path.exists(localpath):
-        os.makedirs(localpath)
+    f = localpath + filename;
 
+    # Convert dates to strings
+    idate = idate.strftime('%Y-%m-%dT%H:%M:%S')
+    edate = edate.strftime('%Y-%m-%dT%H:%M:%S')
+        
     for i in range(5): # Try up to 5 times to download from Copernicus Marine Service
-        # Sometime the service is not available. Trying several times increases
-        # the chances that the NetCDF file is downloaded successfully.
     
-        logger.info(f'{now()} Trial {i} to download local wave forecast')
-        
-        # Submit request to the motu client
-        f = motu(USER, PSWD, PRODUCT, SERVICE, localpath, filename, 
-             lon - 1e-4, lon + 1e-4, lat - 1e-4, lat + 1e-4, idate, edate, var, mode, zmin=zmin, zmax=zmax)
-        
+        logger.info(f'{now()} Trial {i} to download Copernicus data')
+         
+        cm.subset(
+                username=user,
+                password=pswd,
+                dataset_id=dataset,
+                dataset_version=version,
+                output_directory=localpath,
+                output_filename=filename,
+                variables=var,
+                minimum_longitude=lonmin,
+                maximum_longitude=lonmax,
+                minimum_latitude=latmin,
+                maximum_latitude=latmax,
+                minimum_depth=minimum_depth,
+                maximum_depth=maximum_depth,
+                start_datetime=idate,
+                end_datetime=edate,
+                force_download=True
+                )
+
         if os.path.isfile(f): # File downloaded successfully. Leave loop...
             logger.info(f'{now()}   Successfully downloaded file {f}'); break
         else: # Download failed. Retry...
             logger.info(f'{now()}   Download failed!'); continue
         
-    if os.path.isfile(f):
-        
-        logger.info(f'{now()} Reading local NetCDF file...') 
-        
-        return read_cmems(f, var)
-                 
-    else: # If, after trying 5 times, file is still unavailable, return NaN
-        
-        logger.info(f'{now()} Unable to download Copernicus Marine Service file!')
-        # Flag with missing values (NaN)
-        return np.nan, np.nan
-
-
 def MODEL(date=datetime.now()):
     
     root = os.path.abspath('.')
@@ -182,50 +187,36 @@ def MODEL(date=datetime.now()):
         logger.info(f'{now()} Getting site longitude and latitude from config...')
         lon, lat = float(config['lon']), float(config['lat'])
         logger.info(f'{now()} Coordinates are {str(lat)}, {str(lon)}')
+
+        localpath = '/data/netcdf/model/El-Campello/'
         
         ''' Download Significant Wave Height forecast '''
         # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
-        PRODUCT, SERVICE = config['wav'], config['waves']
+        dataset, version = config['dataset-id-waves'], config['dataset-version-waves']
         # Set local path and file name within container
-        localpath, filename = '/netcdf/waves/Significant-Wave-Height', 'Significant-Wave-Height.nc'
-        # Set variable to download and mode to Near-Real-Time
-        var, mode = 'VHM0', 'nrt'
-        # Download
-        FC['Hs_fc'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
-                localpath, filename, lon, lat, t1, t1 + timedelta(days=5), var, mode)
+        filename = 'Wave-Forecast.nc'
+        if os.path.isfile(localpath + filename):
+            os.remove(localpath + filename)
 
-        ''' Download Secondary Swell Significant Wave Height forecast '''
-        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
-        PRODUCT, SERVICE = config['wav'], config['waves']
-        # Set local path and file name within container
-        localpath, filename = '/netcdf/waves/Secondary-Swell-Significant-Wave-Height', 'Secondary-Swell-Significant-Wave-Height.nc'
-        # Set variable to download and mode to Near-Real-Time
-        var, mode = 'VHM0_SW2', 'nrt'
+        # Set variable to download 
+        var = ['VHM0', 'VHM0_SW2', 'VPED', 'VTPK']
         # Download
-        FC['Hs_sw2_fc'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
-                localpath, filename, lon, lat, t1, t1 + timedelta(days=5), var, mode)
-        
-        ''' Download Wave Direction at Variance Spectral Density Maximum forecast '''
-        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
-        PRODUCT, SERVICE = config['wav'], config['waves']
-        # Set local path and file name within container
-        localpath, filename = '/netcdf/waves/Direction-at-Variance-Spectral-Density-Maximum', 'Direction-at-Variance-Spectral-Density-Maximum.nc'
-        # Set variable to download and mode to Near-Real-Time
-        var, mode = 'VPED', 'nrt'
-        # Download
-        FC['VPED'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
-                localpath, filename, lon, lat, t1, t1 + timedelta(days=1), var, mode)
-        
-        ''' Download Wave Period at Variance Spectral Density Maximum forecast '''
-        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
-        PRODUCT, SERVICE = config['wav'], config['waves']
-        # Set local path and file name within container
-        localpath, filename = '/netcdf/waves/Period-at-Variance-Spectral-Density-Maximum', 'Period-at-Variance-Spectral-Density-Maximum.nc'
-        # Set variable to download and mode to Near-Real-Time
-        var, mode = 'VTPK', 'nrt'
-        # Download
-        FC['VTPK'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
-                localpath, filename, lon, lat, t1, t1 + timedelta(days=1), var, mode)
+        Copernicus_Marine_Service_Download(USER, PSWD, dataset, version,  
+                localpath, filename, lon-1e-4, lon+1e-4, lat-1e-4, lat+1e-4, 
+                t1, t1 + timedelta(days=5), var)
+
+        if os.path.isfile(localpath + filename):
+            # Download successful. Read forecast and pass to output dictionary
+            FC['Hs_fc'] = read_cmems(localpath + filename, 'VHM0')
+            FC['Hs_sw2_fc'] = read_cmems(localpath + filename, 'VHM0_SW2')
+            FC['VPED'] = read_cmems(localpath + filename, 'VPED')
+            FC['VTPK'] = read_cmems(localpath + filename, 'VTPK')
+
+        else: # Download failed. Use "NaN" for both time and data
+            FC['Hs_fc'] = np.nan, np.nan
+            FC['Hs_sw2_fc'] = np.nan, np.nan
+            FC['VPED'] = np.nan, np.nan
+            FC['VTPK'] = np.nan, np.nan
 
         # Get wind rose for next 24 hours forecasted wave peak period and direction
         idate, edate, wind_rose_fig = wind_rose(FC['VTPK'][0], prepare_wind_rose(FC['VTPK'][1], FC['VPED'][1]), 'wave')
@@ -246,68 +237,25 @@ def MODEL(date=datetime.now()):
         FC['shortest_period'] = shortest_period
         FC['associated_direction'] = associated_direction
       
-
-        ''' Download Seawater Temperature forecast '''
-        # Take Copernicus Marine Service PRODUCT and SERVICE from user's settings.
-        PRODUCT, SERVICE = config['phy'], config['sst']
-        # Set local path and file name within container
-        localpath, filename = '/netcdf/water-quality/seawater-temperature', 'seawater-temperature.nc'
-        # Set variable to download and mode to Near-Real-Time
-        var, mode = 'thetao', 'nrt'
-        # Download
-        FC['sst'] = Copernicus_Marine_Service_Download(USER, PSWD, PRODUCT, SERVICE,
-                localpath, filename, lon, lat, t1, t1 + timedelta(days=3), var, mode,
-                zmin=1, zmax=2)
-     
-        # Get time zone
         timezone = config['timezone']
                 
         send_output(FC, wave_rose_figure, wave_rose_series, wind_rose_figure, wind_rose_series, timezone)        
        
         if not os.path.isdir('/data/IMG'):
             os.mkdir('/data/IMG')
+        # Create ECMWF winds static image
         windArrow('/data/pkl/MODEL-2.pkl', '/data/IMG/ECMWF-FORECAST.png')
-                          
+                  
+        logger.info(f'{now()} FINISHED!')
+
         return 0, ''
        
     except Exception as err:
         
         return -1, str(err)
 
-def find_shortest_wave_period_in_forecast(period, direction):
-    ''' 
-        This function identifies the shortest wave period
-        and its associated direction, to be displayed in the portal
-    '''
-
-    shortest_period = np.min(period)
-
-    index_of_shortest_period = np.argmin(period)
-
-    associated_direction = direction[index_of_shortest_period]
-
-    return shortest_period, associated_direction
-
-def find_maximum_wind_speed_in_forecast(speed, direction):
-    ''' 
-        This function identifies the maximum wind speed
-        and its associated direction, to be displayed in the portal
-    '''
-
-    maximum_speed = np.max(speed)
-
-    index_of_maximum_speed = np.argmax(speed)
-
-    associated_direction = direction[index_of_maximum_speed]
-
-    return maximum_speed, associated_direction
-
 if __name__ == '__main__':
 
-    delay = 0 # days
-    my_date = datetime.now() - timedelta(days=delay)
-    my_datestr = my_date.strftime('%d-%b-%Y %H:%M')
-    logger.info(f'{now()} Starting site operations for date {my_datestr}')
-    status, err = MODEL(date=my_date)
+    status, err = MODEL()
     if status:
         logger.exception(f'Exception in MODEL: {err}')

@@ -86,15 +86,6 @@ function init() {
    var str = document.getElementById("latest-oxygen-value").content
    oxygen_strcolor(str, "latest-oxygen")
 
-   var str = document.getElementById("min-forecast-temperature-value").content
-   temperature_strcolor(str, "min-forecast-temperature")
-
-   var str = document.getElementById("mean-forecast-temperature-value").content
-   temperature_strcolor(str, "mean-forecast-temperature")
-
-   var str = document.getElementById("max-forecast-temperature-value").content
-   temperature_strcolor(str, "max-forecast-temperature")
-
    var str = document.getElementById("significant-wave-height-value").content
    wh_strcolor(str, "latest-swh")
    wh_strcolor(str, "latest-swh-mobile")

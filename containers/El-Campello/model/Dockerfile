@@ -21,7 +21,7 @@
 #   along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #   --------------------------------------------------------------------
 
-FROM python:3.8
+FROM python:3.12
 
 MAINTAINER Diego Pereiro Rodriguez <Diego.Pereiro@Marine.ie>
 
