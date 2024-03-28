@@ -12,54 +12,56 @@ These instructions have been tested on Ubuntu 18.04.6 LTS (Bionic Beaver). First
 git clone https://github.com/IrishMarineInstitute/EuroSea.git
 ```
 
-The code is structured in multiple Docker containers that communicate with each other through a shared volume. The next step is to initialize each container. ``` crontab ``` is used to schedule tasks and ensure that the website updates on a regular basis. The containers work independently, so there is no need to initialize them in a specific order.
+The code is structured in multiple Docker containers that communicate with each other through a shared volume. Create a Docker volume to communicate the containers:
 
-## Deenish Island - SST container
-
-This container is set to run hourly to download the latest sea surface temperature observations for the Irish EEZ. The sea surface temperature is provided by the 
-Operational Sea Surface Temperature and Ice Analysis (OSTIA) system run by the UK's Met Office and delivered by IFREMER.
-
-In addition, sea surface temperature anomalies are calculated using a 40-year baseline reference climatology. The occurrence of marine heat waves is determined using the Hobday et al. (2016) definition.
-
-This application is set to run hourly to make sure that the website updates as soon as a new daily layer is released by the Copernicus Marine Service. This application also creates the figures that are later accessed by the WEBAPP container through the shared volume.
-
-Navigate to the Deenish Island - SST container
 ```
-cd EuroSea/containers/Deenish-Island/sst
+docker volume create shared-data
 ```
 
-Build image
-```
-docker build -t eurosea-sst:latest .
-```
+The next step is to initialize each container. ``` crontab ``` is used to schedule tasks and ensure that the website updates on a regular basis. The containers work independently, so there is no need to initialize them in a specific order.
 
-Start container with data sharing to communicate with other containers.
+## Deenish Island - SITE container
+
+This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at El Campello. In addition, it subsets the latest data
+for the number of days specified in the configuration file. All this data is wrapped in a BUOY.pkl file that is updated every ten minutes, and later accessed by the WEBAPP container through the shared volume. Historical data starting from the time the buoy started data transmission is compiled to address any request from the Historical Data Portal.
+   
+Navigate to the El Campello - SITE container
 ```
-docker run -d -v shared-data:/data --name eurosea-sst eurosea-sst:latest
-```
-
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, sea surface temperature NetCDF files are downloaded to the ```/data/SST``` folder, and SST figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/SST.pkl```. The website will read the SST figures from this file. 
-
-## Deenish Island - IWBN container
-
-This container is set to run hourly to download the latest seawater temperature observations from the Irish Weather Buoy Network. Data is downloaded from the Marine Institute ERDDAP. This application is set to run hourly to make sure that the website updates as soon as new data is released on the ERDDAP. This application also creates the figures that are later accessed by the WEBAPP container through the shared volume.
-
-Navigate to the Deenish Island - IWBN container
-```
-cd EuroSea/containers/Deenish-Island/iwbn
+cd EuroSea/containers/El-Campello/site
 ```
 
 Build image
 ```
-docker build -t eurosea-iwbn:latest .
+docker build -t eurosea-site:latest .
 ```
 
 Start container with data sharing to communicate with other containers.
 ```
-docker run -d -v shared-data:/data --name eurosea-iwbn eurosea-iwbn:latest
+docker run -d -v shared-data:/data --name eurosea-site eurosea-site:latest
+```
+ 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
+
+## Deenish Island - MODEL container
+
+This container is set to run hourly to download the model forecasts from CMEMS and ECMWF. This data is wrapped in a MODEL.pkl file that is updated every hour and later accessed by the WEBAPP container through the shared volume.
+   
+Navigate to the El Campello - MODEL container
+```
+cd EuroSea/containers/El-Campello/model
 ```
 
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, seawater temperature NetCDF files are downloaded to the ```/data/IWBN``` folder, and IWBN figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/IWBN.pkl```. The website will read the IWBN figures from this file. 
+Build image
+```
+docker build -t eurosea-model:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+docker run -d -v shared-data:/data --name eurosea-model eurosea-model:latest
+```
+ 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
 
 ## Deenish Island - CHL container
 
@@ -87,58 +89,15 @@ docker run -d -v shared-data:/data --name eurosea-chl eurosea-chl:latest
 
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, chlorophyll-a NetCDF files are downloaded to the ```/data/CHL``` folder, and CHL figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/CHL.pkl```. The website will read the CHL figures from this file. 
 
-## El Campello - SITE container
+## Deenish Island - WAVES container
 
-This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at El Campello. In addition, it subsets the latest data
-for the number of days specified in the configuration file. All this data is wrapped in a BUOY.pkl file that is updated every ten minutes, and later accessed by the WEBAPP container through the shared volume. Historical data starting from the time the buoy started data transmission is compiled to address any request from the Historical Data Portal.
+This container is set to run hourly to download the latest wave height forecasts from Copernicus.
    
-Navigate to the El Campello - SITE container
-```
-cd EuroSea/containers/El-Campello/site
-```
+This application is set to run hourly to make sure that the website updates as soon as new forecasts are released by the Copernicus Marine Service. This application also creates a Plotly JSON figure that is later accessed by the WEBAPP container through the shared volume.
 
-Build image
+Navigate to the Deenish Island - WAVES container
 ```
-docker build -t eurosea-site:latest .
-```
-
-Start container with data sharing to communicate with other containers.
-```
-docker run -d -v shared-data:/data --name eurosea-site eurosea-site:latest
-```
- 
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
-
-## El Campello - MODEL container
-
-This container is set to run hourly to download the model forecasts from CMEMS and ECMWF. This data is wrapped in a MODEL.pkl file that is updated every hour and later accessed by the WEBAPP container through the shared volume.
-   
-Navigate to the El Campello - MODEL container
-```
-cd EuroSea/containers/El-Campello/model
-```
-
-Build image
-```
-docker build -t eurosea-model:latest .
-```
-
-Start container with data sharing to communicate with other containers.
-```
-docker run -d -v shared-data:/data --name eurosea-model eurosea-model:latest
-```
- 
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
-
-## El Campello - WAVES container
-
-This container is set to run hourly to download the latest wave height forecasts for the Balearic Sea. Wave forecasts are provided by the Mediterranean Sea Waves Analysis and Forecast Service (DOI:10.25423/cmcc/medsea_analysisforecast_wav_006_017_medwam4).
-   
-This application is set to run hourly to make sure that the website updates as soon as new forecasts are released by the Copernicus Marine Service. This application also creates the Balearic Sea figure that is later accessed by the WEBAPP container through the shared volume.
-
-Navigate to the El Campello - WAVES container
-```
-cd EuroSea/containers/El-Campello/waves
+cd EuroSea/containers/Deenish-Island/waves
 ```
 
 Build image
@@ -153,9 +112,34 @@ docker run -d -v shared-data:/data --name eurosea-waves eurosea-waves:latest
  
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, wave forecasts are exported to a pickle file ```/data/pkl/WAVES.pkl```. The website will take the wave forecast figure (exported as a Plotly JSON string) from this file. 
 
+## El Campello containers
+
+The containers for El Campello are the same as those for Deenish Island and work identically. 
+
+## The Galway Bay and Connemara containers
+
+These containers were created outside the EuroSea project, to collaborate with Cuan Beo in a project to deploy QR codes at different locations in Galway Bay. These sites are: Renville, Ballinacourty, Blackweir, Cave, Killeenaran, Tarrea, Kinvara, Crushoa, Parkmore, Traught, Newtownlynch, New Quay, Flaggy Shore, Bellharbour, Bishop's Quarter, Ballyvaughan and Gleninagh. When scanning the QR codes, real-time information and forecasts from the Galway Bay and Connemara ROMS hydrodynamic models are shown on screen. These containers read the operational data from the Marine Institute THREDDS server and produce the information shown on the phone. The instructions below are for the Galway Bay containers, but they are identical for the Connemara container. The Connemara container was added to accommodate the request of a QR code at Gleninagh, which is outside of the Galway Bay model domain.
+
+The ```config``` file contains the names and coordinates of the sites of interest. It is possible to add new sites or delete existing ones by modifying the ```config``` file. Navigate to the Galway Bay container
+```
+cd EuroSea/containers/Galway-Bay
+```
+
+Build image
+```
+docker build -t galway:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+docker run -d -v shared-data:/data --name galway galway:latest
+```
+ 
+The task will run every five minutes at the times specified in the ```crontab``` file. Once it is finished, model forecasts are exported to pickle files at ```/data/pkl/Galway-Bay/*.pkl```. The website will take the model forecasts from these files (one .pkl file per site). 
+
 ## WEBAPP container
 
-This container runs the website as a uwsgi-nginx-flask deployment. It loads the data files generated by the backend containers and provides the visualization on the website. It also provides access to the Historical Data requests for El Campello. The Service Desk and Questionnaires are also generated in this container.
+This container runs the website as a uwsgi-nginx-flask deployment. It loads the data files generated by the backend containers and provides the visualization on the website. It also provides access to the Historical Data requests for Deenish Island and El Campello. The Service Desk and Questionnaires are also generated in this container.
 
 Navigate to the WEBAPP container
 ```
