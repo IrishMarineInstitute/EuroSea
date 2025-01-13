@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Regional Wave Forecast</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 1px) and (max-device-width: 320px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+	</head>
+
+	<body>
+
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE </h1> 
+                    <hr>
+                </div> 
+            </div>
+        </div>
+	
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p class="intro"> 
+             Here, you will find a 5-day forecast of the Significant Wave Height in the Southwest of Ireland. Please
+             be patient — it takes about 30 seconds to load the forecast.
+                                   Forecasts are obtained from the
+				   <a href="https://doi.org/10.48670/moi-00055">Atlantic-European North West Shelf
+                                   Ocean Waves Analysis and Forecast Service</a>. Use the slider to move along the forecast.
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+        <script language="javascript" type="text/javascript">
+
+                   let LayoutDesktop = {
+                       width: 620, height: 700, showlegend: false,
+                       title: {text: '', font: {size: 16,},},
+                       xaxis: {
+                           zeroline: false, mirror: true, showline: true,
+                           ticks: 'outside', tickvals: [-13, -12, -11, -10, -9],
+		           ticktext: ['13ºW', '12ºW', '11ºW', '10ºW', '09ºW'],
+                           automargin: true, range: [-13.8, -8.8],
+                           fixedrange: true,
+                       },
+                       yaxis: {
+                           mirror: true, showline: true,
+                           ticks: 'outside', tickvals: [50, 51, 52, 53],
+                           ticktext: ['50ºN', '51ºN', '52ºN', '53ºN'],
+                           range: [50.0, 53.5],
+                           fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 16,            
+                       },
+                       coloraxis: {
+                           colorbar: {
+                               tickvals: [0, 1, 2, 3, 4, 5],
+                               ticktext: ['0', '1', '2', '3', '4', '5'],
+                           },
+                       },
+                   };
+
+        </script>
+
+  		<div class="grid desktop">
+			<div class="col-1-4"> <div class="content"> </div> </div>
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="Desktop"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{figure | safe}};
+                                     TESTER = document.getElementById('Desktop')
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, LayoutDesktop)
+                        
+                                 </script>
+
+                        </div>
+                    </div>
+			<div class="col-1-4"> <div class="content"> </div> </div>
+               </div>
+
+        <div class="grid">
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" alt="EuroSea" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" alt="ICMAN-CSIC" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://www.xylem.com"> <img src="../static/xylem-new.png" alt="Xylem" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://mowi.com"> <img src="../static/Mowi-new.png" alt="Mowi" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://avramar.eu"> <img src="../static/avramar-new.png" alt="AVRAMAR" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+        </div>        
+
+    </body>
+
+</html>

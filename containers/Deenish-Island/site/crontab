@@ -1,0 +1,1 @@
+*/10 * * * * /usr/local/bin/python /root/site.py 

@@ -1,0 +1,7 @@
+timezone Europe/Madrid
+ndays 7     
+host enoc.puertos.es                 ! INS-TAC host
+user marine_instac                   ! INS-TAC user
+pswd ********                        ! INS-TAC password
+folder /CMS-INSTAC/ElCampelloBuoy    ! INS-TAC folder
+clim_site Campello_Climatology.pkl

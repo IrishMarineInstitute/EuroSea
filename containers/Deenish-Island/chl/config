@@ -1,0 +1,12 @@
+coastfile coastline.pkl
+lon -10.2122                            
+lat 51.7431   
+west -11.6
+east -8
+south 50
+north 52.8  
+USERNAME ********                      
+PASSWORD ********                     
+dataset_my cmems_obs-oc_atl_bgc-plankton_my_l4-gapfree-multi-1km_P1D
+dataset_nrt cmems_obs-oc_atl_bgc-plankton_nrt_l4-gapfree-multi-1km_P1D
+version 202311

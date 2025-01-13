@@ -1,0 +1,9 @@
+timezone Europe/Madrid
+lon -0.2917                            
+lat 38.4375   
+USERNAME ********                      
+PASSWORD ********                     
+dataset-id-temp cmems_mod_med_phy-tem_anfc_4.2km_PT1H-m
+dataset-version-temp 202211
+dataset-id-waves med-hcmr-wav-an-fc-h
+dataset-version-waves 202105

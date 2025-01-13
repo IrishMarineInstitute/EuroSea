@@ -1,0 +1,15 @@
+! SST (aggregated) NetCDF file
+sstnc /data/netcdf/OSTIA-UNLIMITED.nc
+!
+! Climatology NetCDF file
+climnc /data/netcdf/OSTIA-Climatology.nc
+!
+! Marine Heat Waves file (created by hobday container)
+mhwnc /data/mhw.nc
+!
+! Cold Spells file (created by hobday container)
+coldnc /data/cs.nc
+!
+! Marine Heat Waves figure temperature y-axis range
+min_y 5 
+max_y 25

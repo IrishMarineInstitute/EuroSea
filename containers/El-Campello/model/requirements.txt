@@ -1,0 +1,9 @@
+ecmwf-opendata==0.3.3
+copernicusmarine
+netCDF4
+matplotlib
+numpy
+pygrib
+pandas
+plotly
+pytz

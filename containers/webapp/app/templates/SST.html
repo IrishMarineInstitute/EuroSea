@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Sea Surface Temperature</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 400px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-device-width: 400px)' href="../static/css/tiny.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="../static/js/script.js"></script>
+
+	</head>
+
+	<body>
+	
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE </h1> 
+                    <hr>
+                </div> 
+            </div>
+        </div>
+
+  		<script language="javascript" type="text/javascript">
+
+                   let layout = {
+                       width: 1000,
+                       height: 974,
+                       showlegend: false,
+                       title: {
+                           text: '',
+                           font: {
+                               size: 16,
+                           },
+                       },
+                       margin: {
+                           t: 30, 
+                       },
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [-25, -20, -15, -10, -5],
+                           ticktext: ['25ºW', '20ºW', '15ºW', '10ºW', '5ºW'],
+                           automargin: true,
+                           range: [-25, -5],
+                       },
+                       yaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [46, 50, 54, 58],
+                           ticktext: ['46ºN', '50ºN', '54ºN', '58ºN'],
+                           range: [46, 58],
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 16,            
+                       },
+                   };
+
+                </script>
+	
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+       <p class="intro"> 
+           <b> SEA SURFACE TEMPERATURE. </b> Below is the sea surface temperature in the last two weeks in the 
+           Irish EEZ. The sea surface temperature here is provided by the  
+	   <a href="https://doi.org/10.48670/moi-00165">Operational Sea Surface Temperature and Ice Analysis</a> 
+           system run by the UK's Met Office and delivered by IFREMER 
+           (https://doi.org/10.48670/moi-00165). 
+       </p>
+    	        </div>
+    	     </div>
+    	 </div>
+
+  		<div class="grid">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		     <div class="Series" id="SST"></div>
+
+                                 <script language="javascript" type="text/javascript">
+
+                                     var graphs = {{SST | safe}};
+                                     TESTER = document.getElementById('SST')
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, layout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+               </div>
+
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+		<div class="col-1-3 mobile-col-1-3"> <div class="content"> </div> </div>
+            <div class="col-1-2 mobile-col-1-2">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+        </div>        
+    </body>
+</html>

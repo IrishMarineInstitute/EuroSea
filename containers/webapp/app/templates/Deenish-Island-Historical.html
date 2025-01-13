@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Deenish Island Historical Data</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 400px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-device-width: 400px)' href="../static/css/tiny.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+	</head>
+
+	<body>
+
+
+	<div class="languages-desktop topcorner">
+
+          <div style="width:100px; float:right; height:30px; margin:16px 30px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+ 	</div>
+
+        <div class="languages-tiny topcorner">
+
+          <div style="width:12px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-portrait topcorner">
+
+          <div style="width:8px; float:right; height:0px; margin:18px 3px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" class="responsive" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-landscape topcorner">
+
+          <div style="width:120px; float:right; height:0px; margin:22px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="languages-ipad topcorner">
+		
+          <div style="width:120px; float:right; height:0px; margin:33px 15px 0px 5px;">
+ 				<a href="https://eurosea.marine.ie"
+ 				   style="float:right"><img src="../static/home.png" > </a>
+          </div>
+
+        </div>
+
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE</h1> 
+                    <hr>
+                </div> 
+            </div>
+        </div>
+	
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                           <div class="footer">
+       <p class="intro"> 
+          This portal provides information on past oceanographic conditions at Deenish Island. 
+          The data provided here has been recorded by the monitoring station at
+          the farm.
+          <b>INSTRUCTIONS:</b> Enter the desired time range by selecting a start date and an end
+          date. 
+       </p>
+                            </div> 
+    	        </div>
+    	     </div>
+    	 </div>
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+                    <form method="POST" action="/Deenish-Island-Historical">
+                    <label id="start-label" for="start">Start</label>
+                    <input type="date" id="start" name="start-date" 
+                           value={{date1}}
+                           min={{timelist | first}}
+                           max={{timelist | last}}>
+                    &emsp;
+                    <label id="end-label" for="start">End</label>
+                    <input type="date" id="end" name="end-date"
+                           value={{date2}}
+                           min={{timelist | first}}
+                           max={{timelist | last}}>
+                    <input id="submit-historical" type="submit" value="Submit" name="submit"/>
+    	        </div>
+    	     </div>
+    	 </div>
+                          
+{% if csv == 'true' %}
+
+         <!-------------------------------------------------------------------------->
+         <!--                                                                      -->
+         <!--                       HYPERLINKS TO SECTIONS                         -->
+         <!--                                                                      -->
+         <!-------------------------------------------------------------------------->
+
+    	<div class="grid">
+    		<div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Use the links below to jump to the different sections in this page:
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+           </div>
+
+         <div class="grid desktop-ipad">
+             <div class="col-1-5 mobile-col-1-5">
+                 <div class="content intro" style="margin-left:10px">
+                     <a href="#Water-Temperature"> Temperature </a> </div> </div>
+             <div class="col-1-5 mobile-col-1-5">
+                 <div class="content intro" style="margin-left:10px">
+                     <a href="#Water-Salinity"> Salinity </a> </div> </div>
+             <div class="col-1-5 mobile-col-1-5">
+                 <div class="content intro">
+                     <a href="#Oxygen-Saturation"> Oxygen </a> </div> </div>
+             <div class="col-1-5 mobile-col-1-5">
+                 <div class="content intro">
+                     <a href="#Water-pH"> pH </a> </div> </div>
+             <div class="col-1-5 mobile-col-1-5">
+                 <div class="content intro">
+                     <a href="#Currents Header"> Currents </a> </div> </div>
+         </div>
+    		
+         <div class="grid mobile">
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro" style="margin-left:10px">
+                     <a style="font-size:10px;" href="#Water-Temperature"> Temperature </a> </div> </div>
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro" style="margin-left:10px">
+                     <a style="font-size:10px;" href="#Water-Salinity"> Salinity </a> </div> </div>
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
+                     <a style="font-size:10px;" href="#Oxygen-Saturation"> Oxygen </a> </div> </div>
+             <div class="col-1-4 mobile-col-1-4">
+                 <div class="content intro">
+                     <a style="font-size:10px;" href="#Water-pH"> pH </a> </div> </div>
+         </div>
+
+  		<script language="javascript" type="text/javascript">
+
+                <!-- Configuration of Mode Bar and Image download -->
+                    
+                 var config = {
+                     'toImageButtonOptions': {
+                         'format': 'png',    // Download figure as PNG
+                         'scale': 10,        // High resolution figure, suitable for journal publications
+                     },
+                     'displaylogo': false,
+                     // Remove the buttons in the list below, as they are not needed
+                     modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'hoverClosestCartesian',
+                         'hoverCompareCartesian', 'autoScale2d', 'resetScale2d', 'toggleSpikelines', 'toImage'],
+                 };
+
+                    <!-- Time series layout -->
+                    var layoutDesktop = {
+                       texttemplate: '%{value:.1f}',
+                       title: '',
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickangle: 90,
+                           automargin: true,
+                       },
+                       yaxis: {
+                           title: '',
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickformat: '.1f',
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 18,            
+                       },
+                       };
+
+                    var layoutMobile = {
+                       height: 300, showlegend: false,
+                       margin: {    l: 40,    r: 1,    b: 0,    t: 20,    pad:0   },
+                       texttemplate: '%{value:.1f}', title: '',
+                       legend:{xanchor:"center", yanchor:"top", y:-0.3, x:0.5, orientation: 'h'},
+                       xaxis: {
+                           mirror: true,showline: true, ticks: 'outside',
+                           tickangle: 90, automargin: true, fixedrange: true,
+                       },
+                       yaxis: {
+                           title: '', mirror: true, showline: true,
+                           ticks: 'outside', tickformat: '.1f', fixedrange: true,
+                       },
+                       font: {
+                           family: 'Sans-Serif', size: 10,            
+                       },};
+
+                </script>
+
+  		<script language="javascript" type="text/javascript">
+
+                    <!-- Wind Rose layout -->
+
+                    var polarLayout = {
+                    };
+
+                </script>
+    		
+                <!-------------------------------------------------------------------------->
+                <!--                                                                      -->
+                <!--                          WATER QUALITY                               -->
+                <!--                                                                      -->
+                <!-------------------------------------------------------------------------->
+
+                <div class="grid"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Water Quality Header"> Water Quality </h2>
+                        </div>
+                    </div>
+                </div>
+
+                            <p id="Water-Temperature"> </p>
+
+                <!-- ADD A DESCRIPTION OF THE WATER QUALITY SECTION -->
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Seawater temperature at Deenish Island. </b> The seawater temperature
+                                   at Deenish Island from {{date1}} to {{date2}} as recorded by the YSI EXO2
+                                   sensor is shown (observed). 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+  		
+  		<div class="grid desktop">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="temp"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time|safe }},
+                                        y: {{ temp|safe }},
+                                        name: 'observed',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    layoutDesktop['title'] = 'Seawater temperature at Deenish Island'
+                                    layoutDesktop.xaxis['autorange'] = false
+                                    layoutDesktop.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                    layoutDesktop.yaxis['title'] = 'ºC'
+                                    layoutDesktop.yaxis.tickformat = '.1f'
+                                    TESTER = document.getElementById('temp');
+                                    Plotly.newPlot( TESTER, [trace1], layoutDesktop, config );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+  		<div class="grid mobile">
+      		    <div class="col-1-1">
+      			<div class="content">
+          		    <div class="Series" id="tempMobile"></div>
+                                <script language="javascript" type="text/javascript">
+                                    var trace1 = {
+                                        x: {{ time|safe }},
+                                        y: {{ temp|safe }},
+                                        name: 'observed',
+                                        hoverinfo: 'x+y',
+                                    }
+                                    layoutMobile['title'] = 'Seawater temperature at Deenish Island'
+                                    layoutMobile.xaxis['autorange'] = false
+                                    layoutMobile.xaxis['range'] = ["{{t0}}", "{{tf}}"]
+                                    layoutMobile.yaxis['title'] = 'ºC'
+                                    layoutMobile.yaxis.tickformat = '.1f'
+                                    layoutMobile.showlegend = false
+                                    TESTER = document.getElementById('tempMobile');
+                                    Plotly.newPlot( TESTER, [trace1], layoutMobile, config );
+                                </script>
+      			</div>
+                     </div>
+      	        </div>
+
+                <!-- DOWNLOAD DATA AS CSV (TEMPERATURE) -->
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="temp" />
+ 			    </div>
+ 			</div>
+    	        </div>
+
+                            <p id="Water-Salinity"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Seawater Salinity at Deenish Island. </b> The seawater 
+                                   salinity at Deenish Island from {{date1}} to {{date2}} as recorded by the YSI EXO2
+                                   sensor is shown below. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="salt"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['title'] = 'Seawater Salinity at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = ''
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('salt');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ salt|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="saltmobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Seawater Salinity at Deenish Island'
+                                     layoutMobile.yaxis['title'] = ''
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('saltmobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ salt|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+                <!-- DOWNLOAD DATA AS CSV (OXYGEN) -->
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="salt" />
+ 			    </div>
+ 			</div>
+    	        </div>
+
+                            <p id="Oxygen-Saturation"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Oxygen saturation at Deenish Island. </b> The oxygen 
+                                   saturation at Deenish Island from {{date1}} to {{date2}} as recorded by the YSI EXO2
+                                   sensor is shown below. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="O2"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['title'] = 'Dissolved Oxygen Saturation at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = '%'
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('O2');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ O2|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="O2mobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Dissolved Oxygen Saturation at Deenish Island'
+                                     layoutMobile.yaxis['title'] = '%'
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('O2mobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ O2|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+                <!-- DOWNLOAD DATA AS CSV (OXYGEN) -->
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="O2" />
+ 			    </div>
+ 			</div>
+    	        </div>
+
+                            <p id="Water-pH"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Seawater pH at Deenish Island. </b> The seawater 
+                                   pH at Deenish Island from {{date1}} to {{date2}} as recorded by the YSI EXO2
+                                   sensor is shown below. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+               <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="TUR"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['title'] = 'Seawater pH at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = ''
+                                     layoutDesktop.yaxis.tickformat = '.2f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('TUR');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ pH|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+               <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="TURmobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Seawater pH at Deenish Island'
+                                     layoutMobile.yaxis['title'] = ''
+                                     layoutMobile.yaxis.tickformat = '.2f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('TURmobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ pH|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	        </div>
+
+                <!-- DOWNLOAD DATA AS CSV (pH) -->
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="ph" />
+ 			    </div>
+ 			</div>
+    	        </div>
+
+
+                <!-------------------------------------------------------------------------->
+                <!--                                                                      -->
+                <!--                           CURRENTS SECTION                           -->
+                <!--                                                                      -->
+                <!-------------------------------------------------------------------------->
+
+                <div class="grid desktop"> 
+                    <div class="col-1-1">
+                        <div class="content">
+                            <h2 id="Currents Header"> Currents </h2>
+                        </div>
+                    </div>
+                </div>
+    
+		<div class="grid desktop">
+                    <div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there are the surface current speed and direction recorded by the  
+                                   Doppler Current Profiler Sensor at Deenish Island from {{date1}} to {{date2}}.
+                                   The wind rose diagram below shows
+                                   the frequency distribution of surface current speed and direction from {{date1}} to {{date2}}. 
+                                   <br><br> <b> NOTE</b>: current direction
+                                   measurements relate to the direction they are going TO.
+                                   
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+
+    		<div class="col-1-2">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   Below, there are the seabed current speed and direction recorded by the  
+                                   Doppler Current Profiler Sensor at Deenish Island from {{date1}} to {{date2}}.
+                                   The wind rose diagram below shows
+                                   the frequency distribution of the seabed depth current speed and direction from {{date1}} to {{date2}}. 
+                                   <br><br> <b> NOTE</b>: current direction
+                                   measurements relate to the direction they are going TO.
+                               </p>
+                            </div> 
+                         </div>
+                   </div>
+           </div>
+
+
+
+  		<div class="grid desktop">
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="SurfaceCurrentRose"></div>
+
+                                 <script language="javascript" type="text/javascript">
+                                     var graphs = {{surf_rose_fig | safe}};
+                                     TESTER = document.getElementById('SurfaceCurrentRose')
+                                     var polarLayout = {
+                                         title: {
+                                             text:'Surface Current Speed and Direction (TO):<br>{{idate_surf_rose}} to {{edate_surf_rose}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {});
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="SeabedCurrentRose"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{seab_rose_fig | safe }};
+                                     TESTER = document.getElementById('SeabedCurrentRose')
+                                     var polarLayout = {
+                                         title: {
+                                             text:'Seabed current speed and direction (TO):<br>{{idate_seab_rose}} to {{edate_seab_rose}}',
+                                             font: {
+                                                 family: 'Courier New, monospace',
+                                                 size: 10,
+                                              },
+                                         },
+                                     };
+                                     Plotly.newPlot(TESTER, graphs, {});
+                                     Plotly.relayout(TESTER, polarLayout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOWNLOAD DATA AS CSV (CURRENTS SPEED AND DIRECTION) -->
+
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="currents" />
+ 			    </div>
+ 			</div>
+    	        </div>
+
+{% endif %}
+                    </form>
+
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://eurosea.eu"> <img src="../static/EuroSea-Logo.jpg" alt="EuroSea" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="http://www.icman.csic.es"> <img src="../static/CSIC-logo.png" alt="ICMAN-CSIC" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://www.xylem.com"> <img src="../static/xylem-new.png" alt="Xylem" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://mowi.com"> <img src="../static/Mowi-new.png" alt="Mowi" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+            <div class="col-1-6 mobile-col-1-6">
+    		<div class="content unpadded">
+                    <div class="landscape">
+                       <p> <a href="https://avramar.eu"> <img src="../static/avramar-new.png" alt="AVRAMAR" class="responsive" >
+                           </a> </p> </div> </div> </div>			
+
+        </div>        
+    </body>
+
+</html>

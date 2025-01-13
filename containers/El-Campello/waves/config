@@ -1,0 +1,12 @@
+timezone Europe/Madrid
+lon -0.3031                            
+lat 38.4314   
+coastfile coastline-2.pkl
+west -0.91
+east 4.51
+south 37.59
+north 41.01  
+USERNAME ********                      
+PASSWORD ********                     
+wave-dataset med-hcmr-wav-an-fc-h 
+wave-version 202105 

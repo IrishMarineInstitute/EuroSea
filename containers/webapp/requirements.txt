@@ -1,0 +1,7 @@
+Flask>=2.0.2,<3.0
+pandas
+python-dateutil
+plotly
+netCDF4==1.5.7
+numpy
+pytz

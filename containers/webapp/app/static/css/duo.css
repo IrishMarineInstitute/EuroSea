@@ -1,0 +1,224 @@
+.mobile {
+  display: block;
+}
+
+.ipad {
+  display: none;
+}
+
+.languages-portrait {
+  display: block;
+}
+
+.languages-landscape {
+  display: none;
+}
+
+.languages-desktop {
+  display: none;
+}
+
+.languages-tiny-landscape {
+  display: none;
+}
+
+.languages-ipad {
+  display: none;
+}
+
+.languages-tiny {
+  display: none;
+}
+
+.languages-folder {
+  display: none;
+}
+
+.languageLabel {
+  margin-top: 5px;
+  margin-right: 0px;
+  font-size: 12px;
+}
+
+.desktop {
+  display: none;
+}
+
+#funding {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    float: left;
+    font-size: 8px;    
+    margin-bottom: 10px;
+}
+
+.MarineObservatory {
+    text-align: center;
+    font-size: 17px;
+    font-family: sans-serif;
+    font-weight: normal;
+    transform: scale(1, 1.5);
+    -webkit-transform: scale(1, 1.5);
+    -moz-transform: scale(1, 1.5);
+    -o-transform: scale(1, 1.5);
+    transform-origin: 0% 20%; 
+    color: #605c5c;
+}
+
+.unpadded {
+  padding: 0
+}
+
+p {
+  font-family: Calibri;
+  font-size: 15px;
+  align: justify;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+textarea {
+   width: 35em;
+}
+
+.responsive {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.footer {
+  width: 100%;
+}
+
+.center {
+  height: 10px;
+  line-height: 10px;
+}
+
+.landscape {
+  height: 20px;
+  width: 50px;
+}
+
+.topcorner{
+  position:absolute;
+  top:0;
+  right:0;
+  z-index:1;
+ }
+
+.button {
+  background-color: #123944;
+  width: 220px;
+  height: 50px;
+  border-radius: 5px;
+  padding: 11px 15px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin: 20px auto;
+  font-size: 15px;
+  color: #FFFFFF
+}
+
+.helpdesk {
+   background-color: #FF0000;
+   width: 100px;
+   border-radius: 5px;
+   padding: 5px 0px;
+   border: none;
+   text-align: center;
+   text-decoration: none;
+   display: block;
+   margin: 10px auto;
+   font-size: 10px;
+   font-weight: bold;
+   color: #FFFFFF
+}
+
+ .helpdesk:hover { background-color: #FFA500 }
+
+ .question-heading {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+ }
+
+ .answer-label {
+    font-size: 20px;
+ }
+
+ .submit {
+    width: 400px;
+    font-size: 30px;
+ }
+
+ .answers {
+    text-align: center;
+ }
+
+ .email-input {
+    width: 80%;
+    float: right;
+ }
+
+.galway-databox {
+  width: 100%;
+  border-radius: 5px;
+  border: solid thin black;
+  display: block;
+}
+
+.galway-context {
+  background-color: #123944;
+  width: 96%;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin: 5px auto;
+  font-size: 14px;
+  color: #FFFFFF
+}
+
+.galway-cols {
+  width: 19%;
+  height: 55px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.galway-headers {
+  width: 19%;
+  height: 30px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.galway-label {
+  font-size: 10px;
+}
+
+.galway-circle {
+  width: 49%;
+  height: 50px;
+  border-radius: 30px;
+  border: solid thin black;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin: 10px auto;
+  margin-top: 0px;
+  font-size: 14px;
+  font-weight: bold;
+}

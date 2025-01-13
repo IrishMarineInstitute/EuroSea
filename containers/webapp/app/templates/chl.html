@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Chlorophyll Concentration</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 400px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-device-width: 400px)' href="../static/css/tiny.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="../static/js/script.js"></script>
+
+	</head>
+
+	<body>
+	
+	
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1 class="MarineObservatory"> MARINE OBSERVATORY FOR AQUACULTURE </h1> 
+                    <hr>
+                </div> 
+            </div>
+	</div>
+
+         <div class="grid">
+ 	     <div class="col-1-1">
+ 		<div class="content">
+       <p class="intro"> 
+           <b> CHLOROPHYLL-a CONCENTRATION AND ANOMALY. </b> Below, on 
+           the left-hand side, there is the mass concentration of
+           chlorophyll-<i>a</i> in sea water [mg/m3] from the Atlantic
+           Ocean Colour Bio-Geo-Chemical L4 Satellite Observations 
+           (https://doi.org/10.48670/moi-00288). On the right-hand side,
+           there is the chlorophyll-<i>a</i> anomaly determined as the
+           difference between the actual chlorophyll-<i>a</i> 
+           concentration and a 60-day running median, ending two weeks
+           before the current image (Tomlinson et al., 2004).
+       </p>
+    	        </div>
+    	     </div>
+    	 </div>
+
+	 <script language="javascript" type="text/javascript">
+                   let layout = {
+                       width: 521,
+                       height: 649,
+                       showlegend: false,
+                       title: {
+                           text: '',
+                           font: {
+                               size: 16,
+                           },
+                       },
+                       margin: {
+                           t: 30, 
+                       },
+                       xaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [-11, -10, -9, -8],
+                           ticktext: ['11ºW', '10ºW', '09ºW', '08ºW'],
+                           automargin: true,
+                           range: [-11.6, -8],
+                       },
+                       yaxis: {
+                           mirror: true,
+                           showline: true,
+                           ticks: 'outside',
+                           tickvals: [50, 51, 52],
+                           ticktext: ['50ºN', '51ºN', '52ºN'],
+                           range: [50, 52.8],
+                       },
+                       font: {
+                           family: 'Sans-Serif',
+                           size: 16,            
+                       },
+                   };
+	 </script>
+
+  		<div class="grid">
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="CHL"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{CHL | safe}};
+                                     TESTER = document.getElementById('CHL')
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, layout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+
+      		    <div class="col-1-2">
+      			<div class="content">
+          		     <div class="Series" id="CHLANM"></div>
+
+                                 <script language="javascript" type="text/javascript">
+   
+                                     var graphs = {{CHLANM | safe}};
+                                     TESTER = document.getElementById('CHLANM')
+                                     Plotly.newPlot(TESTER, graphs, {})
+                                     Plotly.relayout(TESTER, layout)
+
+                                 </script>
+
+                        </div>
+                    </div>
+               </div>
+
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+		<div class="col-1-3 mobile-col-1-3"> <div class="content"> </div> </div>
+            <div class="col-1-2 mobile-col-1-2">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+        </div>        
+    </body>
+</html>
