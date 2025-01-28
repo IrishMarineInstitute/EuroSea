@@ -76,6 +76,8 @@ def send_output(sub, clim, surface_series, surface_fig, seabed_series, seabed_fi
             'salt': np.array(sub.get('salt')),
             'pH':   np.array(sub.get('pH')),
             'O2':   np.array(sub.get('O2')),
+            'RFU':  np.array(sub.get('RFU')),
+            'BGA':  np.array(sub.get('BGA')),
 
             # y-axis limits for temperature
             'yaxismin': np.nanmin(np.array(sub.get('temp'))) - 0.1,
@@ -85,6 +87,8 @@ def send_output(sub, clim, surface_series, surface_fig, seabed_series, seabed_fi
             'latest_salinity': round(sub.get('salt')[-1], 1),
             'latest_pH': round(sub.get('pH')[-1], 2),
             'latest_oxygen': round(sub.get('O2')[-1], 1),
+            'latest_RFU': round(sub.get('RFU')[-1], 1),
+            'latest_BGA': round(sub.get('BGA')[-1], 1),
 
             'latest_surface_speed': round(sub.get('s-surface')[-1], 1),
             'latest_seabed_speed': round(sub.get('s-seabed')[-1], 1),

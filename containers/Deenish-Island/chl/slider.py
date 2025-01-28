@@ -24,9 +24,9 @@ def Slider(colour, coast, buoy, colorscale, tickvals, contours):
             colorscale=colorscale,  
             hoverinfo='z', line_width=0, line_smoothing=0.85,
             colorbar=dict(
-                title=dict(text='mg m-3', font=dict(size=24)),
+                title=dict(text='mg m-3', font=dict(size=16)),
                 tickvals=tickvals,
-                tickfont=dict(size=24),
+                tickfont=dict(size=16),
             ),
             contours=contours,
          ))
@@ -41,7 +41,7 @@ def Slider(colour, coast, buoy, colorscale, tickvals, contours):
     # 3rd trace is the buoys
     trace3 = [ go.Scatter(
         x=np.array(x_buoy), y=np.array(y_buoy), mode='markers+text', text=["Deenish", "M2", "M3", "M4", "M5", "M6"], 
-        textposition=["middle left", "top left", "bottom left", "bottom left", "bottom left", "bottom left"],
+        textposition=["bottom center", "top left", "bottom left", "bottom left", "bottom left", "bottom left"],
         marker={'size': 20, 'symbol': 'cross-thin', 'line': {'color': 'black', 'width': 1}}, 
         hoverinfo='none',
     ) ]            

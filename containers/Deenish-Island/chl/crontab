@@ -1,1 +1,1 @@
-50 1-23/2 * * * /usr/local/bin/python /root/rs.py 
+35 2-23/2 * * * /usr/local/bin/python /root/rs.py 

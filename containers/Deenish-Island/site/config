@@ -1,7 +1,7 @@
 timezone Europe/Dublin
 ndays 7     
 host enoc.puertos.es                 ! INS-TAC host
-user marine_instac                   ! INS-TAC user
+user ********                        ! INS-TAC user
 pswd ********                        ! INS-TAC password
 folder /CMS-INSTAC/DeenishIslandBuoy ! INS-TAC folder
 clim_site Deenish_Climatology.pkl

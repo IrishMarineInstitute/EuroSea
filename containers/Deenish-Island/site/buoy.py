@@ -143,12 +143,12 @@ def read_xml_file(file, var):
     speed, direction = [], []
 
     # Dictionary of new values
-    new = {'time': 0, 'temp': 0, 'salt': 0, 'O2': 0, 'pH': 0, 
+    new = {'time': 0, 'temp': 0, 'salt': 0, 'O2': 0, 'pH': 0, 'RFU': 0, 'BGA': 0,
         's-surface': 0, 's-seabed': 0, 'd-surface': 0, 'd-seabed': 0}
 
     # Add some tests (check all variables are read in each file)
-    checklist = {'time': False, 'temp': False, 'salt': False, 'O2': False,
-            'pH': False, 'speed': False, 'direction': False}
+    checklist = {'time': False, 'temp': False, 'salt': False, 'O2': False, 'pH': False,
+            'RFU': False, 'BGA': False, 'speed': False, 'direction': False}
     
     with open(file, 'r') as f:
 
@@ -177,6 +177,14 @@ def read_xml_file(file, var):
             elif 'Descr="pH"' in line:       
 
                 new['pH'] = find_value(f.readline()); checklist['pH'] = True
+
+            elif 'Descr="Chlorophyll RFU"' in line:
+
+                new['RFU'] = find_value(f.readline()); checklist['RFU'] = True
+                
+            elif 'Descr="BGA-PE RFU"' in line:
+
+                new['BGA'] = find_value(f.readline()); checklist['BGA'] = True
 
             elif '<Point ID="2">' in line:                             
 
@@ -256,7 +264,7 @@ def xml_file_download(local, localpath, host, user, pswd, folder):
 def vardict():
     ''' Initialize empty dictionary for buoy data '''
     return {
-            'time':  [], 'temp': [], 'salt': [], 'pH': [], 'O2': [],
+            'time':  [], 'temp': [], 'salt': [], 'pH': [], 'O2': [], 'RFU': [], 'BGA': [],
 
             's-surface': [], 'd-surface': [],
 

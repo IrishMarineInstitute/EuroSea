@@ -1,3 +1,4 @@
 copernicusmarine
+netCDF4
 numpy
 plotly

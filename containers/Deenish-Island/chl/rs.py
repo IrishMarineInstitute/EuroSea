@@ -74,6 +74,11 @@ def RS():
         CHL = np.round(CHL.astype(np.float64), 1)
         ANM = np.round(ANM.astype(np.float64), 1)
 
+        # Subsample grid
+        lon, lat = lon[0:-1:2], lat[0:-1:2]
+        CHL = CHL[:, 0:-1:2, 0:-1:2]
+        ANM = ANM[:, 0:-1:2, 0:-1:2]
+
         # Create figure
         logger.info(f'{now()} CREATING CHLOROPHYLL-a FIGURE...')
         colorscale = 'Greens'
@@ -83,7 +88,7 @@ def RS():
             chl = Slider((lon, lat, time, CHL), (x_coast, y_coast), (x_buoy, y_buoy),
                 colorscale, tickvals, contours)
         except Exception as e:
-            logging.critical(e, exc_info=True)
+            logger.error(str(e))
 
         # Create anomalies figure
         logger.info(f'{now()} CREATING CHLOROPHYLL-a ANOMALIES FIGURE...')

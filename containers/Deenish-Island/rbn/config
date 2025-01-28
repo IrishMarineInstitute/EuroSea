@@ -1,0 +1,10 @@
+! Path to save raw NOAA TIF images
+rw /data/HAB/rw 
+! Path to save renamed TIF images. Must be public to be accessible by the web application
+mv /data/HAB/mv
+! Path to save weekly composites. Must be public
+wk /data/HAB/wk
+! HTTP url to download files from
+http https://nccospublicstor.blob.core.windows.net/hab-data/products/olci/Ireland300m/
+! NOAA url
+link https://app.coastalscience.noaa.gov/habs_explorer/index.php?path=ZWloaXBDd3lHeGluZ1pWdGc5dTE0djE3bjFCb3ZaTno2Tk1pS2t2NXdHZz0=&uri=VWtuM1UzbVNVN0RsZzJMeTJvNlNpM29OalF0WTFQQjVZVnpuS3o5bnh1Ym0vYWhtWEh4ck1hREVUamE4SDZ0M0JnSnNMaHk4U2YyaTc0R04zM2ZId0gxMXhMNmRWdmVOVHBDWFhKYVhOWGt0QUZjbklsNDdKeXhEYWdKV2UwTHE=&type=bllEUXA3TmhSK21RVDlqbFYxMmEwdz09
