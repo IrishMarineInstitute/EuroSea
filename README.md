@@ -22,7 +22,7 @@ The next step is to initialize each container. ``` crontab ``` is used to schedu
 
 ## Deenish Island - SITE container
 
-This container is set to run every ten minutes to download the in-situ data from the EuroSea monitoring station at Deenish Island. In addition, it subsets the latest data
+This container is set to run every ten minutes to download _in-situ_ data from the EuroSea monitoring station at Deenish Island. In addition, it subsets the latest data
 for the number of days specified in the configuration file. All this data is wrapped in a BUOY.pkl file that is updated every ten minutes, and later accessed by the WEBAPP container through the shared volume. Historical data starting from the time the buoy started data transmission is compiled to address any request from the Historical Data Portal.
    
 Navigate to the Deenish Island - SITE container
@@ -40,11 +40,11 @@ Start container with data sharing to communicate with other containers.
 docker run -d -v shared-data:/data --name deenish-site deenish-site:latest
 ```
  
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, model forecasts are exported to a pickle file ```/data/pkl/MODEL.pkl```. The website will read the model forecasts from this file. 
+The task will run every ten minutes. Once it is finished, _in-situ_ observations are exported to a pickle file ```/data/pkl/BUOY.pkl```. The website will read the _in-situ_ data from this file.
 
 ## Deenish Island - MODEL container
 
-This container is set to run hourly to download the model forecasts from CMEMS and ECMWF. This data is wrapped in a MODEL.pkl file that is updated every hour and later accessed by the WEBAPP container through the shared volume.
+This container is set to run hourly to download the model forecasts from Copernicus Marine. This data is wrapped in a MODEL.pkl file that is updated every hour and later accessed by the WEBAPP container through the shared volume.
    
 Navigate to the Deenish Island - MODEL container
 ```
@@ -65,7 +65,7 @@ The task will run hourly at the time specified in the ```crontab``` file. Once i
 
 ## Deenish Island - CHL container
 
-This container is set to run hourly to download the latest seawater chlorophyll-a concentration observations in the Southwest of Ireland waters. The chlorophyll-a 
+This container is set to run hourly to download the latest seawater chlorophyll-a concentration observations in Irish waters. The chlorophyll-a 
 concentration is provided by the Atlantic Ocean Colour Bio-Geo-Chemical L4 Satellite Observations (https://doi.org/10.48670/moi-00288).
    
 In addition, chlorophyll-a anomaly is determined as the difference between the actual chlorophyll-a concentration and a 60-day running median, ending two weeks before the current image (Tomlinson et al., 2004).
@@ -89,15 +89,38 @@ docker run -d -v shared-data:/data --name chlorophyll chlorophyll:latest
 
 The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, chlorophyll-a NetCDF files are downloaded to the ```/data/CHL``` folder, and CHL figures are exported as Plotly JSON strings to a pickle file  ```/data/pkl/CHL.pkl```. The website will read the CHL figures from this file. 
 
-## Deenish Island - WAVES container
+## Deenish Island - Red Band container
 
-This container is set to run hourly to download the latest wave height forecasts from Copernicus.
-   
-This application is set to run hourly to make sure that the website updates as soon as new forecasts are released by the Copernicus Marine Service. This application also creates a Plotly JSON figure that is later accessed by the WEBAPP container through the shared volume.
+The Red Band Difference (RBD) algorithm is used as a proxy of relative chlorophyll-a fluorescence and is calculated as the difference between two red bands. As described by Amin et al. (2009) and tested in Irish waters by Jordan et al. (2021), the RBD algorithm is less sensitive to coloured dissolved organic matter, suspended particulate matter and atmospheric corrections, which makes it useful in both open and coastal waters. Daily figures are downloaded from NOAA and weekly composites are created every Monday. 
 
-Navigate to the Deenish Island - WAVES container
+Navigate to the Deenish Island - RBN container
 ```
-cd EuroSea/containers/Deenish-Island/waves
+cd EuroSea/containers/Deenish-Island/rbn
+```
+
+Build image
+```
+docker build -t redband:latest .
+```
+
+Start container with data sharing to communicate with other containers.
+```
+docker run -d -v shared-data:/data --name redband redband:latest
+```
+
+The task will run daily at the time specified in the ```crontab``` file. Once it is finished, new daly Red Band images are downloaded to be published on the website.
+
+## El Campello containers
+
+The _in-situ_ and model forecast containers for El Campello are the same as those for Deenish Island and work identically. For El Campello, there is an additional wave forecasting product covering the Balearic Sea (see below). 
+
+## El Campello - WAVES container
+
+This container is set to run hourly to download the latest wave height forecasts from Copernicus Marine for the Balearic Sea. This application is set to run hourly to make sure that the website updates as soon as new forecasts are released by the Copernicus Marine Service. This application also creates a Plotly JSON figure that is later accessed by the WEBAPP container through the shared volume.
+
+Navigate to the El Campello - WAVES container
+```
+cd EuroSea/containers/El-Campello/waves
 ```
 
 Build image
@@ -110,15 +133,11 @@ Start container with data sharing to communicate with other containers.
 docker run -d -v shared-data:/data --name waves waves:latest
 ```
  
-The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, wave forecasts are exported to a pickle file ```/data/pkl/WAVES.pkl```. The website will take the wave forecast figure (exported as a Plotly JSON string) from this file. 
-
-## El Campello containers
-
-The containers for El Campello are the same as those for Deenish Island and work identically. 
+The task will run hourly at the time specified in the ```crontab``` file. Once it is finished, wave forecasts are exported to a pickle file ```/data/pkl/CAMPELLO-WAVES.pkl```. The website will take the wave forecast figure (exported as a Plotly JSON string) from this file. 
 
 ## WEBAPP container
 
-This container runs the website as a uwsgi-nginx-flask deployment. It loads the data files generated by the backend containers and provides the visualization on the website. It also provides access to the Historical Data requests for Deenish Island and El Campello. The Service Desk and Questionnaires are also generated in this container.
+This container runs the website as a uwsgi-nginx-flask deployment. It loads the data files generated by the backend containers and provides the visualization on the website. It also provides access to the Historical Data requests for Deenish Island and El Campello. 
 
 Navigate to the WEBAPP container
 ```
