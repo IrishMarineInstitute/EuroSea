@@ -4,9 +4,9 @@ lat 38.4314
 coastfile coastline-2.pkl
 west -0.91
 east 4.51
-south 37.59
-north 41.01  
+south 37.49
+north 41.10  
 USERNAME ********                      
 PASSWORD ********                     
-wave-dataset med-hcmr-wav-an-fc-h 
-wave-version 202105 
+wave-dataset cmems_mod_med_wav_anfc_4.2km_PT1H-i 
+wave-version 202311 

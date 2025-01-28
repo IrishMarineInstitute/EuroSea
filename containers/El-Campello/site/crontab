@@ -1,1 +1,1 @@
-*/10 * * * * /usr/local/bin/python /root/site.py 
+*/30 * * * * /usr/local/bin/python /root/site.py 
