@@ -1,5 +1,0 @@
-geopy
-netCDF4==1.5.7
-numpy
-pytz
-scipy
