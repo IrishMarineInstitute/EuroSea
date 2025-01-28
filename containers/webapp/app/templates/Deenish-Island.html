@@ -157,22 +157,28 @@
            </div>
 
          <div class="grid desktop-ipad">
-             <div class="col-1-6 mobile-col-1-6">
+             <div class="col-1-8 mobile-col-1-8">
                  <div class="content intro">
                      <a href="#Water-Temperature"> Temperature </a> </div> </div>
-             <div class="col-1-6 mobile-col-1-6">
+             <div class="col-1-8 mobile-col-1-8">
                  <div class="content intro">
                      <a href="#Water-Salinity"> Salinity </a> </div> </div>
-             <div class="col-1-6 mobile-col-1-6">
+             <div class="col-1-8 mobile-col-1-8">
                  <div class="content intro">
                      <a href="#Oxygen-Saturation"> Oxygen </a> </div> </div>
-             <div class="col-1-6 mobile-col-1-6">
+             <div class="col-1-8 mobile-col-1-8">
                  <div class="content intro">
                      <a href="#Water-pH"> pH </a> </div> </div>
-             <div class="col-1-6 mobile-col-1-6">
+             <div class="col-1-8 mobile-col-1-8">
+                 <div class="content intro">
+                     <a href="#Water-RFU"> RFU </a> </div> </div>
+             <div class="col-1-8 mobile-col-1-8">
+                 <div class="content intro">
+                     <a href="#Water-BGA"> BGA </a> </div> </div>
+             <div class="col-1-8 mobile-col-1-8">
                  <div class="content intro">
                      <a href="#Wave-Height"> Waves </a> </div> </div>
-             <div class="col-1-6 mobile-col-1-6">
+             <div class="col-1-8 mobile-col-1-8">
                  <div class="content intro">
                      <a href="#Water-Currents"> Currents </a> </div> </div>
          </div>
@@ -327,7 +333,7 @@
 			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label"> Current temperature </p>
+					 <p class="label"> Temperature </p>
                             </div>
                         </div>
 			<div class="col-1-12">
@@ -364,7 +370,7 @@
   			</div>
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label"> Current oxygen saturation </p>
+					 <p class="label"> Oxygen saturation </p>
                             </div>
                         </div>
 			<div class="col-1-12">
@@ -399,7 +405,7 @@
                         </div>    	
 			<div class="col-3-12">
                             <div class="content">
-					 <p class="label"> Current pH </p>
+					 <p class="label"> pH </p>
                             </div>
                         </div>
 			<div class="col-1-12">
@@ -422,23 +428,51 @@
           	</div>
 
   		<div class="grid desktop">
-                        <div class="col-1-12">
-  				<div class="content">
-  					 <img src="../static/salt.png" class="icon">
-  				</div>
-  			</div>
-  			<div class="col-2-12">
-  				<div class="content">
-  					<input class="value-box-1" value="{{latest_salinity}}" />
-  				</div>
-                        </div>    	
-			<div class="col-3-12">
-                            <div class="content">
-					 <p class="label"> Current salinity </p>
-                            </div>
-                        </div>
+  			<div class="col-1-2 mobile-col-1-2">
+				<div class="content">
+					<div class="col-1-6">
+						<div class="content">
+							 <img src="../static/salt.png" class="icon">
+						</div>
+					</div>
+					<div class="col-1-3">
+						<div class="content">
+							<input class="value-box-1" value="{{latest_salinity}}" />
+						</div>
+					</div>    	
+					<div class="col-1-2">
+					    <div class="content">
+					 <p class="label"> Salinity </p>
+					    </div>
+					</div>
+				</div>
+				<div class="grid desktop">
+					<div class="col-1-8">
+						<div class="content">
+							 <p class="label"> RFU </p>
+						</div>
+					</div>
+					<div class="col-1-4">
+						<div class="content">
+							<input class="value-box-1" value="{{latest_RFU}}" />
+						</div>
+					</div>
+					<div class="col-1-8">
+						<div class="content">
+							 <p class="label"> BGA </p>
+						</div>
+					</div>
+					<div class="col-1-6">
+						<div class="content">
+							<input class="value-box-1" value="{{latest_BGA}}" />
+						</div>
+					</div>
+				</div>
+			</div>
   			<div class="col-1-2 mobile-col-1-2">
   				<div class="content">
+					<br>
+					<br>
   				<input type=text id="time" size='70'
   				value="Deenish Island 5-day Wave Height Forecast" />
 		       <div class="grid desktop">
@@ -922,6 +956,122 @@
       		     </div>
       	        </div>
 
+                            <p id="Water-RFU"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Chlorophyll in Relative Fluorescence Units (RFU) at Deenish Island. </b> The chlorophyll 
+                                   concentration (RFU) at Deenish Island for the last seven days as recorded by the YSI EXO2
+                                   sensor is shown below. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="rfu"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['shapes'] = []
+                                     layoutDesktop['title'] = 'Chlorophyll RFU at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = ''
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('rfu');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ RFU|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="rfuMobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['shapes'] = []
+                                     layoutMobile['title'] = 'Chlorophyll RFU at Deenish Island'
+                                     layoutMobile.yaxis['title'] = ''
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     layoutMobile.showlegend = false
+                                     TESTER = document.getElementById('rfuMobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ RFU|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+
+                            <p id="Water-BGA"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Blue-Green Algae Phycoerythrin in Relative Fluorescence Units (RFU) at Deenish Island. </b> 
+				   The Blue-Green Algae Phycoerythrin concentration (RFU) at Deenish Island for the last seven 
+                                   seven days as recorded by the YSI EXO2 sensor is shown below.
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="bga"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['shapes'] = []
+                                     layoutDesktop['title'] = 'Blue-Green Algae Phycoerythrin (RFU) at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = ''
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('bga');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ BGA|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="bgaMobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['shapes'] = []
+                                     layoutMobile['title'] = 'Phycoerythrin (RFU) at Deenish Island'
+                                     layoutMobile.yaxis['title'] = ''
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     layoutMobile.showlegend = false
+                                     TESTER = document.getElementById('bgaMobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ BGA|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+                <!-------------------------------------------------------------------------->
+      	    		
                 <!-------------------------------------------------------------------------->
                 <!--                                                                      -->
                 <!--                           WAVE HEIGHT                                -->

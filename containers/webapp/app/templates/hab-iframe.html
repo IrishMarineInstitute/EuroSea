@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<html>
+	<head>
+		<title>Red Band Difference</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<link rel="stylesheet" type="text/css" href="../static/css/simplegrid.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/slider.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../static/css/desktop.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 768px) and (max-width: 1024px)' href="../static/css/ipad.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-width: 540px) and (max-width: 768px)' href="../static/css/duo.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(min-device-width: 400px) and (max-device-width: 480px) and (orientation: portrait)' href="../static/css/mobile-portrait.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-height: 575.98px) and (orientation: landscape)' href="../static/css/mobile-landscape.css?ref=v1" />
+    <link rel="stylesheet" type="text/css" media='(max-device-width: 400px)' href="../static/css/tiny.css?ref=v1" />
+                <link rel="icon" href="../static/favicon.png">
+		<script src="../static/js/hab.js"></script>
+
+		<style>
+
+			 .play-button {
+			    background-color: #123944;
+			    width: 70px;
+			    border-radius: 5px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: block;
+			    font-size: 16px;
+			    font-weight: bold;
+			    color: #FFFFFF
+			 }
+
+			</style>
+
+	</head>
+
+        <body onload="init()">
+	
+	<script language="javascript" type="text/javascript">
+	    const day = {{daily | tojson}};
+	    const dates = {{dates | tojson}};
+	    const img = {{weekly | tojson}};
+            const Mon = {{Monday | tojson}};
+	    const Sun = {{Sunday | tojson}};
+	</script>
+
+       <div class="grid">
+	       <div class="col-1-2 mobile-col-1-2">
+	          <div class="content">
+		      <!-- Daily Title -->
+		      <p id="DailyTitle" style="font-size:18px; text-align:center;"> </p>
+		      <!-- Daily Image -->
+	              <img id="DailyImg" style="width:100%;max-height:500px;" class="responsive">
+		      <!-- Colorbar -->
+	              <img src="../static/HAB/RBD-colorbar.png" alt="RBD Colorbar" class="responsive" style="width:100%">
+				      
+		      <!-- Control buttons -->
+		      <div class="grid">
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="firstDay()" class="play-button" value="<<" readonly/>
+				      </div> </div>
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="prevDaily()" class="play-button" value="<" readonly/>
+				      </div> </div>
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="nextDaily()" class="play-button" value=">" readonly/>
+				      </div> </div>
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="lastDay()" class="play-button" value=">>" readonly/>
+				      </div> </div>
+		      </div>
+		  </div>
+	       </div>
+
+	       <div class="col-1-2 mobile-col-1-2">
+	          <div class="content">
+		      <!-- Weekly Composite Title -->
+		      <p id="WeeklyTitle" style="font-size:18px; text-align:center;"> </p>
+		      <!-- Weekly Composite Image -->
+	              <img id="WeeklyImg" style="width:100%;max-height:500px;" class="responsive">
+		      <!-- Colorbar -->
+	              <img src="../static/HAB/RBD-colorbar.png" alt="RBD Colorbar" class="responsive" style="width:100%">
+				      
+		      <!-- Control buttons -->
+		      <div class="grid">
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="firstWeek()" class="play-button" value="<<" readonly/>
+				      </div> </div>
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="prevWeekly()" class="play-button" value="<" readonly/>
+				      </div> </div>
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="nextWeekly()" class="play-button" value=">" readonly/>
+				      </div> </div>
+			      <div class="col-1-7 mobile-col-1-7">
+				      <div class="content">
+					      <input onclick="lastWeek()" class="play-button" value=">>" readonly/>
+				      </div> </div>
+		      </div>
+    	          </div>
+    	     </div>
+    	 </div>
+
+
+	 <!--
+        <div class="grid">
+            <div class="col-1-1 mobile-col-1-1">
+                <div class="content unpadded">
+                    <hr> </div> </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-1-5 mobile-col-1-5">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <img src="../static/EU.png" alt="European Union" class="responsive" >
+                            </p> </div> </div> </div>			
+            <div class="col-1-5 mobile-col-1-5">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <img src="../static/Rialtas.png" alt="Government of Ireland" class="responsive" >
+                            </p> </div> </div> </div>			
+            <div class="col-1-5 mobile-col-1-5">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+            <div class="col-1-5 mobile-col-1-5">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <img src="../static/EMFAF.png" alt="EMFAF" class="responsive" >
+                            </p> </div> </div> </div>			
+            <div class="col-1-5 mobile-col-1-5">
+    		<div class="content unpadded">
+                    <div>
+                        <p> <a href="https://www.noaa.gov"> <img src="../static/NOAA.png" alt="NOAA" class="responsive" >
+                            </a> </p> </div> </div> </div>			
+        </div>        
+	 -->
+    </body>
+</html>

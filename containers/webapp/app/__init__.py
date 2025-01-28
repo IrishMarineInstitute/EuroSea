@@ -5,5 +5,6 @@ app = Flask(__name__)
 #app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
 
 app.templates_auto_reload = True
-app.debug = True
+app.debug = False
+app.jinja_env.filters['zip'] = zip
 from app import views

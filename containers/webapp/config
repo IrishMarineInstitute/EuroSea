@@ -1,15 +1,8 @@
-! SST (aggregated) NetCDF file
 sstnc /data/netcdf/OSTIA-UNLIMITED.nc
-!
-! Climatology NetCDF file
 climnc /data/netcdf/OSTIA-Climatology.nc
-!
-! Marine Heat Waves file (created by hobday container)
-mhwnc /data/mhw.nc
-!
-! Cold Spells file (created by hobday container)
-coldnc /data/cs.nc
-!
-! Marine Heat Waves figure temperature y-axis range
 min_y 5 
 max_y 25
+lon [-10.2122,-9.9326,-5.4302,-10.5483,-9.9991,-6.7043,-15.88135]                            
+lat [51.7431,53.3306,53.4836,51.2160,55.0000,51.6904,53.0748]   
+coastfile coastline.pkl
+bathymetry contour-500.pkl

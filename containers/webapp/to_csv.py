@@ -229,6 +229,22 @@ def to_csv(sub, startstr, endstr, variable, language='es', write_forecast=True):
             time1, varname1 = 'time', 'salt'
             time2, varname2 = '', ''
 
+        elif variable == 'RFU':
+            if language=='es':
+                header = 'Fecha\tRFU\n'
+            elif language=='en':
+                header = 'Date\tRFU\n'
+            time1, varname1 = 'time', 'RFU'
+            time2, varname2 = '', ''
+
+        elif variable == 'BGA':
+            if language=='es':
+                header = 'Fecha\tBGA\n'
+            elif language=='en':
+                header = 'Date\tBGA\n'
+            time1, varname1 = 'time', 'BGA'
+            time2, varname2 = '', ''
+
         elif variable == 'tur':
             if language=='es':
                 header = 'Fecha\tTurbidez (FNU)\n'

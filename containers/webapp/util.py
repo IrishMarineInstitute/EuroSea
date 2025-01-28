@@ -36,8 +36,6 @@ def windrose(sub, level='surface', vartype='currents'):
 def address_request(start, end, uv, boya, language='en'):
     ''' Subset in-situ data for the requested dates '''
 
-    config = configuration()
-
     # Load historical buoy data
     if boya == 'Campello':
         f = '/data/his/El-Campello/El-Campello.pkl'
@@ -78,7 +76,7 @@ def address_request(start, end, uv, boya, language='en'):
     if boya == 'Campello':
         buoyvars = ('temp', 'tur', 'O2')
     elif boya == 'Deenish':
-        buoyvars = ('temp', 'salt', 'pH', 'O2')
+        buoyvars = ('temp', 'salt', 'pH', 'O2', 'RFU', 'BGA')
 
     for i in buoyvars:
         to_csv.to_csv(csvdata, start, end, i, language, write_forecast=False)
@@ -115,17 +113,6 @@ def address_request(start, end, uv, boya, language='en'):
         data['edate_wind_rose']=wind_fig.get('edate').strftime('%Y-%b-%d')
 
     return data 
-
-def configuration():
-    ''' Read secrets (configuration) file '''
-    config = {}
-    with open('config', 'r') as f:
-        for line in f:
-            if line[0] == '!': continue
-            key, val = line.split()[0:2]
-            # Save as environment variable
-            config[key] = val
-    return config
 
 def csvformat(data, boya):
     ''' The CSV generating functions are not prepared to handle

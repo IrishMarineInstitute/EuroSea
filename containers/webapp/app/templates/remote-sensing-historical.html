@@ -12,8 +12,38 @@
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/leaflet.js"></script>
 <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-<link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="../static/css/Leaflet.Coordinates-0.1.5.css" />
+
+	<style>
+
+		#map {
+		  height: 400px;
+		  width: 100%;
+		}
+
+		.submit {
+		    width: 120px;
+		    font-size: 20px;
+		    font-weight: bold;
+		    margin-left: 40px;
+		    margin-top: 10px;
+		    color: #ff0000;
+		    border-radius: 10px;
+		    border-color: #ff0000;
+		    border-width: 5px;
+		}
+
+		.radiobutton-label {
+		    font-size: 15px;
+		    font-weight: normal;
+		}
+
+		.checkbox-label {
+		    font-size: 15px;
+		    font-weight: normal;
+		}
+
+	</style>
+
 <script type="text/javascript" src="../static/js/Leaflet.Coordinates-0.1.5.min.js"></script>
 <script>
 
@@ -23,17 +53,32 @@ var update_marker_location = function(){
     marker.setLatLng(newLatLng); 
 }
 
+var greenIcon = L.icon({
+    iconUrl: '../static/marker-icon.png',
+    iconSize:     [38, 38],
+    iconAnchor:   [19, 38],
+});
+	
 var create_map = function(){
     map = L.map('map', {
-    zoom: 4.4,
-		    minZoom: 3.7,
-		    maxZoom: 4.7,
+		keyboard: false,
+		dragging: false,
+		zoomControl: false,
+		boxZoom: false,
+		doubleClickZoom: false,
+		scrollWheelZoom: false,
+		tap: false,
+		touchZoom: false,
+		zoom: 4.7,
+		minZoom: 3.7,
+		maxZoom: 4.7,
     center: [{{latitude}}, {{longitude}}]
     });
     var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-  marker = L.marker([{{latitude}}, {{longitude}}],{draggable: true}).addTo(map);
+		marker = L.marker([{{latitude}}, {{longitude}}],   {icon: greenIcon},   {draggable: true}).addTo(map);
+  marker.dragging.enable();
   marker.on('drag',function(e){
       $("#latitude").val(e.latlng.lat);
       $("#longitude").val(e.latlng.lng);
@@ -89,27 +134,7 @@ $(document).ready(function(){
 </head>
 
 <body onload="radioListener()">
-        <div class="grid">
-            <div class="col-1-1">
-                <div class="content">
-                    <h1 class="title"> SEA SURFACE TEMPERATURE & MARINE HEAT WAVES </h1> 
-                    <hr>
-                </div> 
-            </div>
-        </div>
 	
-    	<div class="grid">
-    		<div class="col-1-1">
-    			<div class="content">
-                               <p class="intro" > 
-                                  Select a site within the rectangle on the map to obtain the historical (1982 - present)
-                                  Sea Surface Temperature from the 
-				  <a href="https://doi.org/10.48670/moi-00165">Operational Sea Surface Temperature and Ice Analysis</a> 
-				  run by Met Office and delivered by IFREMER.
-                               </p>
-                         </div>
-                   </div>
-         </div>
 	<div class="grid">
 		<div class="col-1-2">
 			<div class="content" style="height:400px">
@@ -122,8 +147,8 @@ $(document).ready(function(){
 <form name="buoys">
 	 
 	         <p class="intro" >
-		 Select a point on the map <b>or</b> use one of the shortcuts below. To select a point on the map,
-		    <b> drag and drop </b> the marker <b>or</b> manually enter the latitude and longitude coordinates.
+		 Select a point on the map <b>or</b> use one of the shortcuts below. 
+		    <b> Drag </b> the marker <b>or</b> enter the latitude and longitude coordinates.
 		 </p>
 
   <input type="radio" id="Deenish Island" name="buoy" value="51.7431,-10.2122" onclick="javascript:radioListener();"/>
@@ -149,6 +174,23 @@ $(document).ready(function(){
 
                     </form>
 
+	         <p class="intro" >
+		     Would you like to have Marine Heat Waves displayed?
+		 </p>
+
+		    <form method="POST" action="/his">
+
+                            <input type="checkbox" id="MHW" name="MHW" value="MHW">
+			    <label for="MHW" class="checkbox-label"> 
+				    Show Marine Heat Waves </label> &emsp;
+                            <input type="checkbox" id="CS" name="CS" value="CS">
+			    <label for="CS" class="checkbox-label">
+				    Show Cold Spells </label> <br>
+
+	         <p class="intro" style="font-weight:bold;">
+		     It may take up to 20 seconds to load the results...
+		 </p>
+
 	         <p class="intro" style="color:red; font-weight:bold;">
 		     {{error}}
 		 </p>
@@ -156,8 +198,6 @@ $(document).ready(function(){
                 </div>
                 </div>
 	</div>
-
-		      <form method="POST" action="/Deenish-Island-Remote-Sensing/Historical">
 
 	<div class="grid">
 		<div class="col-1-4">
@@ -185,28 +225,10 @@ $(document).ready(function(){
                 </div>
             </div>
 
-            <div class="col-5-12">
-                <div class="content"></div>
-            </div>
-
          </div>
 		      </form>
 	
 	 <br>
    
-        <div class="grid">
-            <div class="col-1-1 mobile-col-1-1">
-                <div class="content unpadded">
-                    <hr> </div> </div>
-        </div>
-
-        <div class="grid">
-		<div class="col-1-3 mobile-col-1-3"> <div class="content"> </div> </div>
-            <div class="col-1-2 mobile-col-1-2">
-    		<div class="content unpadded">
-                    <div>
-                        <p> <a href="https://www.marine.ie"> <img src="../static/MI-logo.png" alt="Marine Institute" class="responsive" >
-                            </a> </p> </div> </div> </div>			
-        </div>        
 </body>
 </html>

@@ -132,36 +132,48 @@
            </div>
 
          <div class="grid desktop-ipad">
-             <div class="col-1-5 mobile-col-1-5">
+             <div class="col-1-7 mobile-col-1-7">
                  <div class="content intro" style="margin-left:10px">
                      <a href="#Water-Temperature"> Temperature </a> </div> </div>
-             <div class="col-1-5 mobile-col-1-5">
+             <div class="col-1-7 mobile-col-1-7">
                  <div class="content intro" style="margin-left:10px">
                      <a href="#Water-Salinity"> Salinity </a> </div> </div>
-             <div class="col-1-5 mobile-col-1-5">
+             <div class="col-1-7 mobile-col-1-7">
                  <div class="content intro">
                      <a href="#Oxygen-Saturation"> Oxygen </a> </div> </div>
-             <div class="col-1-5 mobile-col-1-5">
+             <div class="col-1-7 mobile-col-1-7">
                  <div class="content intro">
                      <a href="#Water-pH"> pH </a> </div> </div>
-             <div class="col-1-5 mobile-col-1-5">
+             <div class="col-1-7 mobile-col-1-7">
+                 <div class="content intro">
+                     <a href="#Water-RFU"> RFU </a> </div> </div>
+             <div class="col-1-7 mobile-col-1-7">
+                 <div class="content intro">
+                     <a href="#Water-BGA"> BGA </a> </div> </div>
+             <div class="col-1-7 mobile-col-1-7">
                  <div class="content intro">
                      <a href="#Currents Header"> Currents </a> </div> </div>
          </div>
     		
          <div class="grid mobile">
-             <div class="col-1-4 mobile-col-1-4">
+             <div class="col-1-6 mobile-col-1-6">
                  <div class="content intro" style="margin-left:10px">
                      <a style="font-size:10px;" href="#Water-Temperature"> Temperature </a> </div> </div>
-             <div class="col-1-4 mobile-col-1-4">
+             <div class="col-1-6 mobile-col-1-6">
                  <div class="content intro" style="margin-left:10px">
                      <a style="font-size:10px;" href="#Water-Salinity"> Salinity </a> </div> </div>
-             <div class="col-1-4 mobile-col-1-4">
+             <div class="col-1-6 mobile-col-1-6">
                  <div class="content intro">
                      <a style="font-size:10px;" href="#Oxygen-Saturation"> Oxygen </a> </div> </div>
-             <div class="col-1-4 mobile-col-1-4">
+             <div class="col-1-6 mobile-col-1-6">
                  <div class="content intro">
                      <a style="font-size:10px;" href="#Water-pH"> pH </a> </div> </div>
+             <div class="col-1-6 mobile-col-1-6">
+                 <div class="content intro">
+                     <a style="font-size:10px;" href="#Water-RFU"> RFU </a> </div> </div>
+             <div class="col-1-6 mobile-col-1-6">
+                 <div class="content intro">
+                     <a style="font-size:10px;" href="#Water-BGA"> BGA </a> </div> </div>
          </div>
 
   		<script language="javascript" type="text/javascript">
@@ -377,7 +389,7 @@
       		     </div>
       	         </div>
       	    		
-                <!-- DOWNLOAD DATA AS CSV (OXYGEN) -->
+                <!-- DOWNLOAD DATA AS CSV (SALINITY) -->
 		<div class="grid desktop">
                         <div class="col-3-4">
                             <div class="content"></div>
@@ -521,6 +533,138 @@
  			</div>
     	        </div>
 
+                            <p id="Water-RFU"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Chlorophyll in Relative Fluorescence Units (RFU) at Deenish Island. </b> The chlorophyll 
+				   concentration (RFU) at Deenish Island from {{date1}} to {{date2}} as recorded by the YSI EXO2
+                                   sensor is shown below. 
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="rfu"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['title'] = 'Chlorophyll RFU at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = ''
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('rfu');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ RFU|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="rfumobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Chlorophyll RFU at Deenish Island'
+                                     layoutMobile.yaxis['title'] = ''
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('rfumobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ RFU|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+                <!-- DOWNLOAD DATA AS CSV (RFU) -->
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="RFU" />
+ 			    </div>
+ 			</div>
+    	        </div>
+
+
+                            <p id="Water-BGA"> </p>
+
+    	        <div class="grid desktop">
+    	            <div class="col-1-1">
+    			<div class="content">
+                           <div class="footer">
+                               <p class="intro"> 
+                                   <b> Blue-Green Algae Phycoerythrin in Relative Fluorescence Units (RFU) at Deenish Island. </b> The  
+				   Blue-Green Algae Phycoreythrin concentration (RFU) at Deenish Island from {{date1}} to {{date2}} 
+				   as recorded by the YSI EXO2 is shown below.
+                               </p>
+                           </div>
+                        </div>
+                   </div>
+                </div>
+
+      	        <div class="grid desktop">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="bga"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutDesktop['title'] = 'Blue-Green Algae Phycoerythrin (RFU) at Deenish Island'
+                                     layoutDesktop.yaxis['title'] = ''
+                                     layoutDesktop.yaxis.tickformat = '.1f'
+                                     layoutDesktop.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('bga');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ BGA|safe }} }], 
+                                     layoutDesktop, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+      	        <div class="grid mobile">
+                     <div class="col-1-1">
+                         <div class="content">
+          		     <div class="Series" id="bgamobile"></div>
+                                 <script language="javascript" type="text/javascript">
+                                     layoutMobile['title'] = 'Phycoerythrin (RFU) at Deenish Island'
+                                     layoutMobile.yaxis['title'] = ''
+                                     layoutMobile.yaxis.tickformat = '.1f'
+                                     layoutMobile.xaxis['autorange'] = true
+                                     TESTER = document.getElementById('bgamobile');
+                                     Plotly.newPlot( TESTER, [{
+                                     x: {{ time|safe }},
+                                     y: {{ BGA|safe }} }], 
+                                     layoutMobile, config );
+                                 </script>
+      			 </div>
+      		     </div>
+      	         </div>
+      	    		
+                <!-- DOWNLOAD DATA AS CSV (RFU) -->
+		<div class="grid desktop">
+                        <div class="col-3-4">
+                            <div class="content"></div>
+                        </div>
+ 			<div class="col-1-4">
+ 		   	    <div class="content">
+                                <input type="submit" value="Download data as CSV" name="BGA" />
+ 			    </div>
+ 			</div>
+    	        </div>
 
                 <!-------------------------------------------------------------------------->
                 <!--                                                                      -->

@@ -1,6 +1,7 @@
 from netCDF4 import Dataset, num2date
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import plotly.graph_objects as go
+from mhw import detect
 import plotly
 import numpy as np
 import json
@@ -254,49 +255,34 @@ def mhw2csv(lon, lat, T0, T1, D, I, categ, mode='hot'):
         f.write('Event ID,start,end,duration (days),intensity (ºC),category\n')
         # Write data line by line
         for j, (t0, t1, d, i, c) in enumerate(zip(T0, T1, D, I, categ)):
-            f.write(f'%03d,%s,%s,%d,%.2f,%d\n' % (j, t0, t1, d, i, c))
+            f.write(f'%03d,%s,%s,%d,%.2f,%s\n' % (j, t0, t1, int(d), i, c))
 
     return filename
 
-def process_extreme_events(file, lonGrid, latGrid, mode='hot'):
-    ''' Process extreme events from Hobday container '''
+def process_extreme_events(time, sst, lonGrid, latGrid, mode='hot'):
+    ''' Detect extreme events from Hobday container '''
     
-    one = np.array([1])
-    
-    with Dataset(file, 'r') as nc:
-        
-        # Read longitude
-        lon = nc.variables['longitude'][:]        
-        # Read latitude
-        lat = nc.variables['latitude'][:]        
-        # Read start times
-        t0 = nc.variables['idate'][:]        
-        # Read end times
-        t1 = nc.variables['edate'][:]
-        # Read duration
-        duration = nc.variables['duration'][:]
-        # Read intensity
-        intensity = nc.variables['intensity'][:]
-        # Read category
-        categ = nc.variables['category'][:]
-        
-    # Get indexes of events occurring at the selected site
-    I = np.where( np.logical_and(
-        abs(lon - lonGrid) < 0.005,
-        abs(lat - latGrid) < 0.005 ) ) [0]
-    
-    if not np.array_equal(one, np.unique(I[1::] - I[0:-1])):
-        raise RuntimeError('Point is on land')
-        
-    # Subset
-    t0, t1 = t0[I], t1[I]
-    duration = duration[I]
-    intensity = intensity[I]
-    categ = categ[I]
+    # Convert dates to ordinal times
+    t = np.asarray([date(i.year, i.month, i.day).toordinal() for i in time])
+
+    # Return extreme events
+    if mode == 'hot':
+        MHW = detect(t, sst, climatologyPeriod=[1982, 2021])
+
+    elif mode == 'cold':
+        MHW = detect(t, sst, climatologyPeriod=[1982, 2021], coldSpells=True)
+
+    # Get starting dates of events
+    t0, t1, intensity, duration, categ = MHW[0].get('time_start'), \
+            MHW[0].get('time_end'), MHW[0].get('intensity_max'), \
+            MHW[0].get('duration'), MHW[0].get('category')
+
+    t0 = np.array([datetime.fromordinal(i) for i in t0])
+    t1 = np.array([datetime.fromordinal(i) for i in t1])
 
     # Convert datetimes to strings
-    t0 = [datetime.fromtimestamp(i).strftime('%Y-%m-%d') for i in t0]
-    t1 = [datetime.fromtimestamp(i).strftime('%Y-%m-%d') for i in t1]
+    t0 = [i.strftime('%Y-%m-%d') for i in t0]
+    t1 = [i.strftime('%Y-%m-%d') for i in t1]
     
     # Write CSV of marine heat waves
     if mode == 'hot':
@@ -400,7 +386,7 @@ def mhw_historical(lon, lat, display_mhw, display_cs, buoy):
     ''' Read MHWs '''
     if display_mhw:
 
-        t0, t1, csvmhw = process_extreme_events(config.get('mhwnc'),
+        t0, t1, csvmhw = process_extreme_events(t, sst,
                 lonGrid, latGrid) 
         
     else:
@@ -409,7 +395,7 @@ def mhw_historical(lon, lat, display_mhw, display_cs, buoy):
     ''' Read Cold Spells '''
     if display_cs:
         
-        t0cold, t1cold, csvcs = process_extreme_events(config.get('coldnc'),
+        t0cold, t1cold, csvcs = process_extreme_events(t, sst,
                 lonGrid, latGrid, mode='cold') 
 
     else:

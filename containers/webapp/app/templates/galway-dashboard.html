@@ -4,7 +4,16 @@
 <head>
 	<title>{{names}}</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+				     crossorigin=""/>
+
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+		        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+				        crossorigin=""></script>
+
     <link rel="icon" href="../../static/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../../static/css/simplegrid.css" />
     <link rel="stylesheet" type="text/css" media='(min-width: 1024px)' href="../../static/css/desktop.css?ref=v1" />
@@ -31,17 +40,17 @@
 		<meta id="minimum-surface-salinity-forecast" content="{{minSSF}}" >
 		<meta id="maximum-surface-salinity-forecast" content="{{maxSSF}}" >
 
-	        <!--	
-                <meta id="seabed-temperature-trend" content="{{bottom_heat}}" >	
-		<meta id="seabed-temperature-now" content="{{BTwet}}" >
-		<meta id="minimum-seabed-temperature-forecast" content="{{minBTF}}" >
-		<meta id="maximum-seabed-temperature-forecast" content="{{maxBTF}}" >
+	<style>
+		body {
+		    padding: 0;
+		    margin: 0;
+		}
+		html, body, #map {
+		    height: 50vh;
+		    width: 100vw;
+		}
+	</style>
 
-                <meta id="seabed-salinity-trend" content="{{bottom_saltrend}}" >	
-		<meta id="seabed-salinity-now" content="{{BSwet}}" >
-		<meta id="minimum-seabed-salinity-forecast" content="{{minBSF}}" >
-		<meta id="maximum-seabed-salinity-forecast" content="{{maxBSF}}" >
-		-->
 </head>
 
 <body onload="init()">
@@ -169,7 +178,16 @@
 			    </div>
 		    </div>
 
+
 	    </div>
+	            <br>
+		    <input class="galway-context"
+			   value="Which birds can you see this month around here?" readonly/>
+		    <p style="text-align:center;"> <b>Bird observations from the <a href="https://ebird.org">eBird Project</a></b> </p>
+		    <p style="text-align:center;"> Click on the sites to get information about birds </p>
+			    <div id="map">
+				    <p></p>
+			    </div>
 
 	    <a href="https://www.flaticon.com/free-icons/tide" title="tide icon"
 		    style="font-size:5px;">Tide icon from Good Ware - Flaticon</a>
@@ -182,6 +200,23 @@
 				<p> Scan the QR below for mobile layout: </p>
 				<img src="../../static/QR-{{names}}.png" >
 	    </div>
+
+	<script language="javascript" type="text/javascript">
+		var map = L.map('map').setView([{{latdec}}, {{londec}}], 13);
+		L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		    maxZoom: 12,
+		    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
+		
+	</script>
+
+{% for lon, lat in lonBird|zip(latBird) %}
+    <script language="javascript" type="text/javascript">
+	var site = "{{names}}";
+	var marker = L.marker([{{lat}}, {{lon}}]).addTo(map);
+	    marker.bindPopup('<a href="{{ url_for('form') }}?latitude='+{{lat}}+'&longitude='+{{lon}}+'&site='+site+'"> Birds seen here </a>');
+    </script>
+{% endfor %}
 </body>
 
 </html>

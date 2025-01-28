@@ -48,3 +48,4 @@ RUN pip install -r requirements.txt
 # Copy required files 
 COPY config .
 COPY [ "*.py" , "/usr/src/app/" ]
+COPY [ "*.pkl" , "/usr/src/app/" ]

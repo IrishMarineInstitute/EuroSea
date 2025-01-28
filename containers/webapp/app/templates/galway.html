@@ -35,105 +35,111 @@ var create_map = function(){
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
+var MarkerIcon = L.icon({
+    iconUrl: '../static/marker-icon.png',
+    iconSize:     [38, 38],
+    iconAnchor:   [19, 38],
+});
+		
 var markers = [];
     
-    var marker1 = L.marker([53.2427, -8.96655]).addTo(map).bindPopup("Renville");
+    var marker1 = L.marker([53.2427, -8.96655], {icon: MarkerIcon}).addTo(map).bindPopup("Renville");
     markers.push(marker1);
     marker1.on('mouseover',function(ev) {
       marker1.openPopup();
     });
     
-    var marker2 = L.marker([53.2083, -8.95765]).addTo(map).bindPopup("Ballinacourty");
+    var marker2 = L.marker([53.2083, -8.95765], {icon: MarkerIcon}).addTo(map).bindPopup("Ballinacourty");
     markers.push(marker2);
     marker2.on('mouseover',function(ev) {
       marker2.openPopup();
     });
     
-    var marker3 = L.marker([53.2107, -8.93587]).addTo(map).bindPopup("Blackweir");
+    var marker3 = L.marker([53.2107, -8.93587], {icon: MarkerIcon}).addTo(map).bindPopup("Blackweir");
     markers.push(marker3);
     marker3.on('mouseover',function(ev) {
       marker3.openPopup();
     });
     
-    var marker4 = L.marker([53.2131, -8.92301]).addTo(map).bindPopup("Cave");
+    var marker4 = L.marker([53.2131, -8.92301], {icon: MarkerIcon}).addTo(map).bindPopup("Cave");
     markers.push(marker4);
     marker4.on('mouseover',function(ev) {
       marker4.openPopup();
     });
     
-    var marker5 = L.marker([53.1977, -8.94577]).addTo(map).bindPopup("Killeenaran");
+    var marker5 = L.marker([53.1977, -8.94577], {icon: MarkerIcon}).addTo(map).bindPopup("Killeenaran");
     markers.push(marker5);
     marker5.on('mouseover',function(ev) {
       marker5.openPopup();
     });
     
-    var marker6 = L.marker([53.1662, -8.94478]).addTo(map).bindPopup("Tarrea");
+    var marker6 = L.marker([53.1662, -8.94478], {icon: MarkerIcon}).addTo(map).bindPopup("Tarrea");
     markers.push(marker6);
     marker6.on('mouseover',function(ev) {
       marker6.openPopup();
     });
     
-    var marker7 = L.marker([53.1466, -8.93884]).addTo(map).bindPopup("Kinvara");
+    var marker7 = L.marker([53.1466, -8.93884], {icon: MarkerIcon}).addTo(map).bindPopup("Kinvara");
     markers.push(marker7);
     marker7.on('mouseover',function(ev) {
       marker7.openPopup();
     });
     
-    var marker8 = L.marker([53.1567, -8.94973]).addTo(map).bindPopup("Crushoa");
+    var marker8 = L.marker([53.1567, -8.94973], {icon: MarkerIcon}).addTo(map).bindPopup("Crushoa");
     markers.push(marker8);
     marker8.on('mouseover',function(ev) {
       marker8.openPopup();
     });
     
-    var marker9 = L.marker([53.1716, -8.96754]).addTo(map).bindPopup("Parkmore");
+    var marker9 = L.marker([53.1716, -8.96754], {icon: MarkerIcon}).addTo(map).bindPopup("Parkmore");
     markers.push(marker9);
     marker9.on('mouseover',function(ev) {
       marker9.openPopup();
     });
     
-    var marker10 = L.marker([53.1745, -8.98734]).addTo(map).bindPopup("Traught");
+    var marker10 = L.marker([53.1745, -8.98734], {icon: MarkerIcon}).addTo(map).bindPopup("Traught");
     markers.push(marker10);
     marker10.on('mouseover',function(ev) {
       marker10.openPopup();
     });
     
-    var marker11 = L.marker([53.1722, -9.00515]).addTo(map).bindPopup("Newtownlynch");
+    var marker11 = L.marker([53.1722, -9.00515], {icon: MarkerIcon}).addTo(map).bindPopup("Newtownlynch");
     markers.push(marker11);
     marker11.on('mouseover',function(ev) {
       marker11.openPopup();
     });
     
-    var marker12 = L.marker([53.1567, -9.07542]).addTo(map).bindPopup("New Quay");
+    var marker12 = L.marker([53.1567, -9.07542], {icon: MarkerIcon}).addTo(map).bindPopup("New Quay");
     markers.push(marker12);
     marker12.on('mouseover',function(ev) {
       marker12.openPopup();
     });
     
-    var marker13 = L.marker([53.1579, -9.08631]).addTo(map).bindPopup("Flaggy Shore");
+    var marker13 = L.marker([53.1579, -9.08631], {icon: MarkerIcon}).addTo(map).bindPopup("Flaggy Shore");
     markers.push(marker13);
     marker13.on('mouseover',function(ev) {
       marker13.openPopup();
     });
     
-    var marker14 = L.marker([53.1223, -9.07267]).addTo(map).bindPopup("Bellharbour");
+    var marker14 = L.marker([53.1223, -9.07267], {icon: MarkerIcon}).addTo(map).bindPopup("Bellharbour");
     markers.push(marker14);
     marker14.on('mouseover',function(ev) {
       marker14.openPopup();
     });
     
-    var marker15 = L.marker([53.1342, -9.13184]).addTo(map).bindPopup("Bishop's Quarter");
+    var marker15 = L.marker([53.1342, -9.13184], {icon: MarkerIcon}).addTo(map).bindPopup("Bishop's Quarter");
     markers.push(marker15);
     marker15.on('mouseover',function(ev) {
       marker15.openPopup();
     });
     
-    var marker16 = L.marker([53.1276, -9.14866]).addTo(map).bindPopup("Ballyvaughan");
+    var marker16 = L.marker([53.1276, -9.14866], {icon: MarkerIcon}).addTo(map).bindPopup("Ballyvaughan");
     markers.push(marker16);
     marker16.on('mouseover',function(ev) {
       marker16.openPopup();
     });
     
-    var marker17 = L.marker([53.1419, -9.22391]).addTo(map).bindPopup("Gleninagh");
+    var marker17 = L.marker([53.1419, -9.22391], {icon: MarkerIcon}).addTo(map).bindPopup("Gleninagh");
     markers.push(marker17);
     marker17.on('mouseover',function(ev) {
       marker17.openPopup();

@@ -154,6 +154,27 @@ textarea {
     color: #FFFFFF
  }
 
+@font-face {
+	font-family: SofiaProLight;
+	src: url("../fonts/SofiaProLight.otf") format("opentype");
+    }
+
+ .play-button {
+    background-color: #123944;
+    width: 100px;
+    border-radius: 5px;
+    padding: 11px 15px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 20px auto;
+    margin-left: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF
+ }
+
  .center {
     height: 10px;
     line-height: 10px;
